@@ -11,25 +11,25 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Demo extends Application {
-    
+
     private Timeline gameLoop;
     private boolean paused = false;
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
+
         GameModel model = new GameModel();
         Scene scene = model.getScene();
-        
+
         primaryStage.setScene(scene);
         primaryStage.show();
-        
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 20), e -> {
+
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
             model.update(1);
         }));
         gameLoop.setCycleCount(Animation.INDEFINITE);
         gameLoop.play();
-        
+
         scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.B)) {
                 if (!paused) {
@@ -43,10 +43,10 @@ public class Demo extends Application {
             }
         });
     }
-    
+
     public static void main(String[] args) {
-        
+
         launch(args);
     }
-    
+
 }
