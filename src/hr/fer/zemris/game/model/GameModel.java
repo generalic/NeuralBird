@@ -31,7 +31,7 @@ public class GameModel implements IEnvironmentProvider {
      * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
      * zaustavila.
      */
-    private static final boolean PAUSE_GAME = true;
+    private static final boolean PAUSE_GAME = false;
     
     private static final int NUMBER_OF_PIPES = 5;
     private static final double PIPES_SPEED_X = 10;
