@@ -86,6 +86,18 @@ public class GameModel implements IEnvironmentProvider {
 
         return new Scene(root, dimension.getWidth(), dimension.getHeight());
     }
+    
+    public void fillGroup(Group scene) {
+        group.getChildren().add(bird);
+        group.getChildren().addAll(pipesPairs);
+        group.getChildren().addAll(rewards);
+        
+        Pane root = new Pane();
+        
+        root.getChildren().addAll(group);
+        root.setStyle("-fx-background-color: mediumslateblue");
+        scene.getChildren().add(root);
+    }
 
     public void jumpBird() {
         jump = true;
