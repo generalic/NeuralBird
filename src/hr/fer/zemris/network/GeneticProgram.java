@@ -23,7 +23,7 @@ public class GeneticProgram {
     public static final int SCORE_LIMIT = 1000;
     
     /** Number of neuronsPerLayer */
-    private static final int[] neuronsPerLayer = { 7, 100, 1 };
+    private static final int[] neuronsPerLayer = { 7, 20, 5 , 2, 1 };
     
     public NeuralNetwork train() {
         
