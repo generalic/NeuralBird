@@ -17,6 +17,8 @@ import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
 import hr.fer.zemris.game.physics.Physics;
 import hr.fer.zemris.util.RandomProvider;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -29,10 +31,10 @@ import javafx.scene.shape.Line;
 public class GameModel implements IEnvironmentProvider {
 
     /**
-     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
-     * zaustavila.
+     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions().
+     * Kad je {@code false} igra se nebude zaustavila.
      */
-    private static final boolean PAUSE_GAME = false;
+    private static final boolean PAUSE_GAME = true;
 
     private static final int NUMBER_OF_PIPES = 5;
     private static final double PIPES_SPEED_X = 10;
@@ -42,18 +44,18 @@ public class GameModel implements IEnvironmentProvider {
     private static final double PIPE_GAP_X = 300;
     private static final double PIPE_GAP_Y = 150;
     private static final double PIPE_WIDTH = 70;
-    private static final double INITIAL_PIPE_OFFSET = 1000;
+    private static final double INITIAL_PIPE_OFFSET = 500;
     private static final double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
     private static final int PIPE_PASSED_BONUS = 1;
     private static final int REWARD_COLLECTED_BONUS = 5;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
-    public static Random random = RandomProvider.get();
+    private static Random random = RandomProvider.get();
 
-    private Bird bird;
+    protected Bird bird;
 
-    private boolean jump;
+    protected BooleanProperty jump;
 
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
@@ -68,10 +70,14 @@ public class GameModel implements IEnvironmentProvider {
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
     public GameModel() {
-        this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 4);
+        this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
         initialiseEnvironment();
-        jump = false;
+        jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
+    }
+
+    public static GameModel reset() {
+    	return new GameModel();
     }
 
     public Scene getScene() {
@@ -100,7 +106,7 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     public void jumpBird() {
-        jump = true;
+    	jump.setValue(true);
     }
 
     private void initialiseEnvironment() {
@@ -230,12 +236,12 @@ public class GameModel implements IEnvironmentProvider {
         }.move(time);
     }
 
-    private void moveBird(int time) {
-        if (jump) {
+    protected void moveBird(int time) {
+        if (jump.get()) {
             double shiftY = Physics.calculateShiftY(JUMP_SPEED, time);
             bird.setCurrentVelocity(JUMP_SPEED);
             bird.setCenterY(bird.getCenterY() + shiftY);
-            jump = false;
+            jump.set(false);
         } else {
             double shiftY = Physics.calculateShiftY(bird.getCurrentVelocity(), time);
             bird.setCurrentVelocity(Physics.calculateVelocity(bird.getCurrentVelocity(), time));
@@ -245,7 +251,7 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     public boolean update(int time) {
-        if (checkCollisions() && PAUSE_GAME) {
+    	if (checkCollisions() && PAUSE_GAME) {
             return false;
         }
 

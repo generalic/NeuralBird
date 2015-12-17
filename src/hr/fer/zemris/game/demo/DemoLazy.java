@@ -1,49 +1,101 @@
 package hr.fer.zemris.game.demo;
 
+import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelLazy;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class DemoLazy extends Application {
 
     private Timeline gameLoop;
-    private boolean paused = false;
+    private boolean paused;
+    private boolean gameOver;
+    private GameModel model;
+
+    private Scene scene;
+
+    private Stage window;
+
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//    	this.window = primaryStage;
+//
+//    	gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 10), e -> {
+//            System.out.println("bok");
+//            System.out.println(Thread.currentThread());
+//        }));
+//        gameLoop.setCycleCount(Animation.INDEFINITE);
+//        gameLoop.play();
+//
+//        for(int i = 0; i < 50; i++) {
+//        	System.out.println(i);
+//        	System.out.println(Thread.currentThread());
+//        }
+//
+//        System.out.println("EROOOOOOOOOOOOOOOOOOR");
+//
+//
+////        initGame(primaryStage);
+//    }
+
+    EventHandler<KeyEvent> action = e -> {
+    	if (e.getCode().equals(KeyCode.B)) {
+            if (!paused) {
+                gameLoop.pause();
+            } else {
+                gameLoop.play();
+            }
+            paused ^= true;
+        } else if(e.getCode().equals(KeyCode.SPACE)) {
+        	if(gameOver) {
+        		gameLoop.stop();
+        		initGame();
+        		startGame();
+        	}
+        } else {
+            model.jumpBird();
+        }
+    };
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+    	this.window = primaryStage;
 
-        GameModelLazy model = new GameModelLazy();
-        Scene scene = model.getScene();
+    	initGame();
+    	startGame();
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
-            model.update(1);
-        }));
-        gameLoop.setCycleCount(Animation.INDEFINITE);
-        gameLoop.play();
-
-        scene.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.B)) {
-                if (!paused) {
-                    gameLoop.pause();
-                } else {
-                    gameLoop.play();
-                }
-                paused ^= true;
-            } else {
-                model.jumpBird();
-            }
-        });
     }
 
-    public static void main(String[] args) {
+    private void initGame() {
+    	this.model = new GameModelLazy();
+    	this.paused = false;
+    	this.gameOver = false;
+    	this.scene = model.getScene();
+    	scene.setOnKeyPressed(action);
+    	this.gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
+            gameOver = !model.update(1);
+        }));
+        gameLoop.setCycleCount(Animation.INDEFINITE);
+    	window.setScene(scene);
+        window.show();
+
+    }
+
+
+    private void startGame() {
+        gameLoop.play();
+    }
+
+	public static void main(String[] args) {
         launch(args);
     }
 

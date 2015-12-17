@@ -28,11 +28,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class GameModelLazy implements IEnvironmentProvider {
+public class GameModel implements IEnvironmentProvider {
 
     /**
-     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
-     * zaustavila.
+     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions().
+     * Kad je {@code false} igra se nebude zaustavila.
      */
     private static final boolean PAUSE_GAME = false;
 
@@ -44,20 +44,18 @@ public class GameModelLazy implements IEnvironmentProvider {
     private static final double PIPE_GAP_X = 300;
     private static final double PIPE_GAP_Y = 150;
     private static final double PIPE_WIDTH = 70;
-    private static final double INITIAL_PIPE_OFFSET = 1000;
+    private static final double INITIAL_PIPE_OFFSET = 500;
     private static final double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
     private static final int PIPE_PASSED_BONUS = 1;
     private static final int REWARD_COLLECTED_BONUS = 5;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
-    public static Random random = RandomProvider.get();
+    private static Random random = RandomProvider.get();
 
-    private Bird bird;
+    protected Bird bird;
 
-    private BooleanProperty jump;
-
-    public BooleanProperty started;
+    protected BooleanProperty jump;
 
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
@@ -71,14 +69,11 @@ public class GameModelLazy implements IEnvironmentProvider {
 
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
-    public GameModelLazy() {
-        this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 4);
+    public GameModel() {
+        this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
         initialiseEnvironment();
         jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
-
-        started = new SimpleBooleanProperty(false);
-        started.bind(jump);
     }
 
     public Scene getScene() {
@@ -237,7 +232,7 @@ public class GameModelLazy implements IEnvironmentProvider {
         }.move(time);
     }
 
-    private void moveBird(int time) {
+    protected void moveBird(int time) {
         if (jump.get()) {
             double shiftY = Physics.calculateShiftY(JUMP_SPEED, time);
             bird.setCurrentVelocity(JUMP_SPEED);
@@ -256,7 +251,9 @@ public class GameModelLazy implements IEnvironmentProvider {
     	BooleanProperty x = new SimpleBooleanProperty(false);
     	BooleanProperty y = new SimpleBooleanProperty(false);
 
+    	System.out.println(y);
 
+    	System.out.println("sad ga bindam");
     	y.bind(x);
 
     	System.out.println(x);
@@ -275,20 +272,12 @@ public class GameModelLazy implements IEnvironmentProvider {
     	x.setValue(false);
 
     	System.out.println(x);
-    	//mora ostati false
+    	//mora ostati true
     	System.out.println(y);
 
 	}
 
     public boolean update(int time) {
-
-    	if(!started.getValue()) {
-    		return false;
-    	} else {
-    		started.unbind();
-    	}
-
-
     	if (checkCollisions() && PAUSE_GAME) {
             return false;
         }
