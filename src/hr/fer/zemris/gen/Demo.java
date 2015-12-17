@@ -8,6 +8,8 @@ import hr.fer.zemris.gen.impl.NeuralNetworkChromosome;
 import hr.fer.zemris.gen.impl.NeuralNetworkDecoder;
 import hr.fer.zemris.gen.impl.NeuralNetworkPopulationGenerator;
 import hr.fer.zemris.gen.operators.crossover.DoubleArrayArithmeticMeanCrossover;
+import hr.fer.zemris.gen.operators.interfaces.ICrossoverOperator;
+import hr.fer.zemris.gen.operators.interfaces.IMutationOperator;
 import hr.fer.zemris.gen.operators.interfaces.IPopulationGenerator;
 import hr.fer.zemris.gen.operators.interfaces.ISelectionOperator;
 import hr.fer.zemris.gen.operators.interfaces.ITestDataProvider;
@@ -21,8 +23,8 @@ public class Demo {
         IPopulationGenerator<GameModel[], NeuralNetworkChromosome> popGen =
                 new NeuralNetworkPopulationGenerator(new NeuralNetworkDecoder());
         ISelectionOperator<GameModel[], NeuralNetworkChromosome> selOp = new TournamentSelection<>(2, 10);
-        DoubleArrayArithmeticMeanCrossover crossOp = new DoubleArrayArithmeticMeanCrossover<>();
-        DoubleArrayGaussianMutation mutOp = new DoubleArrayGaussianMutation<>(0.01, 1.0);
+        ICrossoverOperator<GameModel[], NeuralNetworkChromosome> crossOp = new DoubleArrayArithmeticMeanCrossover<>();
+        IMutationOperator<GameModel[], NeuralNetworkChromosome> mutOp = new DoubleArrayGaussianMutation<>(0.01, 1.0);
         ITestDataProvider<GameModel[]> provider = new FlappyBirdTestDataProivder();
         
         AbstractGeneticAlgorithm<GameModel[], NeuralNetworkChromosome> alg = new NElitismGeneticAlgorithm<>(100, 0,
