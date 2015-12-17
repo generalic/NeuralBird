@@ -46,6 +46,7 @@ public class GameModel implements IEnvironmentProvider {
     private static final double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
     private static final int PIPE_PASSED_BONUS = 1;
     private static final int REWARD_COLLECTED_BONUS = 5;
+    private static final double REWARD_PROBABILITY = 0.5;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
@@ -225,7 +226,7 @@ public class GameModel implements IEnvironmentProvider {
             protected void putFirstBehindLast(Reward first, Reward last) {
                 first.setCenterX(last.getCenterX() + REWARD_GAP_X);
                 first.randomizeYPosition();
-                first.setVisible(random.nextDouble() < 0.3);
+                first.setVisible(random.nextDouble() < REWARD_PROBABILITY);
             }
 
         }.move(time);
@@ -247,7 +248,7 @@ public class GameModel implements IEnvironmentProvider {
 
     public boolean update(int time) {
         if (checkCollisions() && PAUSE_GAME) {
-            return false;
+           // return false;
         }
 
         if (isRewardCollected()) {
