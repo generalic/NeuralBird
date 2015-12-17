@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 
 public class GameModel implements IEnvironmentProvider {
 
@@ -55,6 +56,8 @@ public class GameModel implements IEnvironmentProvider {
     private Bird bird;
 
     private boolean jump;
+    
+    private Text ScoreText;
 
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
@@ -79,7 +82,6 @@ public class GameModel implements IEnvironmentProvider {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-
         Pane root = new Pane();
 
         root.getChildren().addAll(group);
@@ -92,7 +94,8 @@ public class GameModel implements IEnvironmentProvider {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-        
+        ScoreText = new Text();
+
         Pane root = new Pane();
         
         root.getChildren().addAll(group);
