@@ -1,4 +1,4 @@
-package hr.fer.zemris.game.model;
+package hr.fer.zemris.game.demo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,6 +17,8 @@ import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
 import hr.fer.zemris.game.physics.Physics;
 import hr.fer.zemris.util.RandomProvider;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -26,7 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class GameModel implements IEnvironmentProvider {
+public class GameModelLazy implements IEnvironmentProvider {
 
     /**
      * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
@@ -53,7 +55,9 @@ public class GameModel implements IEnvironmentProvider {
 
     private Bird bird;
 
-    private boolean jump;
+    private BooleanProperty jump;
+
+    public BooleanProperty started;
 
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
@@ -67,11 +71,14 @@ public class GameModel implements IEnvironmentProvider {
 
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
-    public GameModel() {
+    public GameModelLazy() {
         this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 4);
         initialiseEnvironment();
-        jump = false;
+        jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
+
+        started = new SimpleBooleanProperty(false);
+        started.bind(jump);
     }
 
     public Scene getScene() {
@@ -100,7 +107,7 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     public void jumpBird() {
-        jump = true;
+    	jump.setValue(true);
     }
 
     private void initialiseEnvironment() {
@@ -231,11 +238,11 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     private void moveBird(int time) {
-        if (jump) {
+        if (jump.get()) {
             double shiftY = Physics.calculateShiftY(JUMP_SPEED, time);
             bird.setCurrentVelocity(JUMP_SPEED);
             bird.setCenterY(bird.getCenterY() + shiftY);
-            jump = false;
+            jump.set(false);
         } else {
             double shiftY = Physics.calculateShiftY(bird.getCurrentVelocity(), time);
             bird.setCurrentVelocity(Physics.calculateVelocity(bird.getCurrentVelocity(), time));
@@ -244,8 +251,45 @@ public class GameModel implements IEnvironmentProvider {
         bird.updateFrame();
     }
 
+    public static void main(String[] args) {
+
+    	BooleanProperty x = new SimpleBooleanProperty(false);
+    	BooleanProperty y = new SimpleBooleanProperty(false);
+
+
+    	y.bind(x);
+
+    	System.out.println(x);
+    	System.out.println(y);
+
+    	x.setValue(true);
+
+    	System.out.println("X: " + x.get());
+    	System.out.println("Y: " + y.get());
+
+    	if(y.get()) {
+    		y.unbind();
+    	}
+
+
+    	x.setValue(false);
+
+    	System.out.println(x);
+    	//mora ostati false
+    	System.out.println(y);
+
+	}
+
     public boolean update(int time) {
-        if (checkCollisions() && PAUSE_GAME) {
+
+    	if(!started.getValue()) {
+    		return false;
+    	} else {
+    		started.unbind();
+    	}
+
+
+    	if (checkCollisions() && PAUSE_GAME) {
             return false;
         }
 
