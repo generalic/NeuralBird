@@ -23,12 +23,12 @@ public class PipePair extends Group implements IComponent, Comparable<PipePair> 
     public Rectangle lowerHead;
     private Random random = RandomProvider.get();
 
+    private double headHight;
     private double height;
     private double gap;
     private double direction;
 
-    private static final double HEAD_OFFSET = 5;
-    private static final double HEAD_HEIGHT = 40;
+    private static final double HEAD_X_OFFSET = 5;
     private static final double MINIMUM_Y_OFFSET = 100;
 
     private static Stop[] stops = new Stop[] { new Stop(0, Color.LIGHTGREEN), new Stop(1, Color.DARKGREEN) };
@@ -36,22 +36,23 @@ public class PipePair extends Group implements IComponent, Comparable<PipePair> 
     private static Color c2 = Color.PALEGREEN;
 
     public PipePair(double lastPipeX, double gap, double pipeWidth, double height) {
-        this.height = height;
+        this.headHight = pipeWidth * 0.75;
+    	this.height = height;
         this.gap = gap;
         this.direction = 1;
 
         this.upperBody = new Rectangle(lastPipeX, 0, pipeWidth, height);
 
-        upperHead = new Rectangle(upperBody.getWidth() + 2 * HEAD_OFFSET, HEAD_HEIGHT);
-        upperHead.xProperty().bind(upperBody.xProperty().subtract(HEAD_OFFSET));
-        upperHead.yProperty().bind(upperBody.yProperty().add(upperBody.getHeight()).subtract(HEAD_HEIGHT));
+        upperHead = new Rectangle(upperBody.getWidth() + 2 * HEAD_X_OFFSET, headHight);
+        upperHead.xProperty().bind(upperBody.xProperty().subtract(HEAD_X_OFFSET));
+        upperHead.yProperty().bind(upperBody.yProperty().add(upperBody.getHeight()).subtract(headHight));
 
         double lowerY = height + gap;
 
         this.lowerBody = new Rectangle(lastPipeX, lowerY, pipeWidth, height);
 
-        lowerHead = new Rectangle(lowerBody.getWidth() + 2 * HEAD_OFFSET, HEAD_HEIGHT);
-        lowerHead.xProperty().bind(lowerBody.xProperty().subtract(HEAD_OFFSET));
+        lowerHead = new Rectangle(lowerBody.getWidth() + 2 * HEAD_X_OFFSET, headHight);
+        lowerHead.xProperty().bind(lowerBody.xProperty().subtract(HEAD_X_OFFSET));
         lowerHead.yProperty().bind(lowerBody.yProperty());
 
         lowerHead.setFill(lg1);
