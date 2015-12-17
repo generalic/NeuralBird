@@ -33,7 +33,7 @@ public class GameModel implements IEnvironmentProvider {
      * zaustavila.
      */
     private static final boolean PAUSE_GAME = true;
-
+	
     private static final int NUMBER_OF_PIPES = 5;
     private static final double PIPES_SPEED_X = 10;
     private static final double REWARD_SPEED_X = PIPES_SPEED_X;
@@ -85,6 +85,18 @@ public class GameModel implements IEnvironmentProvider {
         root.setStyle("-fx-background-color: mediumslateblue");
 
         return new Scene(root, dimension.getWidth(), dimension.getHeight());
+    }
+    
+    public void fillGroup(Group scene) {
+        group.getChildren().add(bird);
+        group.getChildren().addAll(pipesPairs);
+        group.getChildren().addAll(rewards);
+        
+        Pane root = new Pane();
+        
+        root.getChildren().addAll(group);
+        root.setStyle("-fx-background-color: mediumslateblue");
+        scene.getChildren().add(root);
     }
 
     public void jumpBird() {
