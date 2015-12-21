@@ -39,10 +39,10 @@ public class GameModel implements IEnvironmentProvider {
     private static final double PIPES_SPEED_X = 10;
     private static final double REWARD_SPEED_X = PIPES_SPEED_X;
     private static final double PIPES_SPEED_Y = 5;
-    private static final double JUMP_SPEED = -27;
-    private static final double PIPE_GAP_X = 300;
-    private static final double PIPE_GAP_Y = 150;
-    private static final double PIPE_WIDTH = 70;
+    private static final double JUMP_SPEED = -25;
+    private static final double PIPE_GAP_X = 350;
+    private static final double PIPE_GAP_Y = 210;
+    private static final double PIPE_WIDTH = 60;
     private static final double INITIAL_PIPE_OFFSET = 100;
     private static final double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
     private static final int PIPE_PASSED_BONUS = 1;
@@ -57,8 +57,6 @@ public class GameModel implements IEnvironmentProvider {
 
     private boolean jump;
     
-    private Text ScoreText;
-
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
     private PipePair lastPassed;
@@ -94,7 +92,7 @@ public class GameModel implements IEnvironmentProvider {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-        ScoreText = new Text();
+
 
         Pane root = new Pane();
         
@@ -251,7 +249,7 @@ public class GameModel implements IEnvironmentProvider {
 
     public boolean update(int time) {
         if (checkCollisions() && PAUSE_GAME) {
-           // return false;
+            return false;
         }
 
         if (isRewardCollected()) {
@@ -269,11 +267,11 @@ public class GameModel implements IEnvironmentProvider {
 
         Optional<Reward> nearestReward = getNearestRewardAheadOfBird(nearestPipePair);
 
-        double distanceToReward = -1;
+        double distanceToReward = 0;
         double relativeHeightToReward = 0;
         if (nearestReward.isPresent()) {
             distanceToReward = traceReward(nearestReward.get());
-            relativeHeightToReward = bird.getCenterY() - nearestReward.get().getCenterY();
+            relativeHeightToReward = nearestReward.get().getCenterY()-bird.getCenterY();
         } else {
             group.getChildren().removeAll(rewardTracers);
         }
@@ -284,16 +282,29 @@ public class GameModel implements IEnvironmentProvider {
             pipeCounter += PIPE_PASSED_BONUS;
             lastPassed = nearestPipePair;
         }
-
+        double angle =0;
+        if(Double.compare(distanceToReward, 0)!=0){
+        	angle=Math.atan(relativeHeightToReward/distanceToReward);
+        }
+        
         EnvironmentVariables variables = new EnvironmentVariables(
         		distances.get(0),
         		distances.get(1),
         		birdHeight,
         		nearestPipePair.getDirection(),
         		distanceToReward,
-        		distanceToReward != -1 ? 1 : -1,
-        		relativeHeightToReward
+        		distanceToReward != 0 ? 1 : -1,
+        		angle
         );
+        
+//       System.out.println(distances.get(0));
+//       System.out.println(distances.get(1));
+//       System.out.println(birdHeight);
+//       System.out.println(nearestPipePair.getDirection());
+//       System.out.println(distanceToReward);
+//       System.out.println(distanceToReward != 0 ? 1 : -1);
+//       System.out.println(angle);
+//       System.out.println("-------------");
 
         listeners.forEach(l -> l.environmentChanged(this, variables));
 
@@ -403,23 +414,25 @@ public class GameModel implements IEnvironmentProvider {
         Point2D p2 = new Point2D(reward.getCenterX(), reward.getCenterY());
 
         double dx = p2.getX() - p1.getX();
-        double dy = p2.getY() - p1.getY();
+        return dx;
+        
+//        double dy = p2.getY() - p1.getY();
+//
+//        double distanceToReward = Math.sqrt(dx * dx + dy * dy);
+//
+//        if (!rewardTracers.isEmpty()) {
+//            group.getChildren().removeAll(rewardTracers);
+//            rewardTracers.clear();
+//        }
+//
+//        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+//        line.setStrokeWidth(3);
+//        line.setStroke(Color.AQUAMARINE);
+//        rewardTracers.add(line);
+//
+//        group.getChildren().addAll(rewardTracers);
 
-        double distanceToReward = Math.sqrt(dx * dx + dy * dy);
-
-        if (!rewardTracers.isEmpty()) {
-            group.getChildren().removeAll(rewardTracers);
-            rewardTracers.clear();
-        }
-
-        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        line.setStrokeWidth(3);
-        line.setStroke(Color.AQUAMARINE);
-        rewardTracers.add(line);
-
-        group.getChildren().addAll(rewardTracers);
-
-        return distanceToReward;
+        
     }
 
     @Override

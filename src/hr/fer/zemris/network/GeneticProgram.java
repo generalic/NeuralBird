@@ -16,14 +16,14 @@ import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 public class GeneticProgram {
     
     /** Max number of generations. */
-    public static final int MAX_GENERATIONS = 30000;
+    public static final int MAX_GENERATIONS = 5000;
     /** Size of population. */
     public static final int POPULATION_SIZE = 100;
     
     public static final int SCORE_LIMIT = 1000;
     
     /** Number of neuronsPerLayer */
-    private static final int[] neuronsPerLayer = { 7, 20, 5 , 2, 1 };
+    private static final int[] neuronsPerLayer = { 7,10,5,2 , 1 };
     
     public NeuralNetwork train() {
         
@@ -33,7 +33,7 @@ public class GeneticProgram {
         TournamentSelection selectionO = new TournamentSelection();
         
         BLXAlphaCrossover crossoverO = new BLXAlphaCrossover(0.5);
-        SimpleMutation mutationO = new SimpleMutation(0.01);
+        SimpleMutation mutationO = new SimpleMutation(0.25);
         
         // Napravi inicijalnu populaciju
         Solution[] population = createInitialPopulation(POPULATION_SIZE);
@@ -66,7 +66,7 @@ public class GeneticProgram {
             //
             System.out.println(currentFit + "   " + numberOfGenerations);
             
-            mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
+          //  mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
             
         }
         NeuralNetwork bestOne = getBestNet(population);
