@@ -72,34 +72,30 @@ public class GameModel implements IEnvironmentProvider {
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
     public GameModel() {
+        initModel();
+    }
+
+    private void initModel() {
         this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 4);
         initialiseEnvironment();
         jump = false;
         lastPassed = getNearestPairAheadOfBird().get();
     }
 
-    public Scene getScene() {
+    public Group getGroup() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-        Pane root = new Pane();
 
-        root.getChildren().addAll(group);
-        root.setStyle("-fx-background-color: mediumslateblue");
-
-        return new Scene(root, dimension.getWidth(), dimension.getHeight());
+        return group;
     }
 
-    public void fillGroup(Group scene) {
-        group.getChildren().add(bird);
-        group.getChildren().addAll(pipesPairs);
-        group.getChildren().addAll(rewards);
+    public void reset() {
+        group.getChildren().clear();
+        pipesPairs.clear();
+        rewards.clear();
 
-        Pane root = new Pane();
-
-        root.getChildren().addAll(group);
-        root.setStyle("-fx-background-color: mediumslateblue");
-        scene.getChildren().add(root);
+        initModel();
     }
 
     public void jumpBird() {
@@ -250,7 +246,7 @@ public class GameModel implements IEnvironmentProvider {
 
     public boolean update(int time) {
         if (checkCollisions() && PAUSE_GAME) {
-           // return false;
+            return false;
         }
 
         if (isRewardCollected()) {
@@ -329,7 +325,7 @@ public class GameModel implements IEnvironmentProvider {
      * Vraca dvije cijevi(par).<br>
      * Prva(index = 0) je ona gore, druga(index = 1) je ona dolje.
      *
-     * @param entities
+     * @param
      * @return
      */
     // TO BUDEMO KORISTILI ZA GLEDANJE DI JE KOJA CIJEV KOD UČENJA MREZE

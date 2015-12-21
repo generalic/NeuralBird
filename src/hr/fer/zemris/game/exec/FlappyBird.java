@@ -1,108 +1,116 @@
 package hr.fer.zemris.game.exec;
 
-import java.util.Optional;
-import java.util.function.Consumer;
+import hr.fer.zemris.game.model.GameModel;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class FlappyBird extends Application {
-    
-    private static final double WIDTH = 1000.0;
-    private static final double HEIGHT = 600.0;
-    private static final double BUTTON_WIDTH = WIDTH / 3.0;
-    private static final double BUTTON_HEIGHT = HEIGHT / 6.0;
-    private static final Paint DEFAULT_HIGHLIGHT_PAINT = Color.DARKGRAY;
-    private static final Paint DEFAULT_CLICK_PAINT = Color.SLATEGRAY;
-    private static final Paint DEFAULT_PAINT = Color.BLACK;
-    
+
+    private Timeline gameLoop;
+    private GameModel model;
+    private Group menuGroup;
+    private Group modelGroup;
+    private Group sceneGroup;
+    private VBox verticalContainer;
+    private Button playButton;
+    private Button playAIButton;
+    private Button exitButton;
+    private Button optionsButton;
+    private Button resetButton;
+    private Scene scene;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
-        Group group = new Group();
-        
-        Rectangle playGame = new Rectangle(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
-        Rectangle playGameAI = new Rectangle(BUTTON_WIDTH, 2.5 * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
-        Rectangle exit = new Rectangle(BUTTON_WIDTH, 4.0 * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
-        Label playGameText = new Label("I will play");
-        Label playGameAIText = new Label("Let A.I. play");
-        Label exitText = new Label("Exit");
-        Font font = new Font(playGameText.getFont().getFamily(), 30);
-        
-        playGameText.setFont(font);
-        playGameAIText.setFont(font);
-        exitText.setFont(font);
-        playGameText.setTextFill(Color.WHITE);
-        playGameAIText.setTextFill(Color.WHITE);
-        exitText.setTextFill(Color.WHITE);
-        group.getChildren().addAll(playGame, playGameAI, exit, playGameText, playGameAIText, exitText);
-        
-        Scene scene = new Scene(group, WIDTH, HEIGHT);
-        
+
+        setButtons();
+
+        model = new GameModel();
+        menuGroup = new Group();
+        verticalContainer = new VBox();
+
+        initGameLoop();
+
+        gameLoop.stop();
+
+        verticalContainer.getChildren().addAll(playButton, playAIButton, optionsButton, exitButton);
+
+        menuGroup.getChildren().add(verticalContainer);
+        sceneGroup = new Group();
+        sceneGroup.getChildren().addAll(menuGroup);
+
+        scene = new Scene(sceneGroup, 1000, 600);
+
         primaryStage.setScene(scene);
         primaryStage.show();
-        playGameText.relocate(BUTTON_WIDTH + (BUTTON_WIDTH - playGameText.getWidth()) / 2.0,
-                BUTTON_HEIGHT + (BUTTON_HEIGHT - playGameText.getHeight()) / 2.0);
-        playGameAIText.relocate(BUTTON_WIDTH + (BUTTON_WIDTH - playGameAIText.getWidth()) / 2.0,
-                2.5 * BUTTON_HEIGHT + (BUTTON_HEIGHT - playGameAIText.getHeight()) / 2.0);
-        exitText.relocate(BUTTON_WIDTH + (BUTTON_WIDTH - exitText.getWidth()) / 2.0,
-                4.0 * BUTTON_HEIGHT + (BUTTON_HEIGHT - exitText.getHeight()) / 2.0);
-                
-        setMouseEvents(playGame, playGameText, new PlayGame(group, scene));
-        setMouseEvents(playGameAI, playGameAIText, new PlayGameAI(group, scene));
-        setMouseEvents(exit, exitText, () -> {
-            Platform.exit();
-        });
     }
-    
-    private static void setMouseEvents(Rectangle rectangle, Label label, Runnable clickAction) {
-        
-        setMouseEnteredEvent(rectangle, label);
-        setMouseExitedEvent(rectangle, label);
-        setMousseClickedEvent(rectangle, label, clickAction);
-    }
-    
-    private static void setMousseClickedEvent(Rectangle rectangle, Label label, Runnable action) {
-        
-        setMouseEventOfType(rectangle, rectangle::setOnMouseClicked, DEFAULT_CLICK_PAINT, Optional.of(action));
-        setMouseEventOfType(rectangle, label::setOnMouseClicked, DEFAULT_CLICK_PAINT, Optional.of(action));
-    }
-    
-    private static void setMouseEnteredEvent(Rectangle rectangle, Label label) {
-        
-        setMouseEventOfType(rectangle, rectangle::setOnMouseEntered, DEFAULT_HIGHLIGHT_PAINT, Optional.empty());
-        setMouseEventOfType(rectangle, label::setOnMouseEntered, DEFAULT_HIGHLIGHT_PAINT, Optional.empty());
-    }
-    
-    private static void setMouseExitedEvent(Rectangle rectangle, Label label) {
-        
-        setMouseEventOfType(rectangle, rectangle::setOnMouseExited, DEFAULT_PAINT, Optional.empty());
-        setMouseEventOfType(rectangle, label::setOnMouseExited, DEFAULT_PAINT, Optional.empty());
-    }
-    
-    private static void setMouseEventOfType(Rectangle rectangle, Consumer<EventHandler<? super MouseEvent>> event,
-            Paint paint, Optional<Runnable> aditionalAction) {
-            
-        event.accept(e -> {
-            rectangle.setFill(paint);
-            
-            if (aditionalAction.isPresent()) {
-                aditionalAction.get().run();
+
+    private void initGameLoop() {
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
+            if (!model.update(1)) {
+                gameLoop.stop();
+                resetButton.setVisible(true);
             }
+        }));
+        gameLoop.setCycleCount(Animation.INDEFINITE);
+    }
+
+    private void setButtons() {
+
+        playButton = new Button("PLAY");
+        playAIButton = new Button("PLAY AI");
+        optionsButton = new Button("OPTIONS");
+        exitButton = new Button("EXIT");
+        resetButton = new Button("RESET");
+
+        playButton.setOnAction(this::runGame);
+        playAIButton.setOnAction(this::runGame);
+        exitButton.setOnAction(e-> System.exit(0));
+        resetButton.setOnAction(e -> {
+            sceneGroup.getChildren().removeAll(modelGroup);
+            model.reset();
+            menuGroup.setVisible(true);
         });
     }
-    
+
     public static void main(String[] args) {
         
         launch(args);
+    }
+
+    private void runGame(ActionEvent event) {
+
+        resetButton.setVisible(false);
+        menuGroup.setVisible(false);
+        modelGroup = model.getGroup();
+        modelGroup.getChildren().add(resetButton);
+
+        sceneGroup.getChildren().addAll(modelGroup);
+
+
+
+        gameLoop.play();
+
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.B)) {
+//                if (!paused) {
+//                    gameLoop.pause();
+//                } else {
+//                    gameLoop.play();
+//                }
+//                paused ^= true;
+            } else {
+                model.jumpBird();
+            }
+        });
     }
 }
