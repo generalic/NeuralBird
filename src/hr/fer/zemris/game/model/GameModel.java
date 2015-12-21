@@ -35,7 +35,7 @@ public class GameModel implements IEnvironmentProvider {
      * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
      * zaustavila.
      */
-    private static final boolean PAUSE_GAME = true;
+    private static final boolean PAUSE_GAME = false;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
@@ -48,11 +48,11 @@ public class GameModel implements IEnvironmentProvider {
     private Constants constants;
     
     
-    private LinkedList<PipePair> pipesPairs = new LinkedList<>();
+    protected LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
     private PipePair lastPassed;
 
-    private LinkedList<Reward> rewards = new LinkedList<>();
+    protected LinkedList<Reward> rewards = new LinkedList<>();
 
     private Group group = new Group();
 
@@ -209,6 +209,7 @@ public class GameModel implements IEnvironmentProvider {
             protected void translate(Reward component) {
                 double shiftX = Physics.calculateShiftX(constants.REWARD_SPEED_X, time);
                 component.translateReward(shiftX);
+                component.updateFrame();
             }
 
             @Override
@@ -233,6 +234,7 @@ public class GameModel implements IEnvironmentProvider {
             bird.setCenterY(bird.getCenterY() + shiftY);
         }
         bird.updateFrame();
+ 
     }
 
     public boolean update(int time) {

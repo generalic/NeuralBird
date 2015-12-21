@@ -2,7 +2,7 @@ package hr.fer.zemris.game.physics;
 
 public final class Physics {
 
-	private static final double GRAVITY = 6.81;
+	private static final double GRAVITY = 4.81;
 
 	private Physics() {}
 

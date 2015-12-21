@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,6 +46,8 @@ public class DemoLazy extends Application {
 //
 ////        initGame(primaryStage);
 //    }
+    
+    
 
     EventHandler<KeyEvent> action = e -> {
     	if (e.getCode().equals(KeyCode.B)) {
@@ -79,7 +82,11 @@ public class DemoLazy extends Application {
     	this.model = new GameModelLazy();
     	this.paused = false;
     	this.gameOver = false;
-    	this.scene = new Scene(model.getGroup(), 1000, 600);
+    	Pane root = new Pane(model.getGroup());
+    	String image = DemoLazy.class.getResource("backgroundPicture.jpg").toExternalForm();
+    	root.setStyle("-fx-background-image: url('" + image + "'); " +
+    	           "-fx-background-size: cover; ");
+    	this.scene = new Scene(root, 1000, 600);
     	scene.setOnKeyPressed(action);
     	this.gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
             gameOver = !model.update(1);
