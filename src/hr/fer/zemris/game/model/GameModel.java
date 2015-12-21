@@ -57,6 +57,7 @@ public class GameModel implements IEnvironmentProvider {
 
     private boolean jump;
     
+
     private LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
     private PipePair lastPassed;
@@ -249,7 +250,7 @@ public class GameModel implements IEnvironmentProvider {
 
     public boolean update(int time) {
         if (checkCollisions() && PAUSE_GAME) {
-            return false;
+           // return false;
         }
 
         if (isRewardCollected()) {
