@@ -9,6 +9,10 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import javax.management.modelmbean.ModelMBean;
+
+import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
@@ -16,7 +20,7 @@ import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 public class GeneticProgram {
     
     /** Max number of generations. */
-    public static final int MAX_GENERATIONS = 5000;
+    public static final int MAX_GENERATIONS = 60;
     /** Size of population. */
     public static final int POPULATION_SIZE = 100;
     
@@ -24,7 +28,7 @@ public class GeneticProgram {
     
     /** Number of neuronsPerLayer */
 
-    private static final int[] neuronsPerLayer = { 7, 20, 5 , 2, 1 };
+    private static final int[] neuronsPerLayer = { 9, 100, 1 };
     
     public NeuralNetwork train() {
         
@@ -34,7 +38,7 @@ public class GeneticProgram {
         TournamentSelection selectionO = new TournamentSelection();
         
         BLXAlphaCrossover crossoverO = new BLXAlphaCrossover(0.5);
-        SimpleMutation mutationO = new SimpleMutation(0.25);
+        SimpleMutation mutationO = new SimpleMutation(0.01);
         
         // Napravi inicijalnu populaciju
         Solution[] population = createInitialPopulation(POPULATION_SIZE);
@@ -47,7 +51,7 @@ public class GeneticProgram {
             newPopulation[0] = bestTwo[0];
             newPopulation[1] = bestTwo[1];
             // Napravi novu populaciju
-            for (int i = 1; i < POPULATION_SIZE; i++) {
+            for (int i = 0; i < POPULATION_SIZE; i++) {
                 NeuralNetwork parent1 = selectionO.select(population, n);
                 NeuralNetwork parent2 = selectionO.select(population, n);
                 Solution child = new Solution(crossoverO.doCrossover(parent1, parent2));
@@ -67,7 +71,7 @@ public class GeneticProgram {
             //
             System.out.println(currentFit + "   " + numberOfGenerations);
             
-          //  mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
+            mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
             
         }
         NeuralNetwork bestOne = getBestNet(population);
@@ -75,7 +79,6 @@ public class GeneticProgram {
         System.out.println(calculateFitness(bestOne));
         // Engine testGame = new Engine(DIMENSION, DIMENSION, (new Random()).nextInt());
         
-        serialization(bestOne);
         
         return bestOne;
     }
@@ -201,19 +204,6 @@ public class GeneticProgram {
         return true;
     }
     
-    void serialization(NeuralNetwork network) {
-        
-        Path p = Paths.get("weights.ser");
-        
-        try (OutputStream networkOut = Files.newOutputStream(p);
-                ObjectOutputStream out = new ObjectOutputStream(networkOut);) {
-            out.writeObject(network);
-            System.out.printf("Serialized data is saved in " + p.toAbsolutePath());
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        
-    }
+    
     
 }
