@@ -35,7 +35,7 @@ public class GameModel implements IEnvironmentProvider {
      * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
      * zaustavila.
      */
-    private static final boolean PAUSE_GAME = true;
+    private static final boolean PAUSE_GAME = false;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
