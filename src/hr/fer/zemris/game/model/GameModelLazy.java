@@ -9,7 +9,7 @@ public class GameModelLazy extends GameModel {
 
     public GameModelLazy() {
         super();
-        started = new SimpleBooleanProperty(false);
+        this.started = new SimpleBooleanProperty(false);
         started.bind(jump);
     }
 

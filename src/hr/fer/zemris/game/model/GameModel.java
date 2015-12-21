@@ -289,6 +289,8 @@ public class GameModel implements IEnvironmentProvider {
         EnvironmentVariables variables = new EnvironmentVariables(
         		distances.get(0),
         		distances.get(1),
+        		distances.get(2),
+        		distances.get(3),
         		birdHeight,
         		nearestPipePair.getDirection(),
         		distanceToReward,
@@ -335,8 +337,15 @@ public class GameModel implements IEnvironmentProvider {
      * @return
      */
     // TO BUDEMO KORISTILI ZA GLEDANJE DI JE KOJA CIJEV KOD UČENJA MREZE
+//    private Optional<PipePair> getNearestPairAheadOfBird() {
+//        return getNearestComponentAheadOfBird(pipesPairs)
+//        		.findFirst();
+//    }
+
     private Optional<PipePair> getNearestPairAheadOfBird() {
-        return getNearestComponentAheadOfBird(pipesPairs)
+    	return pipesPairs.stream()
+    			.filter(p -> p.getRightMostX() > bird.getLeftMostX())
+        		.sorted()
         		.findFirst();
     }
 
@@ -364,37 +373,66 @@ public class GameModel implements IEnvironmentProvider {
         // System.out.println();
 
         Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
+
         Point2D p2 = new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY());
         Point2D p3 = new Point2D(lowerTubeBounds.getMinX(), lowerTubeBounds.getMinY());
+
+        Point2D p4 = new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY());
+        Point2D p5 = new Point2D(lowerTubeBounds.getMaxX(), lowerTubeBounds.getMinY());
 
         double dx1 = p2.getX() - p1.getX();
         double dy1 = p2.getY() - p1.getY();
 
-        double distanceToUpper = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        double distanceToUpperLeftSide = Math.sqrt(dx1 * dx1 + dy1 * dy1);
 
         double dx2 = p3.getX() - p1.getX();
         double dy2 = p3.getY() - p1.getY();
 
-        double distanceToLower = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        double distanceToLowerLeftSide = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+        double dx3 = p4.getX() - p1.getX();
+        double dy3 = p4.getY() - p1.getY();
+
+        double distanceToUpperRightSide = Math.sqrt(dx3 * dx3 + dy3 * dy3);
+
+        double dx4 = p5.getX() - p1.getX();
+        double dy4 = p5.getY() - p1.getY();
+
+        double distanceToLowerRightSide = Math.sqrt(dx4 * dx4 + dy4 * dy4);
+
+
 
         if (!pipeTracers.isEmpty()) {
             group.getChildren().removeAll(pipeTracers);
             pipeTracers.clear();
         }
 
-        Line lineLower = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        lineLower.setStrokeWidth(3);
-        lineLower.setStroke(Color.RED);
-        pipeTracers.add(lineLower);
+        Line lineLowerLeftSide = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        lineLowerLeftSide.setStrokeWidth(3);
+        lineLowerLeftSide.setStroke(Color.RED);
+        pipeTracers.add(lineLowerLeftSide);
 
-        Line lineUpper = new Line(p1.getX(), p1.getY(), p3.getX(), p3.getY());
-        lineUpper.setStrokeWidth(3);
-        lineUpper.setStroke(Color.RED);
-        pipeTracers.add(lineUpper);
+        Line lineUpperLeftSide = new Line(p1.getX(), p1.getY(), p3.getX(), p3.getY());
+        lineUpperLeftSide.setStrokeWidth(3);
+        lineUpperLeftSide.setStroke(Color.RED);
+        pipeTracers.add(lineUpperLeftSide);
+
+        Line lineLowerRightSide = new Line(p1.getX(), p1.getY(), p4.getX(), p4.getY());
+        lineLowerRightSide.setStrokeWidth(3);
+        lineLowerRightSide.setStroke(Color.DEEPPINK);
+        pipeTracers.add(lineLowerRightSide);
+
+        Line lineUpperRightSide = new Line(p1.getX(), p1.getY(), p5.getX(), p5.getY());
+        lineUpperRightSide.setStrokeWidth(3);
+        lineUpperRightSide.setStroke(Color.DEEPPINK);
+        pipeTracers.add(lineUpperRightSide);
 
         group.getChildren().addAll(pipeTracers);
 
-        return Stream.of(distanceToLower, distanceToUpper).collect(Collectors.toList());
+        return Stream.of(
+        		distanceToLowerLeftSide, distanceToUpperLeftSide,
+        		distanceToLowerRightSide, distanceToUpperRightSide
+        		).collect(Collectors.toList());
     }
 
     private List<Line> rewardTracers = new ArrayList<>();

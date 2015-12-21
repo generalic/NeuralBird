@@ -2,19 +2,24 @@ package hr.fer.zemris.game.environment;
 
 public class EnvironmentVariables {
 
-	private double distanceToUpperPipe;
-	private double distanceToLowerPipe;
+	private double distanceToLowerPipeLeftSide;
+	private double distanceToUpperPipeLeftSide;
+	private double distanceToLowerPipeRightSide;
+	private double distanceToUpperPipeRightSide;
 	private double birdHeight;
 	private double pipeDirection;
 	private double distanceToReward;
 	private double visibleReward;
 	private double relativeHeightToReward;
 
-	public EnvironmentVariables(double distanceToLowerPipe, double distanceToUpperPipe, double birdHeight,
+	public EnvironmentVariables(double distanceToLowerPipeLeftSide, double distanceToUpperPipeLeftSide,
+			double distanceToLowerPipeRightSide, double distanceToUpperPipeRightSide, double birdHeight,
 			double pipeDirection, double distanceToReward, double visibleReward, double relativeHeightToReward) {
 		super();
-		this.distanceToLowerPipe = distanceToLowerPipe;
-		this.distanceToUpperPipe = distanceToUpperPipe;
+		this.distanceToLowerPipeLeftSide = distanceToLowerPipeLeftSide;
+		this.distanceToUpperPipeLeftSide = distanceToUpperPipeLeftSide;
+		this.distanceToLowerPipeRightSide = distanceToLowerPipeRightSide;
+		this.distanceToUpperPipeRightSide = distanceToUpperPipeRightSide;
 		this.birdHeight = birdHeight;
 		this.pipeDirection = pipeDirection;
 		this.distanceToReward = distanceToReward;
@@ -24,8 +29,10 @@ public class EnvironmentVariables {
 
 	public double[] getVariables() {
 		return new double[] {
-				distanceToUpperPipe,
-				distanceToLowerPipe,
+				distanceToLowerPipeLeftSide,
+				distanceToUpperPipeLeftSide,
+				distanceToLowerPipeRightSide,
+				distanceToUpperPipeRightSide,
 				birdHeight,
 				pipeDirection,
 				distanceToReward,
