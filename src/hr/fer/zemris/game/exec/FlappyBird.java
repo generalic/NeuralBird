@@ -1,6 +1,7 @@
 package hr.fer.zemris.game.exec;
 
 import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelLazy;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,15 +29,17 @@ public class FlappyBird extends Application {
     private Button optionsButton;
     private Button resetButton;
     private Scene scene;
+    private boolean started;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         setButtons();
 
-        model = new GameModel();
+        model = new GameModelLazy();
         menuGroup = new Group();
         verticalContainer = new VBox();
+        started = true;
  
         initGameLoop();
 
@@ -83,7 +86,6 @@ public class FlappyBird extends Application {
     }
 
     public static void main(String[] args) {
-        
         launch(args);
     }
 
