@@ -22,17 +22,20 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Demo2 extends Application {
+public class Demo3 extends Application {
 
 	private Timeline gameLoop;
 	private boolean paused = false;
-
+	private NeuralNetwork network;
+	private Constants constants;
+	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 		GameModel model = new GameModel();
-		NeuralNetwork network = new GeneticProgram().train();
-		serialization(network, model.getConstants());
+		deserialisation();
+		model.setConstants(constants);
 		
 		
 		model.addEnvironmentListener(network);
@@ -67,38 +70,22 @@ public class Demo2 extends Application {
 		launch(args);
 	}
 
-	public NeuralNetwork deserialisation() {
+	public void deserialisation() {
 		Path p = Paths.get("weights.ser");
-		NeuralNetwork best = null;
-		Constants constants = null;
+
 		try(
 			InputStream settingsIn = Files.newInputStream(p);
 			ObjectInputStream in = new ObjectInputStream(settingsIn);
 		) {
-			best = (NeuralNetwork) in.readObject();
+			network = (NeuralNetwork) in.readObject();
 			constants = (Constants) in.readObject();
 			System.out.println("Successfully deserialized.");
 		} catch (IOException | ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return best;
 	}
 	
-	void serialization(NeuralNetwork network, Constants constants) {
-        
-        Path p = Paths.get("weights.ser");
-        
-        try (OutputStream networkOut = Files.newOutputStream(p);
-                ObjectOutputStream out = new ObjectOutputStream(networkOut);) {
-            out.writeObject(network);
-            out.writeObject(constants);
-            System.out.printf("Serialized data is saved in " + p.toAbsolutePath());
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        
-    }
+	
 
 }
