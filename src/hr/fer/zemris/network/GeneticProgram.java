@@ -23,7 +23,7 @@ public class GeneticProgram {
     public static final int MAX_GENERATIONS = 50;
     /** Size of population. */
     public static final int POPULATION_SIZE = 50;
-    
+
     public static final int SCORE_LIMIT = 600;
     
     /** Number of neuronsPerLayer */
