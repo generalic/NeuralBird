@@ -37,7 +37,7 @@ public class FlappyBird extends Application {
         model = new GameModel();
         menuGroup = new Group();
         verticalContainer = new VBox();
-
+ 
         initGameLoop();
 
         gameLoop.stop();
