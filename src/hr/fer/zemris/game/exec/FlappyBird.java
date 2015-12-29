@@ -1,5 +1,12 @@
 package hr.fer.zemris.game.exec;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
 import hr.fer.zemris.game.model.GameModelLazy;
@@ -8,21 +15,16 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FlappyBird extends Application {
 
@@ -41,18 +43,17 @@ public class FlappyBird extends Application {
     private NeuralNetwork network;
     private Constants constants;
 
+    private boolean paused;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         setButtons();
 
-        model = new GameModelLazy();
         menuGroup = new Group();
         verticalContainer = new VBox();
 
         initGameLoop();
-
         gameLoop.stop();
 
         verticalContainer.getChildren().addAll(playButton, playAIButton, optionsButton, exitButton);
@@ -61,11 +62,20 @@ public class FlappyBird extends Application {
         sceneGroup = new Group();
         sceneGroup.getChildren().addAll(menuGroup);
 
-        scene = new Scene(sceneGroup, 1000, 600);
+        setScene();
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+	private void setScene() {
+		Pane root = new Pane(sceneGroup);
+    	String image = FlappyBird.class.getResource("backgroundPicture.jpg").toExternalForm();
+    	root.setStyle("-fx-background-image: url('" + image + "'); " +
+    	           "-fx-background-size: cover; ");
+
+    	scene = new Scene(root, 1000, 600);
+	}
 
     private void initGameLoop() {
         gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / 30), e -> {
@@ -85,9 +95,9 @@ public class FlappyBird extends Application {
         exitButton = new Button("EXIT");
         resetButton = new Button("RESET");
 
-        playButton.setOnAction(this::runGame);
+        playButton.setOnAction(this::runGamePlayer);
         playAIButton.setOnAction(this::runGameAI);
-        exitButton.setOnAction(e-> System.exit(0));
+        exitButton.setOnAction(e -> Platform.exit());
         resetButton.setOnAction(e -> {
             sceneGroup.getChildren().removeAll(modelGroup);
             model.reset();
@@ -99,33 +109,39 @@ public class FlappyBird extends Application {
         launch(args);
     }
 
-    public void runGameAI(ActionEvent event) {
+    private void runGamePlayer(ActionEvent event) {
+        model = new GameModelLazy();
+        runGame(event);
+    }
+
+    private void runGameAI(ActionEvent event) {
         deserialisation();
-        model.jumpBird();
+
+        model = new GameModel();
         model.setConstants(constants);
         model.addEnvironmentListener(network);
 
         runGame(event);
     }
 
-    public void deserialisation() {
+    private void deserialisation() {
         Path p = Paths.get("weights.ser");
 
         try(
-                InputStream settingsIn = Files.newInputStream(p);
-                ObjectInputStream in = new ObjectInputStream(settingsIn);
+            InputStream settingsIn = Files.newInputStream(p);
+            ObjectInputStream in = new ObjectInputStream(settingsIn);
         ) {
             network = (NeuralNetwork) in.readObject();
             constants = (Constants) in.readObject();
             System.out.println("Successfully deserialized.");
         } catch (IOException | ClassNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }
 
-    private void runGame(ActionEvent event) {
 
+
+    private void runGame(ActionEvent event) {
         resetButton.setVisible(false);
         menuGroup.setVisible(false);
 
@@ -138,12 +154,12 @@ public class FlappyBird extends Application {
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.B)) {
-//                if (!paused) {
-//                    gameLoop.pause();
-//                } else {
-//                    gameLoop.play();
-//                }
-//                paused ^= true;
+                if (!paused) {
+                    gameLoop.pause();
+                } else {
+                    gameLoop.play();
+                }
+                paused ^= true;
             } else {
                 model.jumpBird();
             }

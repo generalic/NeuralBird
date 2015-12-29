@@ -24,8 +24,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -35,7 +33,7 @@ public class GameModel implements IEnvironmentProvider {
      * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
      * zaustavila.
      */
-    private static final boolean PAUSE_GAME = false;
+    private static final boolean PAUSE_GAME = true;
 
     private Dimension2D dimension = new Dimension2D(1000, 600);
 
@@ -44,10 +42,10 @@ public class GameModel implements IEnvironmentProvider {
     protected Bird bird;
 
     protected BooleanProperty jump;
-    
+
     private Constants constants;
-    
-    
+
+
     protected LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
     private PipePair lastPassed;
@@ -70,7 +68,7 @@ public class GameModel implements IEnvironmentProvider {
         initialiseEnvironment();
         jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
-        
+
     }
 
     public Group getGroup() {
@@ -234,7 +232,7 @@ public class GameModel implements IEnvironmentProvider {
             bird.setCenterY(bird.getCenterY() + shiftY);
         }
         bird.updateFrame();
- 
+
     }
 
     public boolean update(int time) {
@@ -276,7 +274,7 @@ public class GameModel implements IEnvironmentProvider {
         if(Double.compare(distanceToReward, 0)!=0){
         	angle=Math.atan(relativeHeightToReward/distanceToReward);
         }
-        
+
         EnvironmentVariables variables = new EnvironmentVariables(
         		distances.get(0),
         		distances.get(1),
@@ -288,7 +286,7 @@ public class GameModel implements IEnvironmentProvider {
         		distanceToReward != 0 ? 1 : -1,
         		angle
         );
-        
+
 //       System.out.println(distances.get(0));
 //       System.out.println(distances.get(1));
 //       System.out.println(birdHeight);
@@ -452,7 +450,7 @@ public class GameModel implements IEnvironmentProvider {
 
         group.getChildren().addAll(rewardTracers);
         return dx;
-        
+
 //        double dy = p2.getY() - p1.getY();
 //
 //        double distanceToReward = Math.sqrt(dx * dx + dy * dy);
@@ -461,7 +459,7 @@ public class GameModel implements IEnvironmentProvider {
 //
 
 
-        
+
     }
 
     @Override
@@ -480,15 +478,15 @@ public class GameModel implements IEnvironmentProvider {
     public void react() {
         jumpBird();
     }
-    
+
     public Constants getConstants(){
     	return constants;
     }
-    
+
     public void setConstants(Constants constants){
     	this.constants = constants;
     }
-    
+
 
 
 }
