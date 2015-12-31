@@ -29,6 +29,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class StartMain extends Application {
@@ -82,6 +83,8 @@ public class StartMain extends Application {
         scene = new Scene(sceneGroup, 1000, 600);
 
         primaryStage.setScene(scene);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }
