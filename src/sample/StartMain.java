@@ -1,4 +1,4 @@
-package hr.fer.zemris.game.exec;
+package sample;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,9 @@ import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -29,22 +31,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class FlappyBird extends Application {
+public class StartMain extends Application {
 
     private static final double MAX_FPS = 100;
-	private static final double MIN_FPS = 1;
-	private static final double DEFAULT_FPS = 30;
+    private static final double MIN_FPS = 1;
+    private static final double DEFAULT_FPS = 30;
 
-	private Timeline gameLoop;
+    private Timeline gameLoop;
     private GameModel model;
     private Group menuGroup;
     private Group modelGroup;
     private Group sceneGroup;
-    private VBox verticalContainer;
-    private Button playButton;
-    private Button playAIButton;
-    private Button exitButton;
-    private Button optionsButton;
+
     private Button resetButton;
     private Scene scene;
     private NeuralNetwork network;
@@ -56,12 +54,18 @@ public class FlappyBird extends Application {
     private boolean paused;
 
 
+    Controller controller;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        Parent root = fxmlLoader.load();
+
+        controller = fxmlLoader.getController();
+
         setButtons();
 
-        menuGroup = new Group();
-        verticalContainer = new VBox();
+        menuGroup = new Group(root);
 
         initGameLoop();
         gameLoop.stop();
@@ -71,26 +75,16 @@ public class FlappyBird extends Application {
         fps.bind(fpsSlider.valueProperty());
         gameLoop.rateProperty().bind(fps);
 
-        verticalContainer.getChildren().addAll(playButton, playAIButton, optionsButton, exitButton);
 
-        menuGroup.getChildren().add(verticalContainer);
         sceneGroup = new Group();
         sceneGroup.getChildren().addAll(menuGroup);
 
-        setScene();
+        scene = new Scene(sceneGroup, 1000, 600);
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
-
-	private void setScene() {
-		Pane root = new Pane(sceneGroup);
-    	String image = FlappyBird.class.getResource("backgroundPicture.jpg").toExternalForm();
-    	root.setStyle("-fx-background-image: url('" + image + "'); " +
-    	           "-fx-background-size: cover; ");
-
-    	scene = new Scene(root, 1000, 600);
-	}
 
     private void initGameLoop() {
         gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
@@ -104,15 +98,11 @@ public class FlappyBird extends Application {
 
     private void setButtons() {
 
-        playButton = new Button("PLAY");
-        playAIButton = new Button("PLAY AI");
-        optionsButton = new Button("OPTIONS");
-        exitButton = new Button("EXIT");
         resetButton = new Button("RESET");
 
-        playButton.setOnAction(this::runGamePlayer);
-        playAIButton.setOnAction(this::runGameAI);
-        exitButton.setOnAction(e -> Platform.exit());
+        controller.playButton.setOnAction(this::runGamePlayer);
+        controller.playAIButton.setOnAction(this::runGameAI);
+        controller.quitButton.setOnAction(e -> Platform.exit());
         resetButton.setOnAction(e -> {
             sceneGroup.getChildren().removeAll(modelGroup);
             model.reset();
@@ -154,6 +144,20 @@ public class FlappyBird extends Application {
         }
     }
 
+    private Pane getGameEnvironment() {
+        Pane gameWorld = new Pane(modelGroup);
+
+        String image = StartMain.class.getResource("backgroundPicture.jpg").toExternalForm();
+
+        gameWorld.setStyle(
+                "-fx-background-image: url('" + image + "'); " +
+                "-fx-background-size: cover; " +
+                "-fx-background-repeat: stretch; " +
+                "-fx-background-size: 1000 600;"
+        );
+
+        return gameWorld;
+    }
 
 
     private void runGame(ActionEvent event) {
@@ -163,12 +167,12 @@ public class FlappyBird extends Application {
         modelGroup = model.getGroup();
         modelGroup.getChildren().add(new VBox(5, fpsSlider, resetButton));
 
-        sceneGroup.getChildren().addAll(modelGroup);
+        sceneGroup.getChildren().addAll(getGameEnvironment());
 
         gameLoop.play();
 
 
-    	scene.setOnKeyPressed(e -> {
+        scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.B)) {
                 if (!paused) {
                     gameLoop.pause();
