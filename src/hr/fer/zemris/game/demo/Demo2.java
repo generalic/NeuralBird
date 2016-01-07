@@ -1,16 +1,7 @@
 package hr.fer.zemris.game.demo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import hr.fer.zemris.game.environment.Constants;
-import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.network.GeneticProgram;
 import hr.fer.zemris.network.NeuralNetwork;
 import javafx.animation.Animation;
@@ -22,6 +13,11 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Demo2 extends Application {
 
 	private Timeline gameLoop;
@@ -30,7 +26,7 @@ public class Demo2 extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameModel model = new GameModel();
+		GameModelAI model = new GameModelAI();
 		NeuralNetwork network = new GeneticProgram().train();
 		serialization(network, model.getConstants());
 		

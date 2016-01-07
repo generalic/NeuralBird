@@ -1,6 +1,7 @@
 package hr.fer.zemris.gen;
 
 import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.gen.alg.AbstractGeneticAlgorithm;
 import hr.fer.zemris.gen.alg.NElitismGeneticAlgorithm;
 import hr.fer.zemris.gen.impl.FlappyBirdTestDataProivder;
@@ -20,14 +21,14 @@ public class Demo {
     
     public static void main(String[] args) {
         
-        IPopulationGenerator<GameModel[], NeuralNetworkChromosome> popGen =
+        IPopulationGenerator<GameModelAI[], NeuralNetworkChromosome> popGen =
                 new NeuralNetworkPopulationGenerator(new NeuralNetworkDecoder());
-        ISelectionOperator<GameModel[], NeuralNetworkChromosome> selOp = new TournamentSelection<>(2, 10);
-        ICrossoverOperator<GameModel[], NeuralNetworkChromosome> crossOp = new DoubleArrayArithmeticMeanCrossover<>();
-        IMutationOperator<GameModel[], NeuralNetworkChromosome> mutOp = new DoubleArrayGaussianMutation<>(0.01, 1.0);
-        ITestDataProvider<GameModel[]> provider = new FlappyBirdTestDataProivder();
+        ISelectionOperator<GameModelAI[], NeuralNetworkChromosome> selOp = new TournamentSelection<>(2, 10);
+        DoubleArrayArithmeticMeanCrossover crossOp = new DoubleArrayArithmeticMeanCrossover<>();
+        DoubleArrayGaussianMutation mutOp = new DoubleArrayGaussianMutation<>(0.01, 1.0);
+        ITestDataProvider<GameModelAI[]> provider = new FlappyBirdTestDataProivder();
         
-        AbstractGeneticAlgorithm<GameModel[], NeuralNetworkChromosome> alg = new NElitismGeneticAlgorithm<>(100, 0,
+        AbstractGeneticAlgorithm<GameModelAI[], NeuralNetworkChromosome> alg = new NElitismGeneticAlgorithm<>(100, 0,
                 popGen, selOp, crossOp, mutOp, provider, null, (genAlg) -> genAlg.getAverageFitness() >= 1000.0);
                 
         alg.run();

@@ -1,21 +1,12 @@
 package hr.fer.zemris.network;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.network.transfer_functions.ITransferFunction;
+import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import javax.management.modelmbean.ModelMBean;
-
-import hr.fer.zemris.game.environment.Constants;
-import hr.fer.zemris.game.model.GameModel;
-import hr.fer.zemris.network.transfer_functions.ITransferFunction;
-import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 
 public class GeneticProgram {
     
@@ -97,7 +88,7 @@ public class GeneticProgram {
         Arrays.fill(transferFunction, new SigmoidTransferFunction());
         
         for (int i = 0; i < popSize; i++) {
-            Solution sol = new Solution(new NeuralNetwork(neuronsPerLayer, transferFunction, new GameModel()));
+            Solution sol = new Solution(new NeuralNetwork(neuronsPerLayer, transferFunction, new GameModelAI()));
             double[] weights = new double[sol.network.getWeightsCount()];
             Arrays.fill(weights, new Random().nextDouble());
             sol.network.setWeights(weights);
@@ -173,17 +164,17 @@ public class GeneticProgram {
         
         double counter = 0;
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
-            GameModel model = new GameModel();
+            GameModelAI model = new GameModelAI();
             model.addEnvironmentListener(net);
             int tmpScore = 0;
             
             while (true) {
                 
-                if (!model.update(1) || model.getCurrentScore() > SCORE_LIMIT) {
+                if (!model.update(1) || model.getScore() > SCORE_LIMIT) {
                     break;
                 }
                 
-                tmpScore = model.getCurrentScore();
+                tmpScore = model.getScore();
                 
             }
             counter += tmpScore * 1.0;

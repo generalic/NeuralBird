@@ -1,11 +1,12 @@
 package hr.fer.zemris.gen.impl;
 
-import java.util.Arrays;
-import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.gen.decoders.IDoubleArrayDecoder;
 import hr.fer.zemris.network.NeuralNetwork;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
+
+import java.util.Arrays;
 
 public class NeuralNetworkDecoder implements IDoubleArrayDecoder<NeuralNetwork> {
     
@@ -34,7 +35,7 @@ public class NeuralNetworkDecoder implements IDoubleArrayDecoder<NeuralNetwork> 
         
         ITransferFunction[] transferFunction = new ITransferFunction[NEURONS_PER_LAYER.length - 1];
         Arrays.fill(transferFunction, new SigmoidTransferFunction());
-        NeuralNetwork chromosome = new NeuralNetwork(NEURONS_PER_LAYER, transferFunction, new GameModel());
+        NeuralNetwork chromosome = new NeuralNetwork(NEURONS_PER_LAYER, transferFunction, new GameModelAI());
         
         chromosome.setWeights(values);
         

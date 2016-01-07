@@ -11,7 +11,7 @@ import java.io.Serializable;
 public interface ITransferFunction extends Serializable {
 
 	/**
-	 * Main method of every activation function. For given input it calculates
+	 * Method of every activation function. For given input it calculates
 	 * output.
 	 *
 	 * @param input
