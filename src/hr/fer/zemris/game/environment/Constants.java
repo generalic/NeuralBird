@@ -32,6 +32,8 @@ public class Constants implements Serializable {
     public static int PIPE_PASSED_BONUS = 1;
     public static int REWARD_COLLECTED_BONUS = 10;
     public static double REWARD_PROBABILITY = 0.5;
+    
+    public static Constants AIConst = new Constants();
 
     public static void setDefaultConstants() {
     	NUMBER_OF_PIPES = 5;
@@ -49,4 +51,19 @@ public class Constants implements Serializable {
     	REWARD_PROBABILITY = 0.5;
     }
    
+    public static void setConstants(Constants conts){
+    	NUMBER_OF_PIPES = conts.NUMBER_OF_PIPES;
+    	PIPES_SPEED_X = conts.PIPES_SPEED_X;
+    	REWARD_SPEED_X = conts.REWARD_SPEED_X;
+    	PIPES_SPEED_Y = conts.PIPES_SPEED_Y;
+    	JUMP_SPEED = conts.JUMP_SPEED;
+    	PIPE_GAP_X = conts.PIPE_GAP_X;
+    	PIPE_GAP_Y = conts.PIPE_GAP_Y;
+    	PIPE_WIDTH = conts.PIPE_WIDTH;
+    	INITIAL_PIPE_OFFSET = conts.INITIAL_PIPE_OFFSET;
+    	REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
+    	PIPE_PASSED_BONUS = conts.PIPE_PASSED_BONUS;
+    	REWARD_COLLECTED_BONUS = conts.REWARD_COLLECTED_BONUS;
+    	REWARD_PROBABILITY = conts.REWARD_PROBABILITY;
+    }
 }

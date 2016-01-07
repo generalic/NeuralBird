@@ -119,7 +119,7 @@ public abstract class GameModel {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight());
+                return new PipePair(nextPipeX, Constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight());
             }
 
             @Override
