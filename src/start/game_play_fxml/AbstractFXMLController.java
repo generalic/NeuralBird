@@ -96,7 +96,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	@FXML
 	public void showToolBar(MouseEvent me) {
-		if(me.getSceneX() < 10) {
+		if(me.getSceneX() < 50) {
 			TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
 			transTransition.setToX(0);
 			transTransition.setInterpolator(Interpolator.EASE_OUT);
