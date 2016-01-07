@@ -25,14 +25,14 @@ public class GameEngine {
 
 	private Timeline gameLoop;
 
-	private BooleanProperty gameOverProperty;
+	private BooleanProperty gameOver;
 
 	public GameEngine(GameModel model) {
 		this.model = model;
 		gameNode = getGameNode(model.getGroup());
-		this.gameOverProperty = new SimpleBooleanProperty();
+		this.gameOver = new SimpleBooleanProperty();
 		initGameLoop();
-		gameOverProperty.addListener((observable, oldValue, newValue) -> {
+		gameOver.addListener((observable, oldValue, newValue) -> {
 			if(!newValue) {
 				gameLoop.stop();
 			}
@@ -41,7 +41,7 @@ public class GameEngine {
 
 	private void initGameLoop() {
 		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			gameOverProperty.set(model.update(1));
+			gameOver.set(model.update(1));
 		}));
 		gameLoop.setRate(30);
 		gameLoop.setCycleCount(Animation.INDEFINITE);
@@ -80,12 +80,12 @@ public class GameEngine {
 		return gameLoop;
 	}
 
-	public boolean getGameOverProperty() {
-		return gameOverProperty.get();
+	public boolean isGameOver() {
+		return gameOver.get();
 	}
 
-	public BooleanProperty gameOverPropertyProperty() {
-		return gameOverProperty;
+	public BooleanProperty gameOverProperty() {
+		return gameOver;
 	}
 
 	private static Pane getGameNode(Group modelGroup) {

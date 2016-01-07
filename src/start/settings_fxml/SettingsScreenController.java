@@ -17,7 +17,6 @@ public class SettingsScreenController {
 	public Button backButton;
 
 	public void initScreen(Scene scene, Pane root) {
-
 		  initBindings();
 
 		  Group group = (Group) scene.getRoot();
@@ -25,20 +24,16 @@ public class SettingsScreenController {
 		  group.getChildren().add(root);
 
 		  backButton.setOnAction(e -> {
-		   group.getChildren().remove(root);
-		   group.getChildren().forEach(c -> c.setVisible(true));
+			  group.getChildren().remove(root);
+			  group.getChildren().forEach(c -> c.setVisible(true));
 		  });
-
-		 }
+	}
 
 	private void initBindings() {
-	  pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-	   Constants.PlayerConst.PIPE_WIDTH = newValue.doubleValue();
-	   
-	  });
-	 
-	  
-	 }		 
+		pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			Constants.PlayerConst.PIPE_WIDTH = newValue.doubleValue();
+		});
+	 }
 
 
 }

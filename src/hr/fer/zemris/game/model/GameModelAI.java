@@ -1,14 +1,12 @@
 package hr.fer.zemris.game.model;
 
 import hr.fer.zemris.game.components.IComponent;
-import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
 import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -22,18 +20,14 @@ import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
-	private int numOfPipesPassed=0;
+	private int numOfPipesPassed = 0;
 
-	public GameModelAI() {
-	  	//setConstantSettings();
-    	constants = Constants.AIConst;
-    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
-        initialiseEnvironment();
-        jump = new SimpleBooleanProperty(false);
-        lastPassed = getNearestPairAheadOfBird().get();
-	}
-	
-	public int getNumOfPipesPassed(){
+    @Override
+    protected Constants providerConstants() {
+        return constants.AIConst;
+    }
+
+    public int getNumOfPipesPassed(){
 		return numOfPipesPassed;
 	}
 	
@@ -58,7 +52,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         double relativeHeightToReward = 0;
         if (nearestReward.isPresent()) {
             distanceToReward = traceReward(nearestReward.get());
-            relativeHeightToReward = nearestReward.get().getCenterY()-bird.getCenterY();
+            relativeHeightToReward = nearestReward.get().getCenterY() - bird.getCenterY();
         } else {
             group.getChildren().removeAll(rewardTracers);
         }

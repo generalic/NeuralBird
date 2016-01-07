@@ -53,15 +53,16 @@ public abstract class GameModel {
     }
 
     private void initModel() {
-    	//setConstantSettings();
-//    	constants = new Constants();
-//    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
-//        initialiseEnvironment();
-//        jump = new SimpleBooleanProperty(false);
-//        lastPassed = getNearestPairAheadOfBird().get();
+    	constants = providerConstants();
+    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+        initialiseEnvironment();
+        jump = new SimpleBooleanProperty(false);
+        lastPassed = getNearestPairAheadOfBird().get();
 
     }
-
+	
+	protected abstract Constants providerConstants();
+	
 	public Group getGroup() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
