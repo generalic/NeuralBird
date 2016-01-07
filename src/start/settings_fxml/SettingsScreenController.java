@@ -1,5 +1,6 @@
 package start.settings_fxml;
 
+import hr.fer.zemris.game.environment.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,16 +18,27 @@ public class SettingsScreenController {
 
 	public void initScreen(Scene scene, Pane root) {
 
-		Group group = (Group) scene.getRoot();
-		group.getChildren().forEach(c -> c.setVisible(false));
-		group.getChildren().add(root);
+		  initBindings();
 
-		backButton.setOnAction(e -> {
-			group.getChildren().remove(root);
-			group.getChildren().forEach(c -> c.setVisible(true));
-		});
+		  Group group = (Group) scene.getRoot();
+		  group.getChildren().forEach(c -> c.setVisible(false));
+		  group.getChildren().add(root);
 
-	}
+		  backButton.setOnAction(e -> {
+		   group.getChildren().remove(root);
+		   group.getChildren().forEach(c -> c.setVisible(true));
+		  });
+
+		 }
+
+	private void initBindings() {
+	  pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+	   Constants.PIPE_WIDTH = newValue.doubleValue();
+	   
+	  });
+	 
+	  
+	 }		 
 
 
 }

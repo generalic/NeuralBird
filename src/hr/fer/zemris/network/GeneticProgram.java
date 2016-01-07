@@ -19,7 +19,7 @@ public class GeneticProgram {
     
     /** Number of neuronsPerLayer */
 
-    private static final int[] neuronsPerLayer = { 9, 100, 1 };
+    private static final int[] neuronsPerLayer = { 9, 60, 1 };
     
     public NeuralNetwork train() {
         

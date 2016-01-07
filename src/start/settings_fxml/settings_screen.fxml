@@ -20,7 +20,7 @@
         </rowConstraints>
          <children>
             <Label contentDisplay="CENTER" prefHeight="58.0" prefWidth="179.0" text="PIPE_WIDTH:" textAlignment="CENTER" />
-            <Slider fx:id="pipeWidthSlider" min="20.0" value="70.0" GridPane.columnIndex="1" />
+            <Slider fx:id="pipeWidthSlider" min="20.0" value="23.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
