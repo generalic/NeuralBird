@@ -31,6 +31,10 @@ public abstract class AbstractFXMLScreen {
 //		scene.setRoot(root);
 	}
 
+	private FXMLLoader createFXMLLoader() {
+		return new FXMLLoader(getClass().getResource(getFXMLFileName()));
+	}
+
 	private Pane getRoot(FXMLLoader fxmlLoader) {
 		try {
 			Pane root = fxmlLoader.load();
@@ -39,10 +43,6 @@ public abstract class AbstractFXMLScreen {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	private FXMLLoader createFXMLLoader() {
-		return new FXMLLoader(getClass().getResource(getFXMLFileName()));
 	}
 
 	protected abstract String getFXMLFileName();

@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import start.game_play_fxml.ai_fxml.AIScreen;
 import start.game_play_fxml.player_fxml.PlayerScreen;
+import start.settings_fxml.SettingsScreen;
 
 public class MainMenuController {
 
@@ -39,7 +40,7 @@ public class MainMenuController {
 
 	@FXML
 	public void openSettings(ActionEvent event) {
-
+		new SettingsScreen(scene);
 	}
 
 	@FXML
