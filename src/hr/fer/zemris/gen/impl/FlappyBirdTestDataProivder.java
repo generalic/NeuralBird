@@ -1,10 +1,11 @@
 package hr.fer.zemris.gen.impl;
 
 import hr.fer.zemris.game.model.GameModel;
+import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.gen.operators.interfaces.ITestDataProvider;
 import hr.fer.zemris.gen.population.interfaces.ITestData;
 
-public class FlappyBirdTestDataProivder implements ITestDataProvider<GameModel[]> {
+public class FlappyBirdTestDataProivder implements ITestDataProvider<GameModelAI[]> {
     
     private FlappyBirdTestData testData;
     
@@ -13,7 +14,7 @@ public class FlappyBirdTestDataProivder implements ITestDataProvider<GameModel[]
     }
     
     @Override
-    public ITestData<GameModel[]> getTestData() {
+    public ITestData<GameModelAI[]> getTestData() {
         
         return testData;
     }

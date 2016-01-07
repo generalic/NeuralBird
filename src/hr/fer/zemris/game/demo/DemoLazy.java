@@ -1,7 +1,7 @@
 package hr.fer.zemris.game.demo;
 
 import hr.fer.zemris.game.model.GameModel;
-import hr.fer.zemris.game.model.GameModelLazy;
+import hr.fer.zemris.game.model.GameModelPlayer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -79,7 +79,7 @@ public class DemoLazy extends Application {
     }
 
     private void initGame() {
-    	this.model = new GameModelLazy();
+    	this.model = new GameModelPlayer();
     	this.paused = false;
     	this.gameOver = false;
     	Pane root = new Pane(model.getGroup());

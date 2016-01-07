@@ -2,7 +2,7 @@
     -fx-background-image: url("background3.png");
     -fx-background-repeat: stretch;   
     -fx-background-size: 1000 600;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
 .button {
@@ -11,14 +11,14 @@
     -fx-font-size: 40;
     -fx-opacity: 0.5;
 
-    -fx-text-fill: azure;
-    -fx-background-color: linear-gradient(to right, rgba(117,117,117,1) 0%, rgba(0,0,0,1) 47%, rgba(117,117,117,1) 100%);;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, rgba(117,117,117,1) 0%, rgba(0,0,0,1) 47%, rgba(117,117,117,1) 100%);
 }
 
 .button:hover{
+    -fx-text-fill: white;
     -fx-background-color:
             linear-gradient(to right, rgba(64,39,230,1) 0%, rgba(0,0,0,1) 46%, rgba(0,0,0,1) 52%, rgba(0,0,0,1) 58%, rgba(64,39,230,1) 100%);
-    -fx-text-fill: white;
 }
 
 .button:pressed{

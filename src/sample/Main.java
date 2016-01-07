@@ -23,7 +23,6 @@ public class Main extends Application {
 
 		Controller c = fxmlLoader.getController();
 		System.out.println(c);
-		c.playAIButton.setVisible(false);
 
         LinearGradient lg = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
                 new Stop(0, Color.DARKVIOLET),

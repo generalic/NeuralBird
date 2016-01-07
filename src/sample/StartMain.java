@@ -1,15 +1,9 @@
 package sample;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
-import hr.fer.zemris.game.model.GameModelLazy;
+import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelPlayer;
 import hr.fer.zemris.network.NeuralNetwork;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -31,6 +25,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class StartMain extends Application {
 
@@ -118,16 +119,17 @@ public class StartMain extends Application {
     }
 
     private void runGamePlayer(ActionEvent event) {
-        model = new GameModelLazy();
+        model = new GameModelPlayer();
         runGame(event);
     }
 
     private void runGameAI(ActionEvent event) {
         deserialisation();
 
-        model = new GameModel();
+        GameModelAI model = new GameModelAI();
         model.setConstants(constants);
         model.addEnvironmentListener(network);
+        this.model = model;
 
         runGame(event);
     }
