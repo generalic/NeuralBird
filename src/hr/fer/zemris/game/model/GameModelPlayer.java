@@ -1,7 +1,9 @@
 package hr.fer.zemris.game.model;
 
+import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
+import hr.fer.zemris.game.environment.Constants;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -10,7 +12,13 @@ public class GameModelPlayer extends GameModel {
     public BooleanProperty started;
 
     public GameModelPlayer() {
-        super();
+      	//setConstantSettings();
+    	constants = Constants.PlayerConst;
+    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+        initialiseEnvironment();
+        jump = new SimpleBooleanProperty(false);
+        lastPassed = getNearestPairAheadOfBird().get();
+        
         this.started = new SimpleBooleanProperty(false);
         started.bind(jump);
         //this.setConstants(new ConstantsSettings());

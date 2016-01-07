@@ -11,15 +11,15 @@ import java.util.Random;
 public class GeneticProgram {
     
     /** Max number of generations. */
-    public static final int MAX_GENERATIONS = 40;
+    public static final int MAX_GENERATIONS = 50;
     /** Size of population. */
     public static final int POPULATION_SIZE = 50;
 
     public static final int SCORE_LIMIT = 600;
-    
+    public static final int MAX_NUM_OF_PIPES = 50;
     /** Number of neuronsPerLayer */
 
-    private static final int[] neuronsPerLayer = { 9, 60, 1 };
+    private static final int[] neuronsPerLayer = { 9, 30, 1 };
     
     public NeuralNetwork train() {
         
@@ -170,7 +170,7 @@ public class GeneticProgram {
             
             while (true) {
                 
-                if (!model.update(1) || model.getScore() > SCORE_LIMIT) {
+                if (!model.update(1) || model.getScore() > SCORE_LIMIT || model.getNumOfPipesPassed()> MAX_NUM_OF_PIPES) {
                     break;
                 }
                 

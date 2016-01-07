@@ -1,12 +1,14 @@
 package hr.fer.zemris.game.model;
 
 import hr.fer.zemris.game.components.IComponent;
+import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
 import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -20,6 +22,21 @@ import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
+	private int numOfPipesPassed=0;
+
+	public GameModelAI() {
+	  	//setConstantSettings();
+    	constants = Constants.AIConst;
+    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+        initialiseEnvironment();
+        jump = new SimpleBooleanProperty(false);
+        lastPassed = getNearestPairAheadOfBird().get();
+	}
+	
+	public int getNumOfPipesPassed(){
+		return numOfPipesPassed;
+	}
+	
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
     @Override
@@ -27,7 +44,8 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
         PipePair nearestPipePair = getNearestPairAheadOfBird().get();
 		if (!nearestPipePair.equals(lastPassed)) {
-			score.set(score.get() + Constants.PIPE_PASSED_BONUS);
+			score.set(score.get() + constants.PIPE_PASSED_BONUS);
+			numOfPipesPassed++;
 			lastPassed = nearestPipePair;
 		}
 

@@ -54,11 +54,11 @@ public abstract class GameModel {
 
     private void initModel() {
     	//setConstantSettings();
-    	constants = new Constants();
-    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
-        initialiseEnvironment();
-        jump = new SimpleBooleanProperty(false);
-        lastPassed = getNearestPairAheadOfBird().get();
+//    	constants = new Constants();
+//    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+//        initialiseEnvironment();
+//        jump = new SimpleBooleanProperty(false);
+//        lastPassed = getNearestPairAheadOfBird().get();
 
     }
 
@@ -82,7 +82,7 @@ public abstract class GameModel {
         jump.set(true);
     }
 
-    private void initialiseEnvironment() {
+    protected void initialiseEnvironment() {
         double nextPipeX = dimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
@@ -119,7 +119,7 @@ public abstract class GameModel {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, Constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight());
+                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight());
             }
 
             @Override

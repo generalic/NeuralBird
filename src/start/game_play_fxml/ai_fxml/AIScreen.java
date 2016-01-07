@@ -37,7 +37,7 @@ public class AIScreen extends AbstractFXMLScreen {
 	@Override
 	protected GameModel createGameModel() {
 		deserialisation();
-		Constants.setConstants(constants);
+		Constants.AIConst=constants;
 		GameModelAI model = new GameModelAI();
 		model.addEnvironmentListener(network);
 		return model;
