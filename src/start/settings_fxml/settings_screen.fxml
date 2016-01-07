@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.settings_fxml.SettingsScreenController">
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="368.0">
+      <GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="368.0" vgap="5.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -19,9 +19,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label contentDisplay="CENTER" prefHeight="58.0" prefWidth="179.0" text="PIPE_WIDTH:" textAlignment="CENTER" />
-            <Slider fx:id="pipeWidthSlider" min="20.0" value="23.0" GridPane.columnIndex="1" />
+            <Label fx:id="pipeWidthLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="180.0" text="PIPE_WIDTH:" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+            <Slider fx:id="pipeWidthSlider" min="20.0" value="70.0" GridPane.columnIndex="1" />
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </GridPane>
       <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
    </children>

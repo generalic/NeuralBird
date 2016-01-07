@@ -1,5 +1,8 @@
 package hr.fer.zemris.game.environment;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
@@ -32,6 +35,8 @@ public class Constants implements Serializable {
     public int PIPE_PASSED_BONUS = 1;
     public int REWARD_COLLECTED_BONUS = 10;
     public double REWARD_PROBABILITY = 0.5;
+
+	public DoubleProperty pipeWidth = new SimpleDoubleProperty(70);
     
     public static Constants AIConstants = new Constants();
     public static Constants PlayerConstants = new Constants();
