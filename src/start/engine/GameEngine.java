@@ -43,7 +43,7 @@ public class GameEngine {
 		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			gameOverProperty.set(model.update(1));
 		}));
-		gameLoop.setRate(25);
+		gameLoop.setRate(30);
 		gameLoop.setCycleCount(Animation.INDEFINITE);
 	}
 

@@ -9,6 +9,8 @@ import hr.fer.zemris.gen.impl.NeuralNetworkChromosome;
 import hr.fer.zemris.gen.impl.NeuralNetworkDecoder;
 import hr.fer.zemris.gen.impl.NeuralNetworkPopulationGenerator;
 import hr.fer.zemris.gen.operators.crossover.DoubleArrayArithmeticMeanCrossover;
+import hr.fer.zemris.gen.operators.interfaces.ICrossoverOperator;
+import hr.fer.zemris.gen.operators.interfaces.IMutationOperator;
 import hr.fer.zemris.gen.operators.interfaces.IPopulationGenerator;
 import hr.fer.zemris.gen.operators.interfaces.ISelectionOperator;
 import hr.fer.zemris.gen.operators.interfaces.ITestDataProvider;

@@ -2,6 +2,7 @@ package hr.fer.zemris.game.model;
 
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
+import hr.fer.zemris.game.environment.ConstantsSettings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -13,6 +14,7 @@ public class GameModelPlayer extends GameModel {
         super();
         this.started = new SimpleBooleanProperty(false);
         started.bind(jump);
+        this.setConstants(new ConstantsSettings());
     }
 
     @Override
