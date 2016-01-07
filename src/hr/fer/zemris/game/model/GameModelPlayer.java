@@ -18,7 +18,7 @@ public class GameModelPlayer extends GameModel {
 
 	@Override
 	protected Constants providerConstants() {
-		return constants.PlayerConst;
+		return constants.PlayerConstants;
 	}
 
 	@Override

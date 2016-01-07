@@ -24,7 +24,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     @Override
     protected Constants providerConstants() {
-        return constants.AIConst;
+        return constants.AIConstants;
     }
 
     public int getNumOfPipesPassed(){

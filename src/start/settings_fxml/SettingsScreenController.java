@@ -31,7 +31,7 @@ public class SettingsScreenController {
 
 	private void initBindings() {
 		pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConst.PIPE_WIDTH = newValue.doubleValue();
+			Constants.PlayerConstants.PIPE_WIDTH = newValue.doubleValue();
 		});
 	 }
 

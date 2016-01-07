@@ -33,9 +33,9 @@ public class Constants implements Serializable {
     public int REWARD_COLLECTED_BONUS = 10;
     public double REWARD_PROBABILITY = 0.5;
     
-    public static Constants AIConst = new Constants();
-    public static Constants PlayerConst = new Constants();
-    public static Constants DefaultConst = new Constants();
+    public static Constants AIConstants = new Constants();
+    public static Constants PlayerConstants = new Constants();
+    public static Constants DefaultConstants = new Constants();
 
     public void setDefaultConstants() {
     	NUMBER_OF_PIPES = 5;
@@ -53,19 +53,19 @@ public class Constants implements Serializable {
     	REWARD_PROBABILITY = 0.5;
     }
    
-    public void setConstants(Constants conts){
-    	NUMBER_OF_PIPES = conts.NUMBER_OF_PIPES;
-    	PIPES_SPEED_X = conts.PIPES_SPEED_X;
-    	REWARD_SPEED_X = conts.REWARD_SPEED_X;
-    	PIPES_SPEED_Y = conts.PIPES_SPEED_Y;
-    	JUMP_SPEED = conts.JUMP_SPEED;
-    	PIPE_GAP_X = conts.PIPE_GAP_X;
-    	PIPE_GAP_Y = conts.PIPE_GAP_Y;
-    	PIPE_WIDTH = conts.PIPE_WIDTH;
-    	INITIAL_PIPE_OFFSET = conts.INITIAL_PIPE_OFFSET;
-    	REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
-    	PIPE_PASSED_BONUS = conts.PIPE_PASSED_BONUS;
-    	REWARD_COLLECTED_BONUS = conts.REWARD_COLLECTED_BONUS;
-    	REWARD_PROBABILITY = conts.REWARD_PROBABILITY;
+    public void setConstants(Constants constants){
+    	NUMBER_OF_PIPES = constants.NUMBER_OF_PIPES;
+    	PIPES_SPEED_X = constants.PIPES_SPEED_X;
+    	REWARD_SPEED_X = constants.REWARD_SPEED_X;
+    	PIPES_SPEED_Y = constants.PIPES_SPEED_Y;
+    	JUMP_SPEED = constants.JUMP_SPEED;
+    	PIPE_GAP_X = constants.PIPE_GAP_X;
+    	PIPE_GAP_Y = constants.PIPE_GAP_Y;
+    	PIPE_WIDTH = constants.PIPE_WIDTH;
+    	INITIAL_PIPE_OFFSET = constants.INITIAL_PIPE_OFFSET;
+    	REWARD_GAP_X = constants.PIPE_GAP_X + constants.PIPE_WIDTH;
+    	PIPE_PASSED_BONUS = constants.PIPE_PASSED_BONUS;
+    	REWARD_COLLECTED_BONUS = constants.REWARD_COLLECTED_BONUS;
+    	REWARD_PROBABILITY = constants.REWARD_PROBABILITY;
     }
 }
