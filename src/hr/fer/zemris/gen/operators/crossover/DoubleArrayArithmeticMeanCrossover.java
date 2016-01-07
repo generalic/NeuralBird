@@ -9,13 +9,12 @@ import hr.fer.zemris.gen.operators.interfaces.ICrossoverOperator;
 import hr.fer.zemris.gen.population.abstracts.AbstractDoubleArrayChromosome;
 import hr.fer.zemris.gen.population.interfaces.ITestData;
 
-public class DoubleArrayArithmeticMeanCrossover<T, C>
-        extends AbstractCrossoverOperator<T, AbstractDoubleArrayChromosome<T, C>> {
+public class DoubleArrayArithmeticMeanCrossover<T, C extends AbstractDoubleArrayChromosome<T, ?>>
+        extends AbstractCrossoverOperator<T, C> {
         
     @Override
-    public AbstractDoubleArrayChromosome<T, C>
-            performCrossover(SortedSet<AbstractDoubleArrayChromosome<T, C>> parents) {
-            
+    public C performCrossover(SortedSet<C> parents) {
+        
         int crossoverSize = parents.size();
         int chromosomeLength = parents.first().getArraySize();
         
@@ -25,7 +24,7 @@ public class DoubleArrayArithmeticMeanCrossover<T, C>
         
         double[] childArray = new double[chromosomeLength];
         
-        for (AbstractDoubleArrayChromosome<T, C> parent : parents) {
+        for (C parent : parents) {
             double[] parentArray = parent.readValues();
             
             for (int i = 0; i < childArray.length; i++) {
@@ -37,7 +36,7 @@ public class DoubleArrayArithmeticMeanCrossover<T, C>
             childArray[i] /= crossoverSize;
         }
         
-        return parents.first().newLikeThis(childArray);
+        return (C) parents.first().newLikeThis(childArray);
     }
     
     public static void main(String[] args) {
