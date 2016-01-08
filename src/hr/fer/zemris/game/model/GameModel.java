@@ -14,6 +14,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +33,8 @@ public abstract class GameModel {
     protected Dimension2D dimension = new Dimension2D(1000, 600);
 
     public static Random random = RandomProvider.get();
+
+    protected ImageView ground;
 
     protected Bird bird;
 
@@ -66,6 +70,7 @@ public abstract class GameModel {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
+        group.getChildren().add(ground);
 
         return group;
     }
@@ -83,6 +88,9 @@ public abstract class GameModel {
     }
 
     protected void initialiseEnvironment() {
+        ground = new ImageView(new Image(GameModel.class.getResource("earth.png").toExternalForm()));
+        ground.setX(0);
+        ground.setY(dimension.getHeight() - 80);
         double nextPipeX = dimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
@@ -238,13 +246,21 @@ public abstract class GameModel {
         movePipes(time);
         moveRewards(time);
         moveBird(time);
+        moveGround(time);
 
 		scanEnvironment();
 
         return true;
     }
 
-	protected abstract void scanEnvironment();
+    private void moveGround(int time) {
+        ground.setX(ground.getX() - Physics.calculateShiftX(constants.PIPES_SPEED_X, time));
+        if (ground.getX() < -2000) {
+            ground.setX(0);
+        }
+    }
+
+    protected abstract void scanEnvironment();
 
 	private boolean isRewardCollected() {
         return rewards.stream()
@@ -273,7 +289,7 @@ public abstract class GameModel {
 
     private boolean isBirdOutOfBounds() {
         Bounds birdBounds = bird.getBoundsInParent();
-        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMinY() < 0;
+        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMaxY() > ground.getY() || birdBounds.getMinY() < 0;
     }
 
     /**
