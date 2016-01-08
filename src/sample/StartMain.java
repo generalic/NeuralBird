@@ -42,7 +42,7 @@ public class StartMain extends Application {
     private Timeline gameLoop;
     private GameModel model;
     private Group menuGroup;
-    private Group modelGroup;
+    private Pane modelGroup;
     private Group sceneGroup;
 
     private Button resetButton;

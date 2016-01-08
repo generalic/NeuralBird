@@ -7,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -40,9 +39,7 @@ public class GameEngine {
 	}
 
 	private void initGameLoop() {
-		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			gameOver.set(model.update(1));
-		}));
+		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> gameOver.set(model.update(1))));
 		gameLoop.setRate(30);
 		gameLoop.setCycleCount(Animation.INDEFINITE);
 	}
@@ -88,15 +85,14 @@ public class GameEngine {
 		return gameOver;
 	}
 
-	private static Pane getGameNode(Group modelGroup) {
+	private static Pane getGameNode(Pane modelGroup) {
 		Pane gameWorld = new Pane(modelGroup);
 		String image = GameEngine.class.getResource("backgroundPicture.jpg").toExternalForm();
 
 		gameWorld.setStyle(
 				"-fx-background-image: url('" + image + "'); " +
-				"-fx-background-size: cover; " +
-				"-fx-background-repeat: stretch; " +
-				"-fx-background-size: 1000 600;"
+				"-fx-background-size: stretch; " +
+				"-fx-background-repeat: stretch; "
 		);
 
 		return gameWorld;

@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -53,22 +54,27 @@ public abstract class GameModel {
     }
 
     private void initModel() {
-    	constants = providerConstants();
+    	constants = provideConstants();
+//        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+//        this.dimension = new Dimension2D(bounds.getWidth(), bounds.getHeight());
     	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
         initialiseEnvironment();
         jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
-
     }
 	
-	protected abstract Constants providerConstants();
+	protected abstract Constants provideConstants();
 	
-	public Group getGroup() {
+	public Pane getGroup() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
 
-        return group;
+        Pane gameWorld = new Pane(group);
+        gameWorld.setPrefWidth(dimension.getWidth());
+        gameWorld.setPrefHeight(dimension.getHeight());
+
+        return gameWorld;
     }
 
     public void reset() {

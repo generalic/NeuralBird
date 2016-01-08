@@ -39,7 +39,7 @@ public class FlappyBird extends Application {
 	private Timeline gameLoop;
     private GameModel model;
     private Group menuGroup;
-    private Group modelGroup;
+    private Pane modelGroup;
     private Group sceneGroup;
     private VBox verticalContainer;
     private Button playButton;

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -12,29 +14,45 @@
 <AnchorPane fx:id="root" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.game_play_fxml.ai_fxml.AIScreenController">
    <children>
       <Pane fx:id="gamePane" onMouseMoved="#showToolBar" prefHeight="407.0" prefWidth="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox fx:id="gameOverVBox" layoutX="284.0" layoutY="83.0" spacing="20.0">
+      <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="268.0" fitWidth="442.0" layoutX="274.0" layoutY="73.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../css/GameOverLabel.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="437.0" text="SCORE:" textAlignment="CENTER" textFill="#3c0d0d" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font name="Capture it" size="59.0" />
-               </font>
-            </Label>
-            <StackPane>
+            <Group>
                <children>
-                  <Button fx:id="restartButton" mnemonicParsing="false" prefHeight="73.0" prefWidth="161.0" stylesheets="@../css/button.css" text="RESTART" textAlignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Button>
+                  <VBox fx:id="gameOverVBox1" spacing="20.0" StackPane.alignment="CENTER">
+                     <children>
+                        <StackPane>
+                           <children>
+                              <ImageView fitHeight="268.0" fitWidth="442.0" layoutX="274.0" layoutY="73.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../css/GameOverLabel.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane>
+                           <children>
+                              <Label fx:id="scoreLabel1" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="437.0" text="SCORE:" textAlignment="CENTER" textFill="#3c0d0d" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Capture it" size="59.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
+                        <StackPane>
+                           <children>
+                              <Button fx:id="restartButton1" mnemonicParsing="false" prefHeight="73.0" prefWidth="161.0" stylesheets="@../css/button.css" text="RESTART" textAlignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
                </children>
-            </StackPane>
+            </Group>
          </children>
-      </VBox>
+      </StackPane>
       <VBox fx:id="optionPanel" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#keyPressed" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" opacity="0.8" prefHeight="407.0" prefWidth="104.0" spacing="20.0" style="-fx-background-color: #383838;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Slider fx:id="fpsSlider" min="1.0" orientation="VERTICAL" />
