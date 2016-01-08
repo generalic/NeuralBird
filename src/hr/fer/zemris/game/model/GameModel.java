@@ -2,6 +2,7 @@ package hr.fer.zemris.game.model;
 
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
+import hr.fer.zemris.game.components.ground.Ground;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
 import hr.fer.zemris.game.environment.Constants;
@@ -34,7 +35,7 @@ public abstract class GameModel {
 
     public static Random random = RandomProvider.get();
 
-    protected ImageView ground;
+    protected Ground ground;
 
     protected Bird bird;
 
@@ -70,7 +71,7 @@ public abstract class GameModel {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-        group.getChildren().add(ground);
+        group.getChildren().add(ground.getGroundGroup());
 
         return group;
     }
@@ -88,9 +89,9 @@ public abstract class GameModel {
     }
 
     protected void initialiseEnvironment() {
-        ground = new ImageView(new Image(GameModel.class.getResource("earth.png").toExternalForm()));
-        ground.setX(0);
-        ground.setY(dimension.getHeight() - 80);
+        //GROUND
+        ground = new Ground(dimension.getHeight() - 80);
+
         double nextPipeX = dimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
@@ -246,18 +247,11 @@ public abstract class GameModel {
         movePipes(time);
         moveRewards(time);
         moveBird(time);
-        moveGround(time);
+        ground.moveGround(time, constants.PIPES_SPEED_X);
 
 		scanEnvironment();
 
         return true;
-    }
-
-    private void moveGround(int time) {
-        ground.setX(ground.getX() - Physics.calculateShiftX(constants.PIPES_SPEED_X, time));
-        if (ground.getX() < -2000) {
-            ground.setX(0);
-        }
     }
 
     protected abstract void scanEnvironment();
