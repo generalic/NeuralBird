@@ -19,7 +19,7 @@ public class Constants implements Serializable {
 //    public int PIPE_PASSED_BONUS = 1;
 //    public int REWARD_COLLECTED_BONUS = 10;
 //    public double REWARD_PROBABILITY = 0.5;
-	
+
 	public int NUMBER_OF_PIPES = 5;
 	public double PIPES_SPEED_X = 8;
 	public double REWARD_SPEED_X = PIPES_SPEED_X;
@@ -33,6 +33,7 @@ public class Constants implements Serializable {
 	public int PIPE_PASSED_BONUS = 1;
 	public int REWARD_COLLECTED_BONUS = 10;
 	public double REWARD_PROBABILITY = 0.5;
+	public double GRAVITY = 4.81;
 
 	public static Constants AIConstants = new Constants();
 	public static Constants PlayerConstants = new Constants();
@@ -52,6 +53,7 @@ public class Constants implements Serializable {
 		PIPE_PASSED_BONUS = 1;
 		REWARD_COLLECTED_BONUS = 10;
 		REWARD_PROBABILITY = 0.5;
+		GRAVITY = 4.81;
 	}
 
 	public void setConstants(Constants constants){
@@ -68,6 +70,7 @@ public class Constants implements Serializable {
 		PIPE_PASSED_BONUS = constants.PIPE_PASSED_BONUS;
 		REWARD_COLLECTED_BONUS = constants.REWARD_COLLECTED_BONUS;
 		REWARD_PROBABILITY = constants.REWARD_PROBABILITY;
+		GRAVITY = constants.GRAVITY;
 	}
 
 }

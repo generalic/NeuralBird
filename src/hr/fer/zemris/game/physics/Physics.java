@@ -1,8 +1,8 @@
 package hr.fer.zemris.game.physics;
 
-public final class Physics {
+import hr.fer.zemris.game.environment.Constants;
 
-	private static final double GRAVITY = 4.81;
+public final class Physics {
 
 	private Physics() {}
 
@@ -11,11 +11,11 @@ public final class Physics {
 	}
 
 	public static double calculateShiftY(double v0, int t) {
-		return v0 * t + 0.5 * GRAVITY * t * t;
+		return v0 * t + 0.5 * Constants.PlayerConstants.GRAVITY * t * t;
 	}
 
 	public static double calculateVelocity(double v0, int t) {
-		return v0 + GRAVITY * t;
+		return v0 + Constants.PlayerConstants.GRAVITY * t;
 	}
 
 }
