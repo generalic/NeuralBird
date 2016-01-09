@@ -2,8 +2,9 @@ package hr.fer.zemris.game.environment;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class Constants implements Serializable {
+
+	private static final long serialVersionUID = 3051162092034010863L;
 
 //	public int NUMBER_OF_PIPES = 5;
 //    public double PIPES_SPEED_X = 10;
