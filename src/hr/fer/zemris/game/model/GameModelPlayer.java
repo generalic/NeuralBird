@@ -17,16 +17,16 @@ public class GameModelPlayer extends GameModel {
 
 	@Override
 	protected Constants provideConstants() {
-		return Constants.PlayerConst;
+		return Constants.PlayerConstants;
 	}
 
     @Override
 	public boolean update(int time) {
     	if(!started.getValue()) {
-    		bird.updateFrame();
-			ground.moveGround(time, constants.PIPES_SPEED_X);
-    		rewards.forEach(Reward::updateFrame);
-    		return true;
+				bird.updateFrame();
+				ground.moveGround(time, constants.PIPES_SPEED_X);
+				rewards.forEach(Reward::updateFrame);
+				return true;
     	} else {
     		started.unbind();
     	}
