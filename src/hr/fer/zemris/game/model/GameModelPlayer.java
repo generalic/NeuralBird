@@ -11,6 +11,7 @@ public class GameModelPlayer extends GameModel {
     public BooleanProperty started;
 
     public GameModelPlayer() {
+		super();
         this.started = new SimpleBooleanProperty(false);
         started.bind(jump);
     }
