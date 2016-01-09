@@ -80,11 +80,11 @@ public class GameEngine {
 		return gameLoop;
 	}
 
-	public boolean getGameOverProperty() {
+	public boolean isGameOver() {
 		return gameOverProperty.get();
 	}
 
-	public BooleanProperty gameOverPropertyProperty() {
+	public BooleanProperty gameOverProperty() {
 		return gameOverProperty;
 	}
 

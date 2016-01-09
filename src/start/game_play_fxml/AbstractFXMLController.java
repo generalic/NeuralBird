@@ -49,7 +49,9 @@ public abstract class AbstractFXMLController implements IScreenController {
 	@FXML
 	public void initialize() {
 		optionPanel.setTranslateX(-optionPanel.getPrefWidth() - 1);
+		optionPanel.setDisable(true);
 		gameOverVBox.setTranslateY(-root.getPrefHeight());
+		gameOverVBox.setDisable(true);
 	}
 
 	@FXML
@@ -69,6 +71,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 		transTransition.setToX(-optionPanel.getPrefWidth() - 1);
 		transTransition.setInterpolator(Interpolator.EASE_OUT);
 		transTransition.play();
+		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
 	}
 
 	@FXML
@@ -97,6 +100,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 	@FXML
 	public void showToolBar(MouseEvent me) {
 		if(me.getSceneX() < 50) {
+			optionPanel.setDisable(false);
 			TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
 			transTransition.setToX(0);
 			transTransition.setInterpolator(Interpolator.EASE_OUT);
@@ -107,6 +111,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 	private void bindOnGameOverAction(BooleanProperty gameOverProperty) {
 		gameOverProperty.addListener((observable, oldValue, newValue) -> {
 			if(!newValue) {
+				gameOverVBox.setDisable(false);
 				TranslateTransition transition = new TranslateTransition(Duration.millis(300), gameOverVBox);
 				transition.setToY(0);
 				transition.setInterpolator(Interpolator.EASE_OUT);
@@ -125,7 +130,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	public void initScreen(Scene scene, Pane root, GameEngine engine) {
 		addGameScreen(engine.getGameNode());
-		bindOnGameOverAction(engine.gameOverPropertyProperty());
+		bindOnGameOverAction(engine.gameOverProperty());
 		bindScoreLabel(engine.getGameModel().scoreProperty());
 
 		Group group = (Group) scene.getRoot();
