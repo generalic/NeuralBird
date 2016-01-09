@@ -15,8 +15,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +31,7 @@ public abstract class GameModel {
 
     protected Dimension2D dimension = new Dimension2D(1000, 600);
 
-    public static Random random = RandomProvider.get();
+    protected Random random = RandomProvider.get();
 
     protected Ground ground;
 
@@ -58,14 +56,14 @@ public abstract class GameModel {
     }
 
     private void initModel() {
-    	//setConstantSettings();
-//    	constants = new Constants();
-//    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
-//        initialiseEnvironment();
-//        jump = new SimpleBooleanProperty(false);
-//        lastPassed = getNearestPairAheadOfBird().get();
-
+    	constants = provideConstants();
+    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+        initialiseEnvironment();
+        jump = new SimpleBooleanProperty(false);
+        lastPassed = getNearestPairAheadOfBird().get();
     }
+
+	protected abstract Constants provideConstants();
 
 	public Group getGroup() {
         group.getChildren().add(bird);
