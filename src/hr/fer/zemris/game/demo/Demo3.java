@@ -37,7 +37,7 @@ public class Demo3 extends Application {
 		
 		model.addEnvironmentListener(network);
 
-		Scene scene = new Scene(model.getGroup(), 1000, 600);
+		Scene scene = new Scene(model.getGamePane(), 1000, 600);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();

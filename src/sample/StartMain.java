@@ -42,7 +42,7 @@ public class StartMain extends Application {
     private Timeline gameLoop;
     private GameModel model;
     private Group menuGroup;
-    private Group modelGroup;
+    private Pane modelGroup;
     private Group sceneGroup;
 
     private Button resetButton;
@@ -169,7 +169,7 @@ public class StartMain extends Application {
         resetButton.setVisible(false);
         menuGroup.setVisible(false);
 
-        modelGroup = model.getGroup();
+        modelGroup = model.getGamePane();
         modelGroup.getChildren().add(new VBox(5, fpsSlider, resetButton));
 
         sceneGroup.getChildren().addAll(getGameEnvironment());

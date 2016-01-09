@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,13 +66,17 @@ public abstract class GameModel {
 
 	protected abstract Constants provideConstants();
 
-	public Group getGroup() {
+	public Pane getGamePane() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
         group.getChildren().add(ground.getGroundGroup());
 
-        return group;
+        Pane gamePane = new Pane(group);
+        gamePane.setPrefWidth(dimension.getWidth());
+        gamePane.setPrefHeight(dimension.getHeight());
+
+        return gamePane;
     }
 
     public void reset() {

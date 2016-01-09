@@ -39,7 +39,7 @@ public class FlappyBird extends Application {
 	private Timeline gameLoop;
     private GameModel model;
     private Group menuGroup;
-    private Group modelGroup;
+    private Pane modelGroup;
     private Group sceneGroup;
     private VBox verticalContainer;
     private Button playButton;
@@ -162,7 +162,7 @@ public class FlappyBird extends Application {
         resetButton.setVisible(false);
         menuGroup.setVisible(false);
 
-        modelGroup = model.getGroup();
+        modelGroup = model.getGamePane();
         modelGroup.getChildren().add(new VBox(5, fpsSlider, resetButton));
 
         sceneGroup.getChildren().addAll(modelGroup);

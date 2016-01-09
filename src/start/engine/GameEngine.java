@@ -7,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,14 +24,14 @@ public class GameEngine {
 
 	private Timeline gameLoop;
 
-	private BooleanProperty gameOverProperty;
+	private BooleanProperty gameOver;
 
 	public GameEngine(GameModel model) {
 		this.model = model;
-		gameNode = getGameNode(model.getGroup());
-		this.gameOverProperty = new SimpleBooleanProperty();
+		gameNode = getGameNode(model.getGamePane());
+		this.gameOver = new SimpleBooleanProperty();
 		initGameLoop();
-		gameOverProperty.addListener((observable, oldValue, newValue) -> {
+		gameOver.addListener((observable, oldValue, newValue) -> {
 			if(!newValue) {
 				gameLoop.stop();
 			}
@@ -40,9 +39,7 @@ public class GameEngine {
 	}
 
 	private void initGameLoop() {
-		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			gameOverProperty.set(model.update(1));
-		}));
+		gameLoop = new Timeline(new KeyFrame(Duration.seconds(1), e -> gameOver.set(model.update(1))));
 		gameLoop.setRate(30);
 		gameLoop.setCycleCount(Animation.INDEFINITE);
 	}
@@ -81,22 +78,21 @@ public class GameEngine {
 	}
 
 	public boolean isGameOver() {
-		return gameOverProperty.get();
+		return gameOver.get();
 	}
 
 	public BooleanProperty gameOverProperty() {
-		return gameOverProperty;
+		return gameOver;
 	}
 
-	private static Pane getGameNode(Group modelGroup) {
-		Pane gameWorld = new Pane(modelGroup);
+	private static Pane getGameNode(Pane gamePane) {
+		Pane gameWorld = new Pane(gamePane);
 		String image = GameEngine.class.getResource("backgroundPicture.jpg").toExternalForm();
 
 		gameWorld.setStyle(
 				"-fx-background-image: url('" + image + "'); " +
-				"-fx-background-size: cover; " +
-				"-fx-background-repeat: stretch; " +
-				"-fx-background-size: 1000 600;"
+				"-fx-background-size: stretch; " +
+				"-fx-background-repeat: stretch; "
 		);
 
 		return gameWorld;

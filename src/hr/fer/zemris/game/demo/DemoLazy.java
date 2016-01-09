@@ -82,7 +82,7 @@ public class DemoLazy extends Application {
     	this.model = new GameModelPlayer();
     	this.paused = false;
     	this.gameOver = false;
-    	Pane root = new Pane(model.getGroup());
+    	Pane root = new Pane(model.getGamePane());
     	String image = DemoLazy.class.getResource("backgroundPicture.jpg").toExternalForm();
     	root.setStyle("-fx-background-image: url('" + image + "'); " +
     	           "-fx-background-size: cover; ");
