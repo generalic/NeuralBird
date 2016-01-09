@@ -28,7 +28,7 @@ public class GameEngine {
 
 	public GameEngine(GameModel model) {
 		this.model = model;
-		gameNode = getGameNode(model.getGamePane());
+		gameNode = getDecoratedGameNode(model.getGamePane());
 		this.gameOver = new SimpleBooleanProperty();
 		initGameLoop();
 		gameOver.addListener((observable, oldValue, newValue) -> {
@@ -85,7 +85,7 @@ public class GameEngine {
 		return gameOver;
 	}
 
-	private static Pane getGameNode(Pane gamePane) {
+	private static Pane getDecoratedGameNode(Pane gamePane) {
 		Pane gameWorld = new Pane(gamePane);
 		String image = GameEngine.class.getResource("backgroundPicture.jpg").toExternalForm();
 

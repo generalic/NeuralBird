@@ -24,12 +24,6 @@ import java.util.Random;
 
 public abstract class GameModel {
 
-    /**
-     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
-     * zaustavila.
-     */
-    private static final boolean PAUSE_GAME = true;
-
     protected Dimension2D dimension = new Dimension2D(1000, 600);
 
     protected Random random = RandomProvider.get();
@@ -239,7 +233,7 @@ public abstract class GameModel {
     }
 
     public boolean update(int time) {
-        if (checkCollisions() && PAUSE_GAME) {
+        if (checkCollisions() && constants.GOD_MODE) {
             return false;
         }
 

@@ -20,6 +20,11 @@ public class Constants implements Serializable {
 //    public int REWARD_COLLECTED_BONUS = 10;
 //    public double REWARD_PROBABILITY = 0.5;
 
+	/**
+	 * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
+	 * zaustavila.
+	 */
+	public boolean GOD_MODE = false;
 	public int NUMBER_OF_PIPES = 5;
 	public double PIPES_SPEED_X = 8;
 	public double REWARD_SPEED_X = PIPES_SPEED_X;
@@ -32,7 +37,7 @@ public class Constants implements Serializable {
 	public double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
 	public int PIPE_PASSED_BONUS = 1;
 	public int REWARD_COLLECTED_BONUS = 10;
-	public double REWARD_PROBABILITY = 0.5;
+	public double REWARD_PROBABILITY = 1;
 	public double GRAVITY = 4.81;
 
 	public static Constants AIConstants = new Constants();
@@ -40,6 +45,7 @@ public class Constants implements Serializable {
 	public static Constants DefaultConstants = new Constants();
 
 	public void setDefaultConstants() {
+		GOD_MODE = true;
 		NUMBER_OF_PIPES = 5;
 		PIPES_SPEED_X = 10;
 		REWARD_SPEED_X = PIPES_SPEED_X;
@@ -57,6 +63,7 @@ public class Constants implements Serializable {
 	}
 
 	public void setConstants(Constants constants){
+		GOD_MODE = constants.GOD_MODE;
 		NUMBER_OF_PIPES = constants.NUMBER_OF_PIPES;
 		PIPES_SPEED_X = constants.PIPES_SPEED_X;
 		REWARD_SPEED_X = constants.REWARD_SPEED_X;

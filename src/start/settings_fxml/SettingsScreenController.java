@@ -39,6 +39,7 @@ public class SettingsScreenController {
 		pipeWidthSlider.valueProperty().set(Constants.PlayerConstants.PIPE_WIDTH);
 		pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			Constants.PlayerConstants.PIPE_WIDTH = newValue.doubleValue();
+			Constants.PlayerConstants.REWARD_GAP_X = Constants.PlayerConstants.PIPE_GAP_X + Constants.PlayerConstants.PIPE_WIDTH;
 		});
 	}
 

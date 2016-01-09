@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by jcular on 1/8/16.
  */
-public class Ground{
+public class Ground {
 
     private List<ImageView> groundList;
     private Group groundGroup;
@@ -19,7 +19,7 @@ public class Ground{
 
     public Ground(double yPosition){
         y = yPosition;
-        groundList = new LinkedList<ImageView>();
+        groundList = new LinkedList<>();
         groundGroup = new Group();
 
         Image groundImage = new Image(Ground.class.getResource("ground.png").toExternalForm());

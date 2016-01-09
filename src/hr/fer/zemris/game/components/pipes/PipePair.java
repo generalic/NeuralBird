@@ -1,8 +1,5 @@
 package hr.fer.zemris.game.components.pipes;
 
-import java.util.Random;
-import java.util.stream.Stream;
-
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.util.RandomProvider;
@@ -14,6 +11,9 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+
+import java.util.Random;
+import java.util.stream.Stream;
 
 public class PipePair extends Group implements IComponent, Comparable<PipePair> {
 
@@ -33,7 +33,7 @@ public class PipePair extends Group implements IComponent, Comparable<PipePair> 
 
     private static Stop[] stops = new Stop[] { new Stop(0, Color.LIGHTGREEN), new Stop(1, Color.DARKGREEN) };
     private static LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-    private static Color c2 = Color.PALEGREEN;
+    private static Color c2 = Color.BLACK;
 
     public PipePair(double lastPipeX, double gap, double pipeWidth, double height) {
         this.headHight = pipeWidth * 0.75;
@@ -60,9 +60,13 @@ public class PipePair extends Group implements IComponent, Comparable<PipePair> 
         upperHead.setFill(lg1);
         upperBody.setFill(lg1);
         lowerHead.setStroke(c2);
+        lowerHead.setStrokeWidth(2);
         lowerBody.setStroke(c2);
+        lowerBody.setStrokeWidth(2);
         upperHead.setStroke(c2);
-        upperHead.setStroke(c2);
+        upperHead.setStrokeWidth(2);
+        upperBody.setStroke(c2);
+        upperBody.setStrokeWidth(2);
 
         //////////////////////////////////////////////////////////////////
         getChildren().addAll(upperBody, lowerBody, upperHead, lowerHead);
