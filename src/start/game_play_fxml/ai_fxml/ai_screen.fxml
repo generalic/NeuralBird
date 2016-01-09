@@ -12,7 +12,7 @@
 <AnchorPane fx:id="root" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.game_play_fxml.ai_fxml.AIScreenController">
    <children>
       <Pane fx:id="gamePane" onMouseMoved="#showToolBar" prefHeight="407.0" prefWidth="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox fx:id="gameOverVBox" layoutX="284.0" layoutY="83.0" spacing="20.0">
+      <VBox fx:id="gameOverVBox" alignment="CENTER" layoutX="284.0" layoutY="83.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="268.0" fitWidth="442.0" layoutX="274.0" layoutY="73.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
