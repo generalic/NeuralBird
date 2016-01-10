@@ -1,6 +1,6 @@
 @font-face {
     font-family: Tw Cen MT Condensed;
-    src: url('TwCenMTCondensed.TTF');
+    src: url("/start/fonts/TwCenMTCondensed.TTF");
 }
 
 .label {
