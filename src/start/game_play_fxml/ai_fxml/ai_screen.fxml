@@ -19,7 +19,7 @@
                   <Image url="@../css/GameOverLabel.png" />
                </image>
             </ImageView>
-            <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="437.0" text="SCORE:" textAlignment="CENTER" textFill="#3c0d0d" VBox.vgrow="ALWAYS">
+            <Label id="scoreLabel" fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="437.0" stylesheets="@../css/label.css" text="SCORE:" textAlignment="CENTER" textFill="#3c0d0d" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="Capture it" size="59.0" />
                </font>
