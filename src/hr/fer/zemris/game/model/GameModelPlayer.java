@@ -25,7 +25,7 @@ public class GameModelPlayer extends GameModel {
 	public boolean update(int time) {
     	if(!started.getValue()) {
 				bird.updateFrame();
-				ground.moveGround(time, constants.PIPES_SPEED_X);
+				moveGround(time);
 				rewards.forEach(Reward::updateFrame);
 				return true;
     	} else {

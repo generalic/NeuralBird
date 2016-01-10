@@ -28,8 +28,6 @@ public abstract class GameModel {
 
     protected Random random = RandomProvider.get();
 
-    protected Ground ground;
-
     protected Bird bird;
 
     protected BooleanProperty jump;
@@ -41,6 +39,8 @@ public abstract class GameModel {
 	protected PipePair lastPassed;
 
     protected LinkedList<Reward> rewards = new LinkedList<>();
+
+    protected LinkedList<Ground> grounds = new LinkedList<>();
 
 	protected Group group = new Group();
 
@@ -64,7 +64,7 @@ public abstract class GameModel {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
-        group.getChildren().add(ground.getGroundGroup());
+        group.getChildren().addAll(grounds);
 
         Pane gamePane = new Pane(group);
         gamePane.setPrefWidth(dimension.getWidth());
@@ -86,14 +86,17 @@ public abstract class GameModel {
     }
 
     protected void initialiseEnvironment() {
-        //GROUND
-        ground = new Ground(dimension.getHeight() - 80);
-
         double nextPipeX = dimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
+        double nextGroundX = 0;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
             nextPipeX = initialisePipePair(nextPipeX);
             nextRewardCenterX = initialiseReward(nextRewardCenterX);
+//            nextGroundX = initialiseGround(nextGroundX);
+        }
+
+        for(int i = 0; i < 2; i++) {
+            nextGroundX = initialiseGround(nextGroundX);
         }
     }
 
@@ -107,7 +110,6 @@ public abstract class GameModel {
         }
 
         public final double initialiseComponent(double nextComponentX) {
-
             T c = createComponent(nextComponentX);
             nextComponentX = calculateOffset(c);
             components.add(c);
@@ -150,6 +152,22 @@ public abstract class GameModel {
             }
 
         }.initialiseComponent(nextRewardCenterX);
+    }
+
+    private double initialiseGround(double nextGroundX) {
+        return new AbstractInitiaiser<Ground>(grounds) {
+
+            @Override
+            protected Ground createComponent(double nextComponentX) {
+                return new Ground(nextGroundX, dimension.getHeight() - 80);
+            }
+
+            @Override
+            protected double calculateOffset(Ground component) {
+                return component.getRightMostX();
+            }
+
+        }.initialiseComponent(nextGroundX);
     }
 
     private abstract class AbstractMover<T extends IComponent> {
@@ -217,6 +235,23 @@ public abstract class GameModel {
         }.move(time);
     }
 
+    protected void moveGround(int time) {
+        new AbstractMover<Ground>(grounds) {
+
+            @Override
+            protected void translate(Ground component) {
+                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X, time);
+                component.translate(shiftX);
+            }
+
+            @Override
+            protected void putFirstBehindLast(Ground first, Ground last) {
+                first.setX(last.getRightMostX());
+            }
+
+        }.move(time);
+    }
+
     private void moveBird(int time) {
         if (jump.get()) {
             double shiftY = Physics.calculateShiftY(constants.JUMP_SPEED, time);
@@ -244,7 +279,7 @@ public abstract class GameModel {
         movePipes(time);
         moveRewards(time);
         moveBird(time);
-        ground.moveGround(time, constants.PIPES_SPEED_X);
+        moveGround(time);
 
 		scanEnvironment();
 
@@ -279,8 +314,8 @@ public abstract class GameModel {
     }
 
     private boolean isBirdOutOfBounds() {
-        Bounds birdBounds = bird.getBoundsInParent();
-        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMaxY() > ground.getY() || birdBounds.getMinY() < 0;
+		Bounds birdBounds = bird.getBoundsInParent();
+        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMaxY() > grounds.getFirst().getY() || birdBounds.getMinY() < 0;
     }
 
     /**

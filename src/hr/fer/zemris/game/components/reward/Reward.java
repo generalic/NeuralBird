@@ -1,10 +1,5 @@
 package hr.fer.zemris.game.components.reward;
 
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.util.RandomProvider;
@@ -13,6 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Reward extends Circle implements IComponent, Comparable<Reward> {
 
@@ -32,7 +32,6 @@ public class Reward extends Circle implements IComponent, Comparable<Reward> {
 		//setFill(Color.CORAL);
 		setVisible(false);
 		
-
 		randomizeYPosition();
 		loadRewardFrames();
 		updateFrame();
