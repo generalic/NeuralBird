@@ -35,7 +35,6 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     @Override
     protected void scanEnvironment() {
-
         PipePair nearestPipePair = getNearestPairAheadOfBird().get();
 		if (!nearestPipePair.equals(lastPassed)) {
 			score.set(score.get() + constants.PIPE_PASSED_BONUS);
@@ -86,7 +85,6 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 //       System.out.println("-------------");
 
         listeners.forEach(l -> l.environmentChanged(this, variables));
-
     }
 
     private Optional<Reward> getNearestRewardAheadOfBird(IComponent nearestPipePair) {
