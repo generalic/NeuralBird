@@ -11,6 +11,8 @@ import javafx.stage.StageStyle;
 
 public class MainMenu extends Application {
 
+	private static final String FXML_FILE_NAME = "main_menu.fxml";
+
 	private Stage stage;
 	private Scene scene;
 
@@ -19,7 +21,7 @@ public class MainMenu extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_FILE_NAME));
 		Parent root = fxmlLoader.load();
 
 		MainMenuController controller = fxmlLoader.getController();
@@ -48,8 +50,8 @@ public class MainMenu extends Application {
 		});
 	}
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 }
