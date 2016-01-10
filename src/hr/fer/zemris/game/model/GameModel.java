@@ -268,7 +268,7 @@ public abstract class GameModel {
     }
 
     public boolean update(int time) {
-        if (checkCollisions() && constants.GOD_MODE) {
+        if (!constants.GOD_MODE && checkCollisions()) {
             return false;
         }
 
