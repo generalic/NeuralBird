@@ -92,12 +92,10 @@ public abstract class GameModel {
 			nextPipeX = initialisePipePair(nextPipeX);
 			nextRewardCenterX = initialiseReward(nextRewardCenterX);
 			if(i < constants.NUMBER_OF_GROUNDS) {
-				nextGroundX = initialisableGround(nextGroundX);
+				nextGroundX = initialiseGround(nextGroundX);
 			}
 		}
     }
-	
-	protected abstract double initialisableGround(double nextGroundX);
 	
 	private abstract class AbstractInitiaiser<T extends IComponent> {
 
@@ -281,16 +279,13 @@ public abstract class GameModel {
         movePipes(time);
         moveRewards(time);
         moveBird(time);
-
-		movableGround(time);
+		moveGround(time);
 
 		scanEnvironment();
 
         return true;
     }
 	
-	protected abstract void movableGround(int time);
-
 	protected abstract void scanEnvironment();
 
 	private boolean isRewardCollected() {

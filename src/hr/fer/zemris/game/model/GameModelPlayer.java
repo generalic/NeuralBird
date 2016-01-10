@@ -21,11 +21,6 @@ public class GameModelPlayer extends GameModel {
 		return Constants.PlayerConstants;
 	}
 
-	@Override
-	protected double initialisableGround(double nextGroundX) {
-		return initialiseGround(nextGroundX);
-	}
-
     @Override
 	public boolean update(int time) {
     	if(!started.getValue()) {
@@ -38,11 +33,6 @@ public class GameModelPlayer extends GameModel {
     	}
     	return super.update(time);
     }
-
-	@Override
-	protected void movableGround(int time) {
-		moveGround(time);
-	}
 
 	@Override
 	protected void scanEnvironment() {
