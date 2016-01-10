@@ -139,7 +139,6 @@ public class SettingsScreenController {
 			Constants.PlayerConstants.GOD_MODE = newValue.intValue() != 0;
 		});
 		godModeSlider.valueProperty().set(Constants.PlayerConstants.GOD_MODE ? 1 : 0);
-
 	}
 
 }

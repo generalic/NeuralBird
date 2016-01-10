@@ -10,6 +10,7 @@ public final class Physics {
 		return v * t;
 	}
 
+	//OVO TREBA POPRAVITI, mogu mijenjati gravitaciju za AI i za player-a
 	public static double calculateShiftY(double v0, int t) {
 		return v0 * t + 0.5 * Constants.PlayerConstants.GRAVITY * t * t;
 	}
