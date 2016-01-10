@@ -1,12 +1,12 @@
 package hr.fer.zemris.gen.impl;
 
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.gen.decoders.IDoubleArrayDecoder;
 import hr.fer.zemris.gen.population.abstracts.AbstractDoubleArrayChromosome;
 import hr.fer.zemris.gen.population.interfaces.ITestData;
 import hr.fer.zemris.network.NeuralNetwork;
 
-public class NeuralNetworkChromosome extends AbstractDoubleArrayChromosome<GameModelAI[], NeuralNetwork> {
+public class NeuralNetworkChromosome extends AbstractDoubleArrayChromosome<GameModelAITrainable[], NeuralNetwork> {
     
     public static final int SCORE_LIMIT = 1000;
     
@@ -19,19 +19,19 @@ public class NeuralNetworkChromosome extends AbstractDoubleArrayChromosome<GameM
     }
     
     @Override
-    public AbstractDoubleArrayChromosome<GameModelAI[], NeuralNetwork> newLikeThis(double[] values) {
+    public AbstractDoubleArrayChromosome<GameModelAITrainable[], NeuralNetwork> newLikeThis(double[] values) {
         
         return new NeuralNetworkChromosome(values, decoder);
     }
     
     @Override
-    protected void calculateFitness(ITestData<GameModelAI[]> data) {
+    protected void calculateFitness(ITestData<GameModelAITrainable[]> data) {
         
         fitness = 0.0;
         
-        GameModelAI[] models = data.getTestDataObject();
+        GameModelAITrainable[] models = data.getTestDataObject();
         
-        for (GameModelAI model : models) {
+        for (GameModelAITrainable model : models) {
             model.addEnvironmentListener(chromosome);
             
             int tmpScore = 0;

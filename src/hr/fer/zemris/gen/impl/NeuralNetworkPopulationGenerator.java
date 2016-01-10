@@ -1,6 +1,6 @@
 package hr.fer.zemris.gen.impl;
 
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.gen.decoders.IDoubleArrayDecoder;
 import hr.fer.zemris.gen.operators.abstracts.AbstractPopulationGenerator;
 import hr.fer.zemris.network.NeuralNetwork;
@@ -13,7 +13,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class NeuralNetworkPopulationGenerator
-        extends AbstractPopulationGenerator<GameModelAI[], NeuralNetworkChromosome> {
+        extends AbstractPopulationGenerator<GameModelAITrainable[], NeuralNetworkChromosome> {
         
     private static final int[] NEURONS_PER_LAYER = { 7, 100, 1 };
     private IDoubleArrayDecoder<NeuralNetwork> decoder;
@@ -31,7 +31,7 @@ public class NeuralNetworkPopulationGenerator
         Arrays.fill(transferFunction, new SigmoidTransferFunction());
         
         for (int i = 0; i < size; i++) {
-            NeuralNetwork network = new NeuralNetwork(NEURONS_PER_LAYER, transferFunction, new GameModelAI());
+            NeuralNetwork network = new NeuralNetwork(NEURONS_PER_LAYER, transferFunction, new GameModelAITrainable());
             
             double[] weights = new double[network.getWeightsCount()];
             Arrays.fill(weights, new Random().nextDouble());

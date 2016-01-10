@@ -1,6 +1,6 @@
 package hr.fer.zemris.network;
 
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 
@@ -88,7 +88,7 @@ public class GeneticProgram {
         Arrays.fill(transferFunction, new SigmoidTransferFunction());
         
         for (int i = 0; i < popSize; i++) {
-            Solution sol = new Solution(new NeuralNetwork(neuronsPerLayer, transferFunction, new GameModelAI()));
+            Solution sol = new Solution(new NeuralNetwork(neuronsPerLayer, transferFunction, new GameModelAITrainable()));
             double[] weights = new double[sol.network.getWeightsCount()];
             Arrays.fill(weights, new Random().nextDouble());
             sol.network.setWeights(weights);
@@ -164,7 +164,7 @@ public class GeneticProgram {
         
         double counter = 0;
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
-            GameModelAI model = new GameModelAI();
+            GameModelAITrainable model = new GameModelAITrainable();
             model.addEnvironmentListener(net);
             int tmpScore = 0;
             

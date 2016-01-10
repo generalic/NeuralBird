@@ -1,7 +1,7 @@
 package hr.fer.zemris.game.demo;
 
 import hr.fer.zemris.game.environment.Constants;
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.NeuralNetwork;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -30,7 +30,7 @@ public class Demo3 extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameModelAI model = new GameModelAI();
+		GameModelAITrainable model = new GameModelAITrainable();
 		deserialisation();
 		model.setConstants(constants);
 		

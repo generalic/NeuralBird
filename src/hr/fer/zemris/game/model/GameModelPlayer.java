@@ -35,6 +35,11 @@ public class GameModelPlayer extends GameModel {
     }
 
 	@Override
+	protected void movableGround(int time) {
+		moveGround(time);
+	}
+
+	@Override
 	protected void scanEnvironment() {
 		PipePair nearestPipePair = getNearestPairAheadOfBird().get();
 		if (!nearestPipePair.equals(lastPassed)) {

@@ -2,7 +2,7 @@ package hr.fer.zemris.network;
 
 
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 
@@ -32,7 +32,7 @@ public class BLXAlphaCrossover  {
 			transferFunction[i] = new SigmoidTransferFunction();
 		}
 
-		IEnvironmentProvider model = new GameModelAI();
+		IEnvironmentProvider model = new GameModelAITrainable();
 		NeuralNetwork result = new NeuralNetwork(parent1.getNumberOfNeuronsPerLayer(), transferFunction, model);
 		double[] minimalValue=new double[parent1.getWeightsCount()];
 		double[] maxValue=new double[parent1.getWeightsCount()];

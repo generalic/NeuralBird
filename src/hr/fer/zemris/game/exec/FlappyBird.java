@@ -2,7 +2,7 @@ package hr.fer.zemris.game.exec;
 
 import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.game.model.GameModelPlayer;
 import hr.fer.zemris.network.NeuralNetwork;
 import javafx.animation.Animation;
@@ -133,7 +133,7 @@ public class FlappyBird extends Application {
     private void runGameAI(ActionEvent event) {
         deserialisation();
 
-        GameModelAI model = new GameModelAI();
+        GameModelAITrainable model = new GameModelAITrainable();
         model.setConstants(constants);
         model.addEnvironmentListener(network);
         this.model = model;

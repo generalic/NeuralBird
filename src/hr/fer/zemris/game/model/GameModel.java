@@ -26,6 +26,8 @@ public abstract class GameModel {
 
     protected Dimension2D dimension = new Dimension2D(1000, 600);
 
+	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
+
     protected Random random = RandomProvider.get();
 
     protected Bird bird;
@@ -52,7 +54,7 @@ public abstract class GameModel {
 
     private void initModel() {
     	constants = provideConstants();
-    	this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 2);
+    	this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
         initialiseEnvironment();
         jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
@@ -86,7 +88,7 @@ public abstract class GameModel {
     }
 
     protected void initialiseEnvironment() {
-        double nextPipeX = dimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
+        double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         double nextGroundX = 0;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
@@ -125,7 +127,7 @@ public abstract class GameModel {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight() - dimension.getHeight() / 8);
+                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, gameDimension.getHeight());
             }
 
             @Override
@@ -141,7 +143,7 @@ public abstract class GameModel {
 
             @Override
             protected Reward createComponent(double nextComponentX) {
-                return new Reward(nextRewardCenterX, dimension.getHeight() - dimension.getHeight() / 8);
+                return new Reward(nextRewardCenterX, gameDimension.getHeight());
             }
 
             @Override
@@ -157,7 +159,7 @@ public abstract class GameModel {
 
             @Override
             protected Ground createComponent(double nextComponentX) {
-                return new Ground(nextGroundX, dimension.getHeight() - dimension.getHeight() / 8);
+                return new Ground(nextGroundX, gameDimension.getHeight());
             }
 
             @Override
@@ -277,14 +279,17 @@ public abstract class GameModel {
         movePipes(time);
         moveRewards(time);
         moveBird(time);
-        moveGround(time);
+
+		movableGround(time);
 
 		scanEnvironment();
 
         return true;
     }
+	
+	protected abstract void movableGround(int time);
 
-    protected abstract void scanEnvironment();
+	protected abstract void scanEnvironment();
 
 	private boolean isRewardCollected() {
         return rewards.stream()
@@ -313,7 +318,7 @@ public abstract class GameModel {
 
     private boolean isBirdOutOfBounds() {
 		Bounds birdBounds = bird.getBoundsInParent();
-        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMaxY() > grounds.getFirst().getY() || birdBounds.getMinY() < 0;
+        return birdBounds.getMaxY() > gameDimension.getHeight() || birdBounds.getMinY() < 0;
     }
 
     /**

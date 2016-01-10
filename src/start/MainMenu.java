@@ -17,7 +17,7 @@ public class MainMenu extends Application {
 
 		MainMenuController controller = fxmlLoader.getController();
 
-		Scene scene = new Scene(new Group(root), 1000, 600);
+		Scene scene = new Scene(new Group(root), 1100, 700);
 		controller.setScene(scene);
 
 

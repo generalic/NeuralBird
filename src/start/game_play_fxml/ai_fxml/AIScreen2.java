@@ -2,7 +2,7 @@ package start.game_play_fxml.ai_fxml;/**
  * Created by generalic on 4.1.2016..
  */
 
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,7 +25,7 @@ public class AIScreen2 extends Application {
 		Pane root = loader.load();
 
 		AIScreenController controller = loader.getController();
-		GameEngine engine = new GameEngine(new GameModelAI());
+		GameEngine engine = new GameEngine(new GameModelAITrainable());
 		controller.addGameScreen(engine.getGameNode());
 
 		engine.runGame();

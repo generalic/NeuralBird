@@ -24,7 +24,7 @@ public class Constants implements Serializable {
 	 * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
 	 * zaustavila.
 	 */
-	public boolean GOD_MODE = false;
+	public boolean GOD_MODE = true;
 	public int NUMBER_OF_PIPES = 5;
 	public int NUMBER_OF_GROUNDS = 2;
 	public double PIPES_SPEED_X = 8;

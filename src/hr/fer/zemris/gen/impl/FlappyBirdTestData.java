@@ -1,19 +1,19 @@
 package hr.fer.zemris.gen.impl;
 
-import hr.fer.zemris.game.model.GameModelAI;
+import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.gen.population.interfaces.ITestData;
 
-public class FlappyBirdTestData implements ITestData<GameModelAI[]> {
+public class FlappyBirdTestData implements ITestData<GameModelAITrainable[]> {
     
     private static final int NUMBER_OF_GAMES = 5;
     
     @Override
-    public GameModelAI[] getTestDataObject() {
+    public GameModelAITrainable[] getTestDataObject() {
         
-        GameModelAI[] models = new GameModelAI[NUMBER_OF_GAMES];
+        GameModelAITrainable[] models = new GameModelAITrainable[NUMBER_OF_GAMES];
         
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
-            models[i] = new GameModelAI();
+            models[i] = new GameModelAITrainable();
         }
         
         return models;

@@ -2,7 +2,6 @@ package start.game_play_fxml.player_fxml;/**
  * Created by generalic on 4.1.2016..
  */
 
-import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelPlayer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
