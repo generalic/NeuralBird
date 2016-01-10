@@ -125,7 +125,7 @@ public abstract class GameModel {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight());
+                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, dimension.getHeight() - dimension.getHeight() / 8);
             }
 
             @Override
@@ -141,7 +141,7 @@ public abstract class GameModel {
 
             @Override
             protected Reward createComponent(double nextComponentX) {
-                return new Reward(nextRewardCenterX, dimension.getHeight());
+                return new Reward(nextRewardCenterX, dimension.getHeight() - dimension.getHeight() / 8);
             }
 
             @Override
