@@ -34,6 +34,11 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
     }
 
     @Override
+    protected double initialisableGround(double nextGroundX) {
+        return initialiseGround(nextGroundX);
+    }
+
+    @Override
     protected void movableGround(int time) {
         moveGround(time);
     }

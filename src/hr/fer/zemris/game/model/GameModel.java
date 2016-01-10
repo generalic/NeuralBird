@@ -17,14 +17,11 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public abstract class GameModel {
 
-    protected Dimension2D dimension = new Dimension2D(1000, 600);
+    protected Dimension2D dimension = new Dimension2D(1100, 700);
 
 	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
 
@@ -95,12 +92,14 @@ public abstract class GameModel {
 			nextPipeX = initialisePipePair(nextPipeX);
 			nextRewardCenterX = initialiseReward(nextRewardCenterX);
 			if(i < constants.NUMBER_OF_GROUNDS) {
-				nextGroundX = initialiseGround(nextGroundX);
+				nextGroundX = initialisableGround(nextGroundX);
 			}
 		}
     }
-
-    private abstract class AbstractInitiaiser<T extends IComponent> {
+	
+	protected abstract double initialisableGround(double nextGroundX);
+	
+	private abstract class AbstractInitiaiser<T extends IComponent> {
 
         private List<T> components;
 
@@ -154,7 +153,7 @@ public abstract class GameModel {
         }.initialiseComponent(nextRewardCenterX);
     }
 
-    private double initialiseGround(double nextGroundX) {
+    protected double initialiseGround(double nextGroundX) {
         return new AbstractInitiaiser<Ground>(grounds) {
 
             @Override
@@ -182,6 +181,9 @@ public abstract class GameModel {
             components.forEach(this::translate);
 
             T first = components.peekFirst();
+			if(Objects.isNull(first)) {
+				return;
+			}
             if (first.getRightMostX() < 0) {
                 T last = components.peekLast();
                 putFirstBehindLast(first, last);
@@ -346,7 +348,6 @@ public abstract class GameModel {
 
     public void setConstants(Constants constants){
     	this.constants = constants;
-    	initModel();
     }
 
 }

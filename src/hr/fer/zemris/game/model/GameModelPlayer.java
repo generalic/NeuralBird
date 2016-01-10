@@ -21,6 +21,11 @@ public class GameModelPlayer extends GameModel {
 		return Constants.PlayerConstants;
 	}
 
+	@Override
+	protected double initialisableGround(double nextGroundX) {
+		return initialiseGround(nextGroundX);
+	}
+
     @Override
 	public boolean update(int time) {
     	if(!started.getValue()) {
