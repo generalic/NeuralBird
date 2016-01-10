@@ -90,14 +90,12 @@ public abstract class GameModel {
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         double nextGroundX = 0;
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
-            nextPipeX = initialisePipePair(nextPipeX);
-            nextRewardCenterX = initialiseReward(nextRewardCenterX);
-//            nextGroundX = initialiseGround(nextGroundX);
-        }
-
-        for(int i = 0; i < 2; i++) {
-            nextGroundX = initialiseGround(nextGroundX);
-        }
+			nextPipeX = initialisePipePair(nextPipeX);
+			nextRewardCenterX = initialiseReward(nextRewardCenterX);
+			if(i < constants.NUMBER_OF_GROUNDS) {
+				nextGroundX = initialiseGround(nextGroundX);
+			}
+		}
     }
 
     private abstract class AbstractInitiaiser<T extends IComponent> {
@@ -159,7 +157,7 @@ public abstract class GameModel {
 
             @Override
             protected Ground createComponent(double nextComponentX) {
-                return new Ground(nextGroundX, dimension.getHeight() - 80);
+                return new Ground(nextGroundX, dimension.getHeight() - dimension.getHeight() / 8);
             }
 
             @Override

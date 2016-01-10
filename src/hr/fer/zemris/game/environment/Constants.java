@@ -26,6 +26,7 @@ public class Constants implements Serializable {
 	 */
 	public boolean GOD_MODE = false;
 	public int NUMBER_OF_PIPES = 5;
+	public int NUMBER_OF_GROUNDS = 2;
 	public double PIPES_SPEED_X = 8;
 	public double REWARD_SPEED_X = PIPES_SPEED_X;
 	public double PIPES_SPEED_Y = 4;
@@ -47,6 +48,7 @@ public class Constants implements Serializable {
 	public void setDefaultConstants() {
 		GOD_MODE = true;
 		NUMBER_OF_PIPES = 5;
+		NUMBER_OF_GROUNDS = 2;
 		PIPES_SPEED_X = 10;
 		REWARD_SPEED_X = PIPES_SPEED_X;
 		PIPES_SPEED_Y = 5;
@@ -65,6 +67,7 @@ public class Constants implements Serializable {
 	public void setConstants(Constants constants){
 		GOD_MODE = constants.GOD_MODE;
 		NUMBER_OF_PIPES = constants.NUMBER_OF_PIPES;
+		NUMBER_OF_GROUNDS = constants.NUMBER_OF_GROUNDS;
 		PIPES_SPEED_X = constants.PIPES_SPEED_X;
 		REWARD_SPEED_X = constants.REWARD_SPEED_X;
 		PIPES_SPEED_Y = constants.PIPES_SPEED_Y;

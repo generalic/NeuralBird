@@ -98,7 +98,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     private <T extends IComponent> Stream<T> getNearestComponentAheadOfBird(List<T> components) {
         return components.stream()
-        		.filter(p -> p.getLeftMostX() - bird.getBoundsInParent().getMaxX() > 0)
+        		.filter(p -> p.getLeftMostX() > bird.getBoundsInParent().getMaxX())
         		.sorted();
     }
 

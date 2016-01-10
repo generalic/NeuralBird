@@ -31,4 +31,5 @@ public class Ground extends ImageView implements IComponent {
     public void translate(double dx) {
         setX(getX() - dx);
     }
+
 }
