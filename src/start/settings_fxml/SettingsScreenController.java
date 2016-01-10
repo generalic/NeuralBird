@@ -22,7 +22,7 @@ public class SettingsScreenController {
 	public Button backButton;
 
 	public void initScreen(Scene scene, Pane root) {
-		initBindings();
+		setupBinding();
 
 		Group group = (Group) scene.getRoot();
 		group.getChildren().forEach(c -> c.setVisible(false));
@@ -34,7 +34,7 @@ public class SettingsScreenController {
 		});
 	}
 
-	private void initBindings() {
+	private void setupBinding() {
 		pipeWidthLabel.textProperty().bind(new SimpleStringProperty("PIPE WIDTH: ").concat(pipeWidthSlider.valueProperty().asString("%.0f")));
 		pipeWidthSlider.valueProperty().set(Constants.PlayerConstants.PIPE_WIDTH);
 		pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
