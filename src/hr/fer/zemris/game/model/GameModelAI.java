@@ -30,7 +30,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     @Override
     protected Constants provideConstants() {
-        return Constants.AIConstants;
+        return Constants.PlayerConstants;
     }
 
     @Override

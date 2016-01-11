@@ -30,19 +30,19 @@
                   <children>
                   <HBox alignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
                      <children>
-                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="REWARD PROBABILTY" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
+                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="REWARD PROBABILITY" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="Tw Cen MT Condensed" size="46.0" />
                            </font>
                         </Label>
-                        <Label fx:id="rewardProbabiltyLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="0.5" textFill="#eeab38">
+                        <Label fx:id="rewardProbabilityLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="0.5" textFill="#eeab38">
                            <font>
                               <Font name="Tw Cen MT Condensed" size="46.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                      <Slider fx:id="rewardProbabiltySlider" blockIncrement="0.1" max="1.0" value="0.5" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                      <Slider fx:id="rewardProbabilitySlider" blockIncrement="0.1" max="1.0" value="0.5" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <HBox alignment="CENTER" GridPane.rowIndex="8">
                      <children>
                         <HBox alignment="CENTER">
@@ -63,7 +63,7 @@
                   </HBox>
                   <HBox alignment="CENTER" GridPane.rowIndex="5">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="PIPE WIDTH:" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="PIPE WIDTH" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="Tw Cen MT Condensed" size="46.0" />
                            </font>

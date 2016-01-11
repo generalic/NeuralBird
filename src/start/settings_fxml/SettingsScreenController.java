@@ -54,10 +54,10 @@ public class SettingsScreenController {
 	public Slider jumpSpeedSlider;
 
 	@FXML
-	public Label rewardProbabiltyLabel;
+	public Label rewardProbabilityLabel;
 
 	@FXML
-	public Slider rewardProbabiltySlider;
+	public Slider rewardProbabilitySlider;
 
 	@FXML
 	public Label godModeLabel;
@@ -127,9 +127,9 @@ public class SettingsScreenController {
 			Constants.PlayerConstants.JUMP_SPEED = -newValue.doubleValue();
 		});
 
-		rewardProbabiltyLabel.textProperty().bind(rewardProbabiltySlider.valueProperty().asString("%.2f"));
-		rewardProbabiltySlider.valueProperty().set(Constants.PlayerConstants.REWARD_PROBABILITY);
-		rewardProbabiltySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+		rewardProbabilityLabel.textProperty().bind(rewardProbabilitySlider.valueProperty().asString("%.2f"));
+		rewardProbabilitySlider.valueProperty().set(Constants.PlayerConstants.REWARD_PROBABILITY);
+		rewardProbabilitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			Constants.PlayerConstants.REWARD_PROBABILITY = newValue.doubleValue();
 		});
 
