@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
-	private int numOfPipesPassed=0;
+	private int numOfPipesPassed = 0;
 
 	public int getNumOfPipesPassed(){
 		return numOfPipesPassed;
@@ -43,7 +43,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 		}
 
         List<Double> distances = traceTubes(nearestPipePair);
-        double birdHeight = dimension.getHeight() - bird.getCenterY();
+        double birdHeight = gameDimension.getHeight() - bird.getCenterY();
 
         Optional<Reward> nearestReward = getNearestRewardAheadOfBird(nearestPipePair);
 
@@ -53,7 +53,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
             distanceToReward = traceReward(nearestReward.get());
             relativeHeightToReward = nearestReward.get().getCenterY()-bird.getCenterY();
         } else {
-            group.getChildren().removeAll(rewardTracers);
+            group.getChildren().removeAll(rewardTraceLines);
         }
 
         distances.add(distanceToReward);
@@ -100,15 +100,11 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         		.sorted();
     }
 
-    List<Line> pipeTracers = new ArrayList<>();
+    List<Line> pipeTraceLines = new ArrayList<>();
 
     private List<Double> traceTubes(PipePair pair) {
         Bounds upperTubeBounds = pair.upperHead.getBoundsInParent();
         Bounds lowerTubeBounds = pair.lowerHead.getBoundsInParent();
-
-        // System.out.println(pair.upperHead.getY() + pair.upperHead.getHeight());
-        // System.out.println(upperTubeBounds.getMaxY());
-        // System.out.println();
 
         Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
 
@@ -118,52 +114,17 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         Point2D p4 = new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY());
         Point2D p5 = new Point2D(lowerTubeBounds.getMaxX(), lowerTubeBounds.getMinY());
 
-        double dx1 = p2.getX() - p1.getX();
-        double dy1 = p2.getY() - p1.getY();
+		if (!pipeTraceLines.isEmpty()) {
+			group.getChildren().removeAll(pipeTraceLines);
+			pipeTraceLines.clear();
+		}
 
-        double distanceToUpperLeftSide = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        double distanceToUpperLeftSide = getDistanceBetweenPoints(p1, p2);
+        double distanceToLowerLeftSide = getDistanceBetweenPoints(p1, p3);
+        double distanceToUpperRightSide = getDistanceBetweenPoints(p1, p4);
+        double distanceToLowerRightSide = getDistanceBetweenPoints(p1, p5);
 
-        double dx2 = p3.getX() - p1.getX();
-        double dy2 = p3.getY() - p1.getY();
-
-        double distanceToLowerLeftSide = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-
-        double dx3 = p4.getX() - p1.getX();
-        double dy3 = p4.getY() - p1.getY();
-
-        double distanceToUpperRightSide = Math.sqrt(dx3 * dx3 + dy3 * dy3);
-
-        double dx4 = p5.getX() - p1.getX();
-        double dy4 = p5.getY() - p1.getY();
-
-        double distanceToLowerRightSide = Math.sqrt(dx4 * dx4 + dy4 * dy4);
-
-        if (!pipeTracers.isEmpty()) {
-            group.getChildren().removeAll(pipeTracers);
-            pipeTracers.clear();
-        }
-
-        Line lineLowerLeftSide = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        lineLowerLeftSide.setStrokeWidth(3);
-        lineLowerLeftSide.setStroke(Color.RED);
-        pipeTracers.add(lineLowerLeftSide);
-
-        Line lineUpperLeftSide = new Line(p1.getX(), p1.getY(), p3.getX(), p3.getY());
-        lineUpperLeftSide.setStrokeWidth(3);
-        lineUpperLeftSide.setStroke(Color.RED);
-        pipeTracers.add(lineUpperLeftSide);
-
-        Line lineLowerRightSide = new Line(p1.getX(), p1.getY(), p4.getX(), p4.getY());
-        lineLowerRightSide.setStrokeWidth(3);
-        lineLowerRightSide.setStroke(Color.DEEPPINK);
-        pipeTracers.add(lineLowerRightSide);
-
-        Line lineUpperRightSide = new Line(p1.getX(), p1.getY(), p5.getX(), p5.getY());
-        lineUpperRightSide.setStrokeWidth(3);
-        lineUpperRightSide.setStroke(Color.DEEPPINK);
-        pipeTracers.add(lineUpperRightSide);
-
-        group.getChildren().addAll(pipeTracers);
+        group.getChildren().addAll(pipeTraceLines);
 
         return Stream.of(
         		distanceToLowerLeftSide, distanceToUpperLeftSide,
@@ -171,23 +132,34 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         		).collect(Collectors.toList());
     }
 
-    private List<Line> rewardTracers = new ArrayList<>();
+	private void addTraceLine(Point2D p1, Point2D p2) {
+		Line traceLine = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+		traceLine.setStrokeWidth(3);
+		traceLine.setStroke(Color.RED);
+		pipeTraceLines.add(traceLine);
+	}
+
+	private double getDistanceBetweenPoints(Point2D p1, Point2D p2) {
+        addTraceLine(p1, p2);
+		double dx1 = p2.getX() - p1.getX();
+        double dy1 = p2.getY() - p1.getY();
+        return Math.sqrt(dx1 * dx1 + dy1 * dy1);
+    }
+
+    private List<Line> rewardTraceLines = new ArrayList<>();
 
     private double traceReward(Reward reward) {
         Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
         Point2D p2 = new Point2D(reward.getCenterX(), reward.getCenterY());
 
         double dx = p2.getX() - p1.getX();
-        if (!rewardTracers.isEmpty()) {
-            group.getChildren().removeAll(rewardTracers);
-            rewardTracers.clear();
+        if (!rewardTraceLines.isEmpty()) {
+            group.getChildren().removeAll(rewardTraceLines);
+			rewardTraceLines.clear();
         }
-        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        line.setStrokeWidth(3);
-        line.setStroke(Color.AQUAMARINE);
-        rewardTracers.add(line);
+        addTraceLine(p1, p2);
 
-        group.getChildren().addAll(rewardTracers);
+        group.getChildren().addAll(rewardTraceLines);
         return dx;
 
 //        double dy = p2.getY() - p1.getY();

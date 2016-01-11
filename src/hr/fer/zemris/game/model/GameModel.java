@@ -97,11 +97,11 @@ public abstract class GameModel {
 		}
     }
 	
-	private abstract class AbstractInitiaiser<T extends IComponent> {
+	private abstract class AbstractInitialiser<T extends IComponent> {
 
         private List<T> components;
 
-        public AbstractInitiaiser(List<T> components) {
+        public AbstractInitialiser(List<T> components) {
             super();
             this.components = components;
         }
@@ -120,7 +120,7 @@ public abstract class GameModel {
     }
 
     private double initialisePipePair(double nextPipeX) {
-        return new AbstractInitiaiser<PipePair>(pipesPairs) {
+        return new AbstractInitialiser<PipePair>(pipesPairs) {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
@@ -136,7 +136,7 @@ public abstract class GameModel {
     }
 
     private double initialiseReward(double nextRewardCenterX) {
-        return new AbstractInitiaiser<Reward>(rewards) {
+        return new AbstractInitialiser<Reward>(rewards) {
 
             @Override
             protected Reward createComponent(double nextComponentX) {
@@ -152,7 +152,7 @@ public abstract class GameModel {
     }
 
     protected double initialiseGround(double nextGroundX) {
-        return new AbstractInitiaiser<Ground>(grounds) {
+        return new AbstractInitialiser<Ground>(grounds) {
 
             @Override
             protected Ground createComponent(double nextComponentX) {
