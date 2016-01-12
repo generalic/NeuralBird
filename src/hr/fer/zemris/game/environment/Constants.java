@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Constants implements Serializable {
 
-	private static final long serialVersionUID = -1844191539275142455L;
+	private static final long serialVersionUID = 5626958937928115617L;
 
 //	public int NUMBER_OF_PIPES = 5;
 //    public double PIPES_SPEED_X = 10;
