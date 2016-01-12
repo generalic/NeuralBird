@@ -21,7 +21,7 @@ public class Constants implements Serializable {
 //    public double REWARD_PROBABILITY = 0.5;
 
 	public int NUMBER_OF_PIPES = 5;
-	public int NUMBER_OF_GROUNDS = 2;
+	public int NUMBER_OF_GROUNDS = 20;
 	public double PIPES_SPEED_X = 8;//moze
 	public double REWARD_SPEED_X = PIPES_SPEED_X;
 	public double PIPES_SPEED_Y = 4;//moze

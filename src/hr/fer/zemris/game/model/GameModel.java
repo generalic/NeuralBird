@@ -17,6 +17,7 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
+import java.io.SyncFailedException;
 import java.util.*;
 
 public abstract class GameModel {
@@ -92,12 +93,12 @@ public abstract class GameModel {
         double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
         double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
         double nextGroundX = 0;
+        for (int i = 0; i < constants.NUMBER_OF_GROUNDS; i++) {
+            nextGroundX = initialiseGround(nextGroundX);
+        }
         for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
 			nextPipeX = initialisePipePair(nextPipeX);
 			nextRewardCenterX = initialiseReward(nextRewardCenterX);
-			if(i < constants.NUMBER_OF_GROUNDS) {
-				nextGroundX = initialiseGround(nextGroundX);
-			}
 		}
     }
 	

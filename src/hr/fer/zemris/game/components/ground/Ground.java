@@ -10,9 +10,8 @@ import javafx.scene.image.ImageView;
 public class Ground extends ImageView implements IComponent {
 
     public Ground(double xPosition, double yPosition){
-        Image groundImage = new Image(Ground.class.getResource("ground.png").toExternalForm());
+        Image groundImage = new Image(Ground.class.getResource("secondGround.png").toExternalForm());
         setImage(groundImage);
-
         setX(xPosition);
         setY(yPosition);
     }
