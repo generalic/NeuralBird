@@ -7,6 +7,8 @@ import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -20,7 +22,17 @@ import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
-    private List<IEnvironmentListener> listeners = new ArrayList<>();
+	private BooleanProperty traceable = new SimpleBooleanProperty(false);
+
+	public boolean getTraceable() {
+		return traceable.get();
+	}
+
+	public BooleanProperty traceableProperty() {
+		return traceable;
+	}
+
+	private List<IEnvironmentListener> listeners = new ArrayList<>();
 
     @Override
     protected Constants provideConstants() {
@@ -51,15 +63,15 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         }
 
         EnvironmentVariables variables = new EnvironmentVariables(
-                distances.get(0),
-                distances.get(1),
-                distances.get(2),
-                distances.get(3),
-                birdHeight,
-                nearestPipePair.getDirection(),
-                distanceToReward,
-                distanceToReward != 0 ? 1 : -1,
-                angle
+			distances.get(0),
+			distances.get(1),
+			distances.get(2),
+			distances.get(3),
+			birdHeight,
+			nearestPipePair.getDirection(),
+			distanceToReward,
+			distanceToReward != 0 ? 1 : -1,
+			angle
         );
 
 //       System.out.println(distances.get(0));
@@ -111,9 +123,11 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         double distanceToUpperRightSide = getDistanceBetweenPoints(p1, p4);
         double distanceToLowerRightSide = getDistanceBetweenPoints(p1, p5);
 
-        group.getChildren().addAll(pipeTraceLines);
+        if(traceable.get()) {
+			group.getChildren().addAll(pipeTraceLines);
+		}
 
-        return Stream.of(
+		return Stream.of(
         		distanceToLowerLeftSide, distanceToUpperLeftSide,
         		distanceToLowerRightSide, distanceToUpperRightSide
         		).collect(Collectors.toList());
@@ -149,7 +163,10 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         line.setStroke(Color.AQUAMARINE);
 		rewardTraceLines.add(line);
 
-        group.getChildren().addAll(rewardTraceLines);
+        if(traceable.get()) {
+			group.getChildren().addAll(rewardTraceLines);
+		}
+
         return dx;
 
 //        double dy = p2.getY() - p1.getY();

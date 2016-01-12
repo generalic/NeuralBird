@@ -293,7 +293,7 @@ public abstract class GameModel {
 			score.set(score.get() + constants.REWARD_COLLECTED_BONUS);
 		}
 
-		PipePair nearestPipePair = getNearestPairAheadOfBird().get();
+		nearestPipePair = getNearestPairAheadOfBird().get();
 		if (!nearestPipePair.equals(lastPassed)) {
 			score.set(score.get() + constants.PIPE_PASSED_BONUS);
 			numberOfPassedPipes.set(numberOfPassedPipes.get() + 1);
@@ -311,6 +311,14 @@ public abstract class GameModel {
         		.isPresent();
     }
 
+	public boolean getJump() {
+		return jump.get();
+	}
+
+	public BooleanProperty jumpProperty() {
+		return jump;
+	}
+
     public int getScore() {
         return score.get();
     }
@@ -327,7 +335,7 @@ public abstract class GameModel {
 		return numberOfPassedPipes;
 	}
 
-    private boolean checkCollisions() {
+	private boolean checkCollisions() {
         boolean intersection = pipesPairs.stream()
         		.filter(p -> p.intersects(bird))
         		.findAny()
