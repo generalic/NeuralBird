@@ -19,12 +19,15 @@ public class Ground extends ImageView implements IComponent {
 
     @Override
     public double getRightMostX() {
-        return getBoundsInParent().getMaxX();
+		return getX() + getImage().getWidth();
+//        return getFitWidth() + getX();
+//        return getBoundsInParent().getMaxX();
     }
 
     @Override
     public double getLeftMostX() {
-       return getBoundsInParent().getMinX();
+        return getX();
+        //return getBoundsInParent().getMinX();
     }
 
     @Override

@@ -35,6 +35,8 @@ public abstract class GameModel {
 
     protected LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
+	protected PipePair nearestPipePair;
+
 	protected PipePair lastPassed;
 
     protected LinkedList<Reward> rewards = new LinkedList<>();
@@ -44,6 +46,8 @@ public abstract class GameModel {
 	protected Group group = new Group();
 
 	protected IntegerProperty score = new SimpleIntegerProperty(0);
+
+	private IntegerProperty numberOfPassedPipes = new SimpleIntegerProperty(0);
 
     public GameModel() {
         initModel();
@@ -272,19 +276,30 @@ public abstract class GameModel {
             return false;
         }
 
-        if (isRewardCollected()) {
-			score.set(score.get() + constants.REWARD_COLLECTED_BONUS);
-        }
-
         movePipes(time);
         moveRewards(time);
         moveBird(time);
 		moveGround(time);
 
+		refreshScore();
+
 		scanEnvironment();
 
         return true;
     }
+
+	private void refreshScore() {
+		if (isRewardCollected()) {
+			score.set(score.get() + constants.REWARD_COLLECTED_BONUS);
+		}
+
+		PipePair nearestPipePair = getNearestPairAheadOfBird().get();
+		if (!nearestPipePair.equals(lastPassed)) {
+			score.set(score.get() + constants.PIPE_PASSED_BONUS);
+			numberOfPassedPipes.set(numberOfPassedPipes.get() + 1);
+			lastPassed = nearestPipePair;
+		}
+	}
 	
 	protected abstract void scanEnvironment();
 
@@ -304,9 +319,16 @@ public abstract class GameModel {
         return score;
     }
 
+	public int getNumberOfPassedPipes() {
+		return numberOfPassedPipes.get();
+	}
+
+	public IntegerProperty numberOfPassedPipesProperty() {
+		return numberOfPassedPipes;
+	}
+
     private boolean checkCollisions() {
-        boolean intersection = pipesPairs
-        		.stream()
+        boolean intersection = pipesPairs.stream()
         		.filter(p -> p.intersects(bird))
         		.findAny()
         		.isPresent();

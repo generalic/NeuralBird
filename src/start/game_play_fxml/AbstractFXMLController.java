@@ -44,6 +44,9 @@ public abstract class AbstractFXMLController implements IScreenController {
 	private Label scoreLabel;
 
 	@FXML
+	private Label endScoreLabel;
+
+	@FXML
 	private Button restartButton;
 
 	@FXML
@@ -120,7 +123,8 @@ public abstract class AbstractFXMLController implements IScreenController {
 		});
 	}
 
-	private void bindScoreLabel(IntegerProperty scoreProperty) {
+	private void bindScoreLabels(IntegerProperty scoreProperty) {
+		endScoreLabel.textProperty().bind(new SimpleStringProperty("SCORE: ").concat(scoreProperty.asString()));
 		scoreLabel.textProperty().bind(new SimpleStringProperty("SCORE: ").concat(scoreProperty.asString()));
 	}
 
@@ -131,7 +135,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 	public void initScreen(Scene scene, Pane root, GameEngine engine) {
 		addGameScreen(engine.getGameNode());
 		bindOnGameOverAction(engine.gameOverProperty());
-		bindScoreLabel(engine.getGameModel().scoreProperty());
+		bindScoreLabels(engine.getGameModel().scoreProperty());
 
 		Group group = (Group) scene.getRoot();
 		group.getChildren().forEach(c -> c.setVisible(false));

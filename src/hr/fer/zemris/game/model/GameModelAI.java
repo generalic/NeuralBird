@@ -20,12 +20,6 @@ import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
-	private int numOfPipesPassed = 0;
-
-	public int getNumOfPipesPassed(){
-		return numOfPipesPassed;
-	}
-	
     private List<IEnvironmentListener> listeners = new ArrayList<>();
 
     @Override
@@ -35,13 +29,6 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     @Override
     protected void scanEnvironment() {
-        PipePair nearestPipePair = getNearestPairAheadOfBird().get();
-		if (!nearestPipePair.equals(lastPassed)) {
-			score.set(score.get() + constants.PIPE_PASSED_BONUS);
-			numOfPipesPassed++;
-			lastPassed = nearestPipePair;
-		}
-
         List<Double> distances = traceTubes(nearestPipePair);
         double birdHeight = gameDimension.getHeight() - bird.getCenterY();
 
@@ -51,7 +38,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         double relativeHeightToReward = 0;
         if (nearestReward.isPresent()) {
             distanceToReward = traceReward(nearestReward.get());
-            relativeHeightToReward = nearestReward.get().getCenterY()-bird.getCenterY();
+            relativeHeightToReward = nearestReward.get().getCenterY() - bird.getCenterY();
         } else {
             group.getChildren().removeAll(rewardTraceLines);
         }
@@ -59,7 +46,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         distances.add(distanceToReward);
 
         double angle = 0;
-        if(Double.compare(distanceToReward, 0) != 0){
+        if(Double.compare(distanceToReward, 0) != 0) {
             angle=Math.atan(relativeHeightToReward / distanceToReward);
         }
 
@@ -157,7 +144,10 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
             group.getChildren().removeAll(rewardTraceLines);
 			rewardTraceLines.clear();
         }
-        addTraceLine(p1, p2);
+        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        line.setStrokeWidth(3);
+        line.setStroke(Color.AQUAMARINE);
+		rewardTraceLines.add(line);
 
         group.getChildren().addAll(rewardTraceLines);
         return dx;

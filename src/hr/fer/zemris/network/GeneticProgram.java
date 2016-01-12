@@ -170,7 +170,7 @@ public class GeneticProgram {
             
             while (true) {
                 
-                if (!model.update(1) || model.getScore() > SCORE_LIMIT || model.getNumOfPipesPassed()> MAX_NUM_OF_PIPES) {
+                if (!model.update(1) || model.getScore() > SCORE_LIMIT || model.getNumberOfPassedPipes() > MAX_NUM_OF_PIPES) {
                     break;
                 }
                 

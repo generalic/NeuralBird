@@ -3,7 +3,18 @@
     src: url("/start/fonts/CaptureIt.ttf");
 }
 
+@font-face {
+    font-family: Tw Cen MT Condensed;
+    src: url("/start/fonts/TwCenMTCondensed.TTF");
+}
+
 #scoreLabel {
+    -fx-font-family: "Tw Cen MT Condensed";
+    -fx-font-size: 40;
+    -fx-text-fill: #3c0d0d;
+}
+
+#endScoreLabel {
     -fx-font-family: "Capture it";
     -fx-font-size: 59;
     -fx-text-fill: #3c0d0d;

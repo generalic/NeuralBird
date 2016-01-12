@@ -1,6 +1,5 @@
 package hr.fer.zemris.game.model;
 
-import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
 import hr.fer.zemris.game.environment.Constants;
 import javafx.beans.property.BooleanProperty;
@@ -24,10 +23,10 @@ public class GameModelPlayer extends GameModel {
     @Override
 	public boolean update(int time) {
     	if(!started.getValue()) {
-				bird.updateFrame();
-				moveGround(time);
-				rewards.forEach(Reward::updateFrame);
-				return true;
+			bird.updateFrame();
+			moveGround(time);
+			rewards.forEach(Reward::updateFrame);
+			return true;
     	} else {
     		started.unbind();
     	}
@@ -35,13 +34,7 @@ public class GameModelPlayer extends GameModel {
     }
 
 	@Override
-	protected void scanEnvironment() {
-		PipePair nearestPipePair = getNearestPairAheadOfBird().get();
-		if (!nearestPipePair.equals(lastPassed)) {
-			score.set(score.get() + constants.PIPE_PASSED_BONUS);
-			lastPassed = nearestPipePair;
-		}
-	}
+	protected void scanEnvironment() {}
 
 	@Override
     public void reset() {
