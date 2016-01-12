@@ -38,8 +38,8 @@ public class Bird extends Circle implements IComponent {
     }
 
     private void loadBirdFrames() {
-        IntStream.range(0, 3).forEach(i -> {
-            birdFrames.add(new Image(getClass().getResourceAsStream("birdFrameHoliday" + i + ".png")));
+        IntStream.range(1, 6).forEach(i -> {
+            birdFrames.add(new Image(getClass().getResourceAsStream("frame-" + i + ".png")));
         });
     }
 
