@@ -55,7 +55,7 @@ public abstract class GameModel {
 
     private void initModel() {
     	constants = provideConstants();
-    	this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
+    	initaliseBird();
         initialiseEnvironment();
         lastPassed = getNearestPairAheadOfBird().get();
     }
@@ -86,6 +86,10 @@ public abstract class GameModel {
     public void jumpBird() {
         jump.set(true);
     }
+
+	protected void initaliseBird() {
+		this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
+	}
 
     protected void initialiseEnvironment() {
 		setupPipesAndRewards();
@@ -275,7 +279,6 @@ public abstract class GameModel {
             bird.setCenterY(bird.getCenterY() + shiftY);
         }
         bird.updateFrame();
-
     }
 
     public boolean update(int time) {

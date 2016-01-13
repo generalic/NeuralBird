@@ -34,7 +34,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
 	private List<IEnvironmentListener> listeners = new ArrayList<>();
 
-    @Override
+	@Override
     protected Constants provideConstants() {
         return Constants.PlayerConstants;
     }

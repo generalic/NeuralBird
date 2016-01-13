@@ -1,12 +1,12 @@
 package hr.fer.zemris.game.components.bird;
 
-import java.util.LinkedList;
-import java.util.stream.IntStream;
-
 import hr.fer.zemris.game.components.IComponent;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+
+import java.util.LinkedList;
+import java.util.stream.IntStream;
 
 public class Bird extends Circle implements IComponent {
 
@@ -23,7 +23,6 @@ public class Bird extends Circle implements IComponent {
     }
 
     public double getCurrentVelocity() {
-
         return currentVelocity;
     }
 
@@ -37,7 +36,7 @@ public class Bird extends Circle implements IComponent {
         birdFrames.add(frame);
     }
 
-    private void loadBirdFrames() {
+	protected void loadBirdFrames() {
         IntStream.range(1, 6).forEach(i -> {
             birdFrames.add(new Image(getClass().getResourceAsStream("frame-" + i + ".png")));
         });
