@@ -24,7 +24,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
 	private BooleanProperty traceable = new SimpleBooleanProperty(false);
 
-	public boolean getTraceable() {
+	public boolean isTraceable() {
 		return traceable.get();
 	}
 

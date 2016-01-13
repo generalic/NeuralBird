@@ -17,7 +17,6 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
-import java.io.SyncFailedException;
 import java.util.*;
 
 public abstract class GameModel {
@@ -30,7 +29,7 @@ public abstract class GameModel {
 
     protected Bird bird;
 
-    protected BooleanProperty jump;
+    protected BooleanProperty jump = new SimpleBooleanProperty(false);
 
 	protected Constants constants;
 
@@ -58,7 +57,6 @@ public abstract class GameModel {
     	constants = provideConstants();
     	this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
         initialiseEnvironment();
-        jump = new SimpleBooleanProperty(false);
         lastPassed = getNearestPairAheadOfBird().get();
     }
 
@@ -90,18 +88,26 @@ public abstract class GameModel {
     }
 
     protected void initialiseEnvironment() {
-        double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
-        double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
-        double nextGroundX = 0;
-        for (int i = 0; i < constants.NUMBER_OF_GROUNDS; i++) {
-            nextGroundX = initialiseGround(nextGroundX);
-        }
-        for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
+		setupPipesAndRewards();
+		setupGround();
+    }
+
+	private void setupPipesAndRewards() {
+		double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
+		double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
+		for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
 			nextPipeX = initialisePipePair(nextPipeX);
 			nextRewardCenterX = initialiseReward(nextRewardCenterX);
 		}
-    }
-	
+	}
+
+	protected void setupGround() {
+		double nextGroundX = 0;
+		for (int i = 0; i < constants.NUMBER_OF_GROUNDS; i++) {
+			nextGroundX = initialiseGround(nextGroundX);
+		}
+	}
+
 	private abstract class AbstractInitialiser<T extends IComponent> {
 
         private List<T> components;
@@ -156,7 +162,7 @@ public abstract class GameModel {
         }.initialiseComponent(nextRewardCenterX);
     }
 
-    protected double initialiseGround(double nextGroundX) {
+	protected double initialiseGround(double nextGroundX) {
         return new AbstractInitialiser<Ground>(grounds) {
 
             @Override
@@ -277,12 +283,12 @@ public abstract class GameModel {
             return false;
         }
 
+		refreshScore();
+
         movePipes(time);
         moveRewards(time);
         moveBird(time);
 		moveGround(time);
-
-		refreshScore();
 
 		scanEnvironment();
 

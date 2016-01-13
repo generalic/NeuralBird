@@ -3,8 +3,12 @@ package hr.fer.zemris.game.model;
 public class GameModelAITrainable extends GameModelAI {
 
 	@Override
+	protected void setupGround() {
+		//does nothing performance-wise
+	}
+
+	@Override
 	protected double initialiseGround(double nextGroundX) {
-		//returns 0 performance-wise
 		return 0;
 	}
 

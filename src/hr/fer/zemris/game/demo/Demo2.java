@@ -27,9 +27,9 @@ public class Demo2 extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		GameModelAITrainable model = new GameModelAITrainable();
+		model.traceableProperty().set(true);
 		NeuralNetwork network = new GeneticProgram().train();
 		serialization(network, model.getConstants());
-		
 		
 		model.addEnvironmentListener(network);
 
