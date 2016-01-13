@@ -74,15 +74,6 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 			angle
         );
 
-//       System.out.println(distances.get(0));
-//       System.out.println(distances.get(1));
-//       System.out.println(birdHeight);
-//       System.out.println(nearestPipePair.getDirection());
-//       System.out.println(distanceToReward);
-//       System.out.println(distanceToReward != 0 ? 1 : -1);
-//       System.out.println(angle);
-//       System.out.println("-------------");
-
         listeners.forEach(l -> l.environmentChanged(this, variables));
     }
 
