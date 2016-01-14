@@ -45,20 +45,16 @@
                       <Slider fx:id="rewardProbabilitySlider" blockIncrement="0.1" max="1.0" value="0.5" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <HBox alignment="CENTER" GridPane.rowIndex="8">
                      <children>
-                        <HBox alignment="CENTER">
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="GOD MODE" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Tw Cen MT Condensed" size="46.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="godModeLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="NO" textFill="#eeab38">
-                                 <font>
-                                    <Font name="Tw Cen MT Condensed" size="46.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="GOD MODE" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Tw Cen MT Condensed" size="46.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="godModeLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="NO" textFill="#eeab38">
+                           <font>
+                              <Font name="Tw Cen MT Condensed" size="46.0" />
+                           </font>
+                        </Label>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" GridPane.rowIndex="5">
@@ -180,10 +176,19 @@
       </AnchorPane>
    </center>
    <bottom>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <HBox BorderPane.alignment="CENTER">
          <children>
-              <Button fx:id="backButton" mnemonicParsing="false" stylesheets="@css/button.css" text="BACK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="73.0" prefWidth="532.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="backButton" alignment="CENTER" contentDisplay="CENTER" layoutX="492.0" mnemonicParsing="false" stylesheets="@css/button.css" text="BACK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="73.0" prefWidth="550.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="defaultSettingsButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" stylesheets="@css/button.css" text="RESET TO DEFAULT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </HBox>
    </bottom>
 </BorderPane>
