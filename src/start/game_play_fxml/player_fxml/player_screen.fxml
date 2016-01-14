@@ -39,10 +39,6 @@
       </VBox>
       <VBox fx:id="optionPanel" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#keyPressed" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" opacity="0.8" prefHeight="407.0" prefWidth="104.0" spacing="20.0" style="-fx-background-color: #383838;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Slider min="1.0" orientation="VERTICAL" />
-            <Button contentDisplay="CENTER" mnemonicParsing="false" text="A" />
-            <Button contentDisplay="CENTER" mnemonicParsing="false" text="B" />
-            <Button contentDisplay="CENTER" mnemonicParsing="false" text="C" />
             <Button fx:id="backButton" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onMouseEntered="#buttonMouseEntered" onMouseExited="#buttonMouseExited" text="Back" />
          </children>
       </VBox>

@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -71,17 +72,17 @@ public abstract class AbstractFXMLController implements IScreenController {
 	@FXML
 	public void mouseExited() {
 		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
-		transTransition.setToX(-optionPanel.getPrefWidth() - 1);
-		transTransition.setInterpolator(Interpolator.EASE_OUT);
+		transTransition.setToX(-optionPanel.getPrefWidth());
+		transTransition.setInterpolator(Interpolator.LINEAR);
 		transTransition.play();
 		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
 	}
 
 	@FXML
 	public void keyPressed(KeyEvent event) {
-//		if(event.getCode().equals(KeyCode.ESCAPE)) {
-//			mouseEntered();
-//		}
+		if(event.getCode().equals(KeyCode.ESCAPE)) {
+			slideInToolBar();
+		}
 	}
 
 	@FXML
@@ -103,24 +104,37 @@ public abstract class AbstractFXMLController implements IScreenController {
 	@FXML
 	public void showToolBar(MouseEvent me) {
 		if(me.getSceneX() < 50) {
-			optionPanel.setDisable(false);
-			TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
-			transTransition.setToX(0);
-			transTransition.setInterpolator(Interpolator.EASE_OUT);
-			transTransition.play();
+			slideInToolBar();
 		}
 	}
+
+	private void slideInToolBar() {
+		optionPanel.setDisable(false);
+		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
+		transTransition.setToX(0);
+		transTransition.setInterpolator(Interpolator.EASE_OUT);
+		transTransition.play();
+	}
+
 
 	private void bindOnGameOverAction(BooleanProperty gameOverProperty) {
 		gameOverProperty.addListener((observable, oldValue, newValue) -> {
 			if(!newValue) {
 				gameOverVBox.setDisable(false);
+				hideScoreLabel();
 				TranslateTransition transition = new TranslateTransition(Duration.millis(300), gameOverVBox);
 				transition.setToY(0);
 				transition.setInterpolator(Interpolator.EASE_OUT);
 				transition.play();
 			}
 		});
+	}
+
+	private void hideScoreLabel() {
+		TranslateTransition transition = new TranslateTransition(Duration.millis(300), scoreLabel);
+		transition.setToY(-root.getPrefHeight());
+		transition.setInterpolator(Interpolator.EASE_OUT);
+		transition.play();
 	}
 
 	private void bindScoreLabels(IntegerProperty scoreProperty) {
@@ -141,9 +155,27 @@ public abstract class AbstractFXMLController implements IScreenController {
 		group.getChildren().forEach(c -> c.setVisible(false));
 		group.getChildren().add(root);
 
+//		FadeTransition transition = new FadeTransition(Duration.seconds(2), group);
+//		transition.setFromValue(0);
+//		transition.setToValue(1);
+//		transition.setInterpolator(Interpolator.LINEAR);
+//		transition.play();
+
+		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), group);
+		transition.setFromX(6);
+		transition.setFromY(3);
+		transition.setToX(1);
+		transition.setToY(1);
+		transition.setInterpolator(Interpolator.EASE_BOTH);
+		transition.play();
+
+
 		backButton.setOnAction(e -> {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));
+
+			transition.setDuration(Duration.millis(200));
+			transition.play();
 		});
 
 		restartButton.setOnAction(e -> {

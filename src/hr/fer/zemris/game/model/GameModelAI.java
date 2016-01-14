@@ -111,9 +111,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
 			setDistances();
 
-			if(traceable.get()) {
-				group.getChildren().addAll(pipeTraceLines);
-			}
+			group.getChildren().addAll(lines);
 
 			return distances;
 		}
@@ -136,11 +134,11 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
 				points.add(new Point2D(bird.getCenterX(), bird.getCenterY()));
 
-				points.add(new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY()));
 				points.add(new Point2D(lowerTubeBounds.getMinX(), lowerTubeBounds.getMinY()));
+				points.add(new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY()));
 
-				points.add(new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY()));
 				points.add(new Point2D(lowerTubeBounds.getMaxX(), lowerTubeBounds.getMinY()));
+				points.add(new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY()));
 			}
 
 			@Override
@@ -171,10 +169,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 				Point2D p2 = points.get(1);
 				distances.add(p2.getX() - p1.getX());
 
-				Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-				line.setStrokeWidth(3);
-				line.setStroke(Color.AQUAMARINE);
-				lines.add(line);
+				getDistanceBetweenPoints(points.get(0), points.get(1), lines);
 			}
 
 		}.trace();
@@ -185,6 +180,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 		traceLine.setStrokeWidth(3);
 		traceLine.setStroke(Color.RED);
 		lines.add(traceLine);
+		traceLine.visibleProperty().bind(traceable);
 
 		double dx1 = p2.getX() - p1.getX();
 		double dy1 = p2.getY() - p1.getY();
