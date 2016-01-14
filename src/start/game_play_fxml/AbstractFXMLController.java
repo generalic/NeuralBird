@@ -1,6 +1,8 @@
 package start.game_play_fxml;
 
-import javafx.animation.*;
+import javafx.animation.Interpolator;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -193,7 +195,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 		transition.setFromY(2);
 		transition.setToX(1);
 		transition.setToY(1);
-//		transition.setInterpolator(Interpolator.EASE_OUT);
+		transition.setInterpolator(Interpolator.EASE_OUT);
 		transition.play();
 
 
@@ -201,9 +203,9 @@ public abstract class AbstractFXMLController implements IScreenController {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));
 
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(500), group);
-			backTransition.setFromX(50);
-			backTransition.setFromY(50);
+			ScaleTransition backTransition = new ScaleTransition(Duration.millis(200), group);
+			backTransition.setFromX(15);
+			backTransition.setFromY(15);
 			backTransition.setToX(1);
 			backTransition.setToY(1);
 			backTransition.play();
