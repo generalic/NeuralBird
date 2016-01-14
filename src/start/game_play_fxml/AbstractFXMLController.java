@@ -50,9 +50,9 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	@FXML
 	public void initialize() {
-//		optionPanel.setTranslateX(-optionPanel.getPrefWidth() - 1);
-//		optionPanel.setDisable(true);
-		optionPanel.setVisible(false);
+		optionPanel.setTranslateX(-optionPanel.getPrefWidth() - 1);
+		optionPanel.setDisable(true);
+//		optionPanel.setVisible(false);
 
 		gameOverVBox.setTranslateY(-root.getPrefHeight());
 		gameOverVBox.setDisable(true);
@@ -71,20 +71,20 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	@FXML
 	public void mouseExited() {
-//		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
-//		transTransition.setToX(-optionPanel.getPrefWidth());
-//		transTransition.setInterpolator(Interpolator.LINEAR);
-//		transTransition.play();
-//		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
+		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
+		transTransition.setToX(-optionPanel.getPrefWidth());
+		transTransition.setInterpolator(Interpolator.LINEAR);
+		transTransition.play();
+		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
 
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
-		transition.setFromX(1);
-		transition.setFromY(1);
-		transition.setToX(0);
-		transition.setToY(0);
-		transition.setInterpolator(Interpolator.EASE_BOTH);
-		transition.play();
-		transition.setOnFinished(e -> optionPanel.setVisible(false));
+//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
+//		transition.setFromX(1);
+//		transition.setFromY(1);
+//		transition.setToX(0);
+//		transition.setToY(0);
+//		transition.setInterpolator(Interpolator.EASE_BOTH);
+//		transition.play();
+//		transition.setOnFinished(e -> optionPanel.setVisible(false));
 	}
 
 	@FXML
@@ -119,20 +119,20 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	private void slideInToolBar() {
 		optionPanel.setDisable(false);
-//		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
-//		transTransition.setToX(0);
-//		transTransition.setInterpolator(Interpolator.EASE_OUT);
-//		transTransition.play();
+		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
+		transTransition.setToX(0);
+		transTransition.setInterpolator(Interpolator.EASE_OUT);
+		transTransition.play();
 
 
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
-		transition.setFromX(3);
-		transition.setFromY(3);
-		transition.setToX(1);
-		transition.setToY(1);
-		transition.setInterpolator(Interpolator.EASE_BOTH);
-		optionPanel.setVisible(true);
-		transition.play();
+//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
+//		transition.setFromX(3);
+//		transition.setFromY(3);
+//		transition.setToX(1);
+//		transition.setToY(1);
+//		transition.setInterpolator(Interpolator.EASE_BOTH);
+//		optionPanel.setVisible(true);
+//		transition.play();
 	}
 
 
