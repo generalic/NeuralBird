@@ -180,9 +180,17 @@ public abstract class AbstractFXMLController implements IScreenController {
 //		transition.setInterpolator(Interpolator.LINEAR);
 //		transition.play();
 
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), group);
-		transition.setFromX(6);
-		transition.setFromY(9);
+//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), group);
+//		transition.setFromX(6);
+//		transition.setFromY(9);
+//		transition.setToX(1);
+//		transition.setToY(1);
+//		transition.setInterpolator(Interpolator.EASE_OUT);
+//		transition.play();
+
+		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
+		transition.setFromX(2);
+		transition.setFromY(2);
 		transition.setToX(1);
 		transition.setToY(1);
 		transition.setInterpolator(Interpolator.EASE_OUT);

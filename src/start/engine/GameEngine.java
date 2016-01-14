@@ -87,7 +87,7 @@ public class GameEngine {
 
 	private static Pane getDecoratedGameNode(Pane gamePane) {
 		Pane gameWorld = new Pane(gamePane);
-		String image = GameEngine.class.getResource("secondBackgroundPicture.png").toExternalForm();
+		String image = GameEngine.class.getResource("night_sky.jpg").toExternalForm();
 
 		gameWorld.setStyle(
 				"-fx-background-image: url('" + image + "'); " +
