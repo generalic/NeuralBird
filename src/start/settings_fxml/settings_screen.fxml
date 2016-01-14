@@ -11,167 +11,289 @@
    <center>
       <AnchorPane>
          <children>
-              <GridPane alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="624.0" stylesheets="@css/label.css" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
-                  <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  </columnConstraints>
-                  <rowConstraints>
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  </rowConstraints>
-                  <children>
-                  <HBox alignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
                      <children>
-                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="REWARD PROBABILITY" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="rewardProbabilityLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="0.5" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                      <Slider fx:id="rewardProbabilitySlider" blockIncrement="0.1" max="1.0" value="0.5" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <HBox alignment="CENTER" GridPane.rowIndex="8">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="GOD MODE" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="godModeLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="NO" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="5">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="PIPE WIDTH" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pipeWidthLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="70" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="2">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="69.0" prefWidth="384.0" text="VERTICAL PIPES SPEED" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pipeYSpeedLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="4" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="3">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="69.0" prefWidth="384.0" text="HORIZONTAL PIPE GAP" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pipeGapXLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="350" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="1">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="69.0" prefWidth="384.0" text="HORIZONTAL PIPE SPEED" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pipeXSpeedLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="8" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" GridPane.rowIndex="4">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="VERTICAL PIPE GAP" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="pipeGapYLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="200" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="46.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Slider fx:id="pipeXSpeedSlider" blockIncrement="1.0" max="20.0" min="1.0" value="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Slider fx:id="pipeYSpeedSlider" blockIncrement="1.0" max="20.0" value="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Slider fx:id="jumpSpeedSlider" max="50.0" min="1.0" value="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Slider fx:id="pipeGapYSlider" max="400.0" min="100.0" value="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Slider fx:id="pipeWidthSlider" min="20.0" value="70.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Slider fx:id="godModeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="69.0" prefWidth="384.0" text="GRAVITY" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="44.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="gravityLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="4.81" textFill="#eeab38">
-                           <font>
-                              <Font name="Tw Cen MT Condensed" size="49.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Slider fx:id="gravitySlider" blockIncrement="0.5" max="10.0" value="4.81" GridPane.columnIndex="1" />
-                  <HBox alignment="CENTER" GridPane.rowIndex="6">
-                     <children>
-                        <HBox alignment="CENTER">
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="384.0" text="BIRD JUMP SPEED" textAlignment="CENTER" textFill="#eeab38" HBox.hgrow="ALWAYS">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="4.81" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                                  <font>
-                                    <Font name="Tw Cen MT Condensed" size="46.0" />
+                                    <Font size="42.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="jumpSpeedLabel" alignment="CENTER" prefHeight="73.0" prefWidth="160.0" text="20" textFill="#eeab38">
-                                 <font>
-                                    <Font name="Tw Cen MT Condensed" size="46.0" />
-                                 </font>
-                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="GRAVITY" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
                            </children>
-                        </HBox>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
                      </children>
-                  </HBox>
-                  <Slider fx:id="pipeGapXSlider" max="500.0" min="50.0" value="350.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  </children>
-                  <padding>
-                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-              </GridPane>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="8" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="HORIZONTAL PIPE SPEED" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="4" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="VERTICAL PIPE SPEED" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="350" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="HORIZONTAL PIPE GAP" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="200" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="VERTICAL PIPE SPEED" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="70" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="PIPE WIDTH" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="27" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="BIRD JUMP SPEED" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="50%" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="REWARD PROBABILITY" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="setting" stylesheets="@css/setting.css">
+                     <children>
+                        <GridPane layoutX="30.0" prefHeight="81.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="108.0" text="ON" textFill="#da0000" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane prefHeight="81.0" prefWidth="387.0">
+                                 <children>
+                                    <Label prefHeight="81.0" prefWidth="363.0" text="GOD MODE" textFill="#f50000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Slider prefHeight="81.0" prefWidth="689.0" GridPane.columnIndex="2" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="399.66668701171875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.66665649414062" minWidth="10.0" prefWidth="144.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="730.3333129882812" minWidth="10.0" prefWidth="510.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>
