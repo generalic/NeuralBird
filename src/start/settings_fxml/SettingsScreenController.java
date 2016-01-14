@@ -71,6 +71,9 @@ public class SettingsScreenController {
 	@FXML
 	public Button backButton;
 
+	@FXML
+	public Button defaultSettingsButton;
+
 	public void initScreen(Scene scene, Pane root) {
 		setupBinding();
 
