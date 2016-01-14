@@ -15,9 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
@@ -49,7 +49,7 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         double distanceToReward = 0;
         double relativeHeightToReward = 0;
         if (nearestReward.isPresent()) {
-            distanceToReward = traceReward(nearestReward.get());
+            distanceToReward = traceReward(nearestReward.get()).get(0);
             relativeHeightToReward = nearestReward.get().getCenterY() - bird.getCenterY();
         } else {
             group.getChildren().removeAll(rewardTraceLines);
@@ -90,81 +90,106 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         		.sorted();
     }
 
+
+	private abstract class AbstractTracer {
+
+		protected List<Line> lines;
+		protected List<Point2D> points = new ArrayList<>();
+		protected List<Double> distances = new ArrayList<>();
+
+		public AbstractTracer(List<Line> lines) {
+			this.lines = lines;
+		}
+
+		public final List<Double> trace() {
+			setPoints();
+
+			if (!lines.isEmpty()) {
+				group.getChildren().removeAll(lines);
+				lines.clear();
+			}
+
+			setDistances();
+
+			if(traceable.get()) {
+				group.getChildren().addAll(pipeTraceLines);
+			}
+
+			return distances;
+		}
+
+		protected abstract void setPoints();
+
+		protected abstract void setDistances();
+
+	}
+
     List<Line> pipeTraceLines = new ArrayList<>();
 
     private List<Double> traceTubes(PipePair pair) {
-        Bounds upperTubeBounds = pair.upperHead.getBoundsInParent();
-        Bounds lowerTubeBounds = pair.lowerHead.getBoundsInParent();
+		return new AbstractTracer(pipeTraceLines) {
 
-        Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
+			@Override
+			protected void setPoints() {
+				Bounds upperTubeBounds = pair.upperHead.getBoundsInParent();
+				Bounds lowerTubeBounds = pair.lowerHead.getBoundsInParent();
 
-        Point2D p2 = new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY());
-        Point2D p3 = new Point2D(lowerTubeBounds.getMinX(), lowerTubeBounds.getMinY());
+				points.add(new Point2D(bird.getCenterX(), bird.getCenterY()));
 
-        Point2D p4 = new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY());
-        Point2D p5 = new Point2D(lowerTubeBounds.getMaxX(), lowerTubeBounds.getMinY());
+				points.add(new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY()));
+				points.add(new Point2D(lowerTubeBounds.getMinX(), lowerTubeBounds.getMinY()));
 
-		if (!pipeTraceLines.isEmpty()) {
-			group.getChildren().removeAll(pipeTraceLines);
-			pipeTraceLines.clear();
-		}
+				points.add(new Point2D(upperTubeBounds.getMaxX(), upperTubeBounds.getMaxY()));
+				points.add(new Point2D(lowerTubeBounds.getMaxX(), lowerTubeBounds.getMinY()));
+			}
 
-        double distanceToUpperLeftSide = getDistanceBetweenPoints(p1, p2);
-        double distanceToLowerLeftSide = getDistanceBetweenPoints(p1, p3);
-        double distanceToUpperRightSide = getDistanceBetweenPoints(p1, p4);
-        double distanceToLowerRightSide = getDistanceBetweenPoints(p1, p5);
+			@Override
+			protected void setDistances() {
+				distances.add(getDistanceBetweenPoints(points.get(0), points.get(1), lines));
+				distances.add(getDistanceBetweenPoints(points.get(0), points.get(2), lines));
+				distances.add(getDistanceBetweenPoints(points.get(0), points.get(3), lines));
+				distances.add(getDistanceBetweenPoints(points.get(0), points.get(4), lines));
+			}
 
-        if(traceable.get()) {
-			group.getChildren().addAll(pipeTraceLines);
-		}
-
-		return Stream.of(
-        		distanceToLowerLeftSide, distanceToUpperLeftSide,
-        		distanceToLowerRightSide, distanceToUpperRightSide
-        		).collect(Collectors.toList());
-    }
-
-	private void addTraceLine(Point2D p1, Point2D p2) {
-		Line traceLine = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-		traceLine.setStrokeWidth(3);
-		traceLine.setStroke(Color.RED);
-		pipeTraceLines.add(traceLine);
-	}
-
-	private double getDistanceBetweenPoints(Point2D p1, Point2D p2) {
-        addTraceLine(p1, p2);
-		double dx1 = p2.getX() - p1.getX();
-        double dy1 = p2.getY() - p1.getY();
-        return Math.sqrt(dx1 * dx1 + dy1 * dy1);
+		}.trace();
     }
 
     private List<Line> rewardTraceLines = new ArrayList<>();
 
-    private double traceReward(Reward reward) {
-        Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
-        Point2D p2 = new Point2D(reward.getCenterX(), reward.getCenterY());
+    private List<Double> traceReward(Reward reward) {
+		return new AbstractTracer(rewardTraceLines) {
 
-        double dx = p2.getX() - p1.getX();
-        if (!rewardTraceLines.isEmpty()) {
-            group.getChildren().removeAll(rewardTraceLines);
-			rewardTraceLines.clear();
-        }
-        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        line.setStrokeWidth(3);
-        line.setStroke(Color.AQUAMARINE);
-		rewardTraceLines.add(line);
+			@Override
+			protected void setPoints() {
+				points.add(new Point2D(bird.getCenterX(), bird.getCenterY()));
+				points.add(new Point2D(reward.getCenterX(), reward.getCenterY()));
+			}
 
-        if(traceable.get()) {
-			group.getChildren().addAll(rewardTraceLines);
-		}
+			@Override
+			protected void setDistances() {
+				Point2D p1 = points.get(0);
+				Point2D p2 = points.get(1);
+				distances.add(p2.getX() - p1.getX());
 
-        return dx;
+				Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+				line.setStrokeWidth(3);
+				line.setStroke(Color.AQUAMARINE);
+				lines.add(line);
+			}
 
-//        double dy = p2.getY() - p1.getY();
-//
-//        double distanceToReward = Math.sqrt(dx * dx + dy * dy);
-//
+		}.trace();
     }
+
+	private double getDistanceBetweenPoints(Point2D p1, Point2D p2, Collection<Line> lines) {
+		Line traceLine = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+		traceLine.setStrokeWidth(3);
+		traceLine.setStroke(Color.RED);
+		lines.add(traceLine);
+
+		double dx1 = p2.getX() - p1.getX();
+		double dy1 = p2.getY() - p1.getY();
+		return Math.sqrt(dx1 * dx1 + dy1 * dy1);
+	}
 
     @Override
     public void addEnvironmentListener(IEnvironmentListener listener) {

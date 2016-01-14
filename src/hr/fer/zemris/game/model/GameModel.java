@@ -183,7 +183,8 @@ public abstract class GameModel {
     }
 
     private abstract class AbstractMover<T extends IComponent> {
-        private LinkedList<T> components;
+
+		private LinkedList<T> components;
 
         public AbstractMover(LinkedList<T> components) {
             super();

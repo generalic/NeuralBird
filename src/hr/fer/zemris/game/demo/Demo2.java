@@ -1,6 +1,7 @@
 package hr.fer.zemris.game.demo;
 
 import hr.fer.zemris.game.environment.Constants;
+import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.GeneticProgram;
 import hr.fer.zemris.network.NeuralNetwork;
@@ -26,7 +27,7 @@ public class Demo2 extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameModelAITrainable model = new GameModelAITrainable();
+		GameModelAI model = new GameModelAITrainable();
 		model.traceableProperty().set(true);
 		NeuralNetwork network = new GeneticProgram().train();
 		serialization(network, model.getConstants());
