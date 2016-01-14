@@ -1,8 +1,6 @@
 package start.game_play_fxml;
 
-import javafx.animation.Interpolator;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -126,13 +124,14 @@ public abstract class AbstractFXMLController implements IScreenController {
 //		transTransition.setInterpolator(Interpolator.EASE_OUT);
 //		transTransition.play();
 
-		optionPanel.setVisible(true);
+
 		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
 		transition.setFromX(3);
 		transition.setFromY(3);
 		transition.setToX(1);
 		transition.setToY(1);
 		transition.setInterpolator(Interpolator.EASE_BOTH);
+		optionPanel.setVisible(true);
 		transition.play();
 	}
 
@@ -158,8 +157,8 @@ public abstract class AbstractFXMLController implements IScreenController {
 	}
 
 	private void bindScoreLabels(IntegerProperty scoreProperty) {
-		endScoreLabel.textProperty().bind(new SimpleStringProperty("SCORE: ").concat(scoreProperty.asString()));
 		scoreLabel.textProperty().bind(new SimpleStringProperty("SCORE: ").concat(scoreProperty.asString()));
+		endScoreLabel.textProperty().bind(scoreLabel.textProperty());
 	}
 
 	public void addGameScreen(Node gameNode) {
@@ -186,7 +185,7 @@ public abstract class AbstractFXMLController implements IScreenController {
 		transition.setFromY(9);
 		transition.setToX(1);
 		transition.setToY(1);
-		transition.setInterpolator(Interpolator.EASE_BOTH);
+		transition.setInterpolator(Interpolator.EASE_OUT);
 		transition.play();
 
 
@@ -194,8 +193,13 @@ public abstract class AbstractFXMLController implements IScreenController {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));
 
-			transition.setDuration(Duration.millis(200));
-			transition.play();
+			ScaleTransition backTransition = new ScaleTransition(Duration.millis(300), group);
+			backTransition.setFromX(2);
+			backTransition.setFromY(2);
+			backTransition.setToX(1);
+			backTransition.setToY(1);
+			backTransition.setInterpolator(Interpolator.EASE_OUT);
+			backTransition.play();
 		});
 
 		restartButton.setOnAction(e -> {

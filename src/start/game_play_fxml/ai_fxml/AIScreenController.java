@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,9 +16,6 @@ public class AIScreenController extends AbstractFXMLController {
 
 	@FXML
 	private Slider fpsSlider;
-
-	@FXML
-	private ToggleButton traceButton;
 
 	@FXML
 	private StackPane inputIndicator;
@@ -38,7 +34,7 @@ public class AIScreenController extends AbstractFXMLController {
 		GameModelAI gameModel = (GameModelAI) engine.getGameModel();
 
 		iOSToggleButton toggleButton = new iOSToggleButton();
-		toggleButton.switchedOnProperty().bindBidirectional(gameModel.traceableProperty());
+		gameModel.traceableProperty().bind(toggleButton.switchedOnProperty());
 		optionPanel.getChildren().add(1, toggleButton);
 
 		inputIndicator.visibleProperty().bind(gameModel.traceableProperty());

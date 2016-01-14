@@ -25,10 +25,6 @@ public abstract class AbstractFXMLScreen {
 
 		scene.setOnKeyPressed(engine.getEventHandler());
 		engine.runGame();
-
-//		Parent prevRoot = scene.getRoot();
-//		controller.exitButton.setOnAction(e -> scene.setRoot(prevRoot));
-//		scene.setRoot(root);
 	}
 
 	private FXMLLoader createFXMLLoader() {
