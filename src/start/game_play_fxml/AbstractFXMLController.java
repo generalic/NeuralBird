@@ -201,12 +201,12 @@ public abstract class AbstractFXMLController implements IScreenController {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));
 
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(300), group);
+			root.setVisible(false);
+			ScaleTransition backTransition = new ScaleTransition(Duration.millis(100), group);
 			backTransition.setFromX(2);
 			backTransition.setFromY(2);
 			backTransition.setToX(1);
 			backTransition.setToY(1);
-			backTransition.setInterpolator(Interpolator.EASE_OUT);
 			backTransition.play();
 		});
 

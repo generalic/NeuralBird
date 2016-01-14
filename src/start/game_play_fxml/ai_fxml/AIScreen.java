@@ -20,10 +20,14 @@ import java.nio.file.Paths;
 
 public class AIScreen extends AbstractFXMLScreen {
 
-	private NeuralNetwork network;
-	private Constants constants;
-
 	private static final String FXML_FILE_NAME = "ai_screen.fxml";
+
+	private static NeuralNetwork network;
+	private static Constants constants;
+
+	static {
+		deserialisation();
+	}
 
 	public AIScreen(Scene scene) {
 		super(scene);
@@ -36,14 +40,13 @@ public class AIScreen extends AbstractFXMLScreen {
 
 	@Override
 	protected GameModel createGameModel() {
-		deserialisation();
 		Constants.AIConstants = constants;
 		GameModelAI model = new GameModelAI();
 		model.addEnvironmentListener(network);
 		return model;
 	}
 
-	private void deserialisation() {
+	private static void deserialisation() {
 		Path p = Paths.get("weights.ser");
 
 		try(
