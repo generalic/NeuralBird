@@ -16,6 +16,7 @@ public class GameModelAITrainable extends GameModelAI {
 
 	@Override
 	protected double initialiseGround(double nextGroundX) {
+		//does nothing performance-wise
 		return 0;
 	}
 

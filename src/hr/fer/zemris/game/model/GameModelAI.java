@@ -6,8 +6,6 @@ import hr.fer.zemris.game.components.reward.Reward;
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -20,16 +18,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
-
-	private BooleanProperty traceable = new SimpleBooleanProperty(false);
-
-	public boolean isTraceable() {
-		return traceable.get();
-	}
-
-	public BooleanProperty traceableProperty() {
-		return traceable;
-	}
 
 	private List<IEnvironmentListener> listeners = new ArrayList<>();
 

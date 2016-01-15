@@ -180,6 +180,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		gamePane.getChildren().add(gameNode);
 	}
 
+	@Override
 	public void initScreen(Scene scene, Pane root) {
 		this.engine = new GameEngine(createGameModel());
 

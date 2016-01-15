@@ -68,6 +68,7 @@ public class SettingsScreenController extends AbstractScreenSwitchController {
 	@FXML
 	public Button defaultSettingsButton;
 
+	@Override
 	public void initScreen(Scene scene, Pane root) {
 		setupBinding();
 		switchScreen(scene, root);

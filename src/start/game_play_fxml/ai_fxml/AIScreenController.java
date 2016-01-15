@@ -44,11 +44,11 @@ public class AIScreenController extends AbstractFXMLController {
 	}
 
 	private void setupBinding() {
-		GameModelAI gameModel = (GameModelAI) engine.getGameModel();
+		GameModel gameModel = engine.getGameModel();
 
 		iOSToggleButton toggleButton = new iOSToggleButton();
-		gameModel.traceableProperty().bind(toggleButton.switchedOnProperty());
 		optionPanel.getChildren().add(1, toggleButton);
+		gameModel.traceableProperty().bind(toggleButton.switchedOnProperty());
 
 		inputIndicator.visibleProperty().bind(gameModel.traceableProperty());
 		inputOn.visibleProperty().bind(gameModel.jumpProperty());

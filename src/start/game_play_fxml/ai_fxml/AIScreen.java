@@ -19,6 +19,8 @@ public class AIScreen extends AbstractFXMLScreen {
 
 	private static final String FXML_FILE_NAME = "ai_screen.fxml";
 
+	private static final String WEIGHTS_PATH = "weights.ser";
+
 	protected static NeuralNetwork network;
 
 	static {
@@ -35,10 +37,10 @@ public class AIScreen extends AbstractFXMLScreen {
 	}
 
 	private static void deserialisation() {
-		Path p = Paths.get("weights.ser");
+		Path path = Paths.get(WEIGHTS_PATH);
 
 		try(
-			InputStream settingsIn = Files.newInputStream(p);
+			InputStream settingsIn = Files.newInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(settingsIn);
 		) {
 			network = (NeuralNetwork) in.readObject();

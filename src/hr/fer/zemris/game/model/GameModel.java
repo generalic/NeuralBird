@@ -29,7 +29,7 @@ public abstract class GameModel {
 
     protected Bird bird;
 
-    protected BooleanProperty jump = new SimpleBooleanProperty(false);
+	protected BooleanProperty jump = new SimpleBooleanProperty(false);
 
 	protected Constants constants;
 
@@ -49,7 +49,9 @@ public abstract class GameModel {
 
 	private IntegerProperty numberOfPassedPipes = new SimpleIntegerProperty(0);
 
-    public GameModel() {
+	protected BooleanProperty traceable = new SimpleBooleanProperty(false);
+
+	public GameModel() {
         initModel();
     }
 
@@ -79,10 +81,6 @@ public abstract class GameModel {
         rewards.clear();
 
         initModel();
-    }
-
-    public void jumpBird() {
-        jump.set(true);
     }
 
 	protected void initaliseBird() {
@@ -320,30 +318,6 @@ public abstract class GameModel {
         		.isPresent();
     }
 
-	public boolean getJump() {
-		return jump.get();
-	}
-
-	public BooleanProperty jumpProperty() {
-		return jump;
-	}
-
-    public int getScore() {
-        return score.get();
-    }
-
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
-
-	public int getNumberOfPassedPipes() {
-		return numberOfPassedPipes.get();
-	}
-
-	public IntegerProperty numberOfPassedPipesProperty() {
-		return numberOfPassedPipes;
-	}
-
 	private boolean checkCollisions() {
         boolean intersection = pipesPairs.stream()
         		.filter(p -> p.intersects(bird))
@@ -375,5 +349,41 @@ public abstract class GameModel {
         		.sorted()
         		.findFirst();
     }
+
+	public void jumpBird() {
+		jump.set(true);
+	}
+
+	public boolean getJump() {
+		return jump.get();
+	}
+
+	public BooleanProperty jumpProperty() {
+		return jump;
+	}
+
+	public int getScore() {
+		return score.get();
+	}
+
+	public IntegerProperty scoreProperty() {
+		return score;
+	}
+
+	public int getNumberOfPassedPipes() {
+		return numberOfPassedPipes.get();
+	}
+
+	public IntegerProperty numberOfPassedPipesProperty() {
+		return numberOfPassedPipes;
+	}
+
+	public boolean isTraceable() {
+		return traceable.get();
+	}
+
+	public BooleanProperty traceableProperty() {
+		return traceable;
+	}
 
 }

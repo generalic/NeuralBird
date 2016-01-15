@@ -24,7 +24,7 @@ public abstract class AbstractFXMLScreen {
 		return new FXMLLoader(getClass().getResource(getFXMLFileName()));
 	}
 
-	private Pane getRoot(FXMLLoader fxmlLoader) {
+	protected static Pane getRoot(FXMLLoader fxmlLoader) {
 		try {
 			Pane root = fxmlLoader.load();
 			return root;

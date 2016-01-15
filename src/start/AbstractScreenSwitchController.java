@@ -1,9 +1,12 @@
 package start;
 
 import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -17,8 +20,36 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 
 	protected void switchScreen(Scene scene, Pane root) {
 		Group group = (Group) scene.getRoot();
-		group.getChildren().forEach(c -> c.setVisible(false));
-		group.getChildren().add(root);
+//		group.getChildren().forEach(c -> c.setVisible(false));
+//		group.getChildren().add(root);
+
+		Node menuPane = group.getChildren().get(0);
+
+		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
+		zoomInTransition.setFromX(1);
+		zoomInTransition.setFromY(1);
+		zoomInTransition.setToX(5);
+		zoomInTransition.setToY(5);
+		zoomInTransition.setInterpolator(Interpolator.LINEAR);
+
+		ScaleTransition zoomOutTransition = new ScaleTransition(Duration.seconds(0.5), root);
+		zoomOutTransition.setFromX(5);
+		zoomOutTransition.setFromY(5);
+		zoomOutTransition.setToX(1);
+		zoomOutTransition.setToY(1);
+		zoomOutTransition.setInterpolator(Interpolator.LINEAR);
+
+		PauseTransition pauseTransition = new PauseTransition(Duration.millis(100));
+		pauseTransition.setOnFinished(e -> {
+			group.getChildren().forEach(c -> c.setVisible(false));
+			group.getChildren().add(root);
+		});
+		SequentialTransition transition = new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition);
+		transition.play();
+
+//		Group group = (Group) scene.getRoot();
+//		group.getChildren().forEach(c -> c.setVisible(false));
+//		group.getChildren().add(root);
 
 //		FadeTransition transition = new FadeTransition(Duration.seconds(2), group);
 //		transition.setFromValue(0);
@@ -41,19 +72,20 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 //		transition.setToY(2);
 //		transition.setAutoReverse(true);
 //		transition.setCycleCount(2);
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
-		transition.setFromX(2);
-		transition.setFromY(2);
-		transition.setToX(1);
-		transition.setToY(1);
-		transition.setInterpolator(Interpolator.EASE_OUT);
-		transition.play();
+
+//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
+//		transition.setFromX(2);
+//		transition.setFromY(2);
+//		transition.setToX(1);
+//		transition.setToY(1);
+//		transition.setInterpolator(Interpolator.EASE_OUT);
+//		transition.play();
 
 		backButton.setOnAction(e -> {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));
 
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(200), group);
+			ScaleTransition backTransition = new ScaleTransition(Duration.millis(500), menuPane);
 			backTransition.setFromX(15);
 			backTransition.setFromY(15);
 			backTransition.setToX(1);
