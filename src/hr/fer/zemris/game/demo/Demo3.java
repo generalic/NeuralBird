@@ -30,11 +30,8 @@ public class Demo3 extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameModelAITrainable model = new GameModelAITrainable();
 		deserialisation();
-		model.setConstants(constants);
-		
-		
+		GameModelAITrainable model = new GameModelAITrainable();
 		model.addEnvironmentListener(network);
 
 		Scene scene = new Scene(model.getGamePane(), 1000, 600);

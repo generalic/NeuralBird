@@ -3,7 +3,6 @@ package hr.fer.zemris.game.model;
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
-import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
@@ -33,11 +32,6 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 	}
 
 	private List<IEnvironmentListener> listeners = new ArrayList<>();
-
-	@Override
-    protected Constants provideConstants() {
-        return Constants.PlayerConstants;
-    }
 
     @Override
     protected void scanEnvironment() {

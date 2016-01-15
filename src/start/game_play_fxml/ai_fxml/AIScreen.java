@@ -4,7 +4,6 @@ package start.game_play_fxml.ai_fxml;
  * Created by generalic on 4.1.2016..
  */
 
-import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
 import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.network.NeuralNetwork;
@@ -23,7 +22,6 @@ public class AIScreen extends AbstractFXMLScreen {
 	private static final String FXML_FILE_NAME = "ai_screen.fxml";
 
 	private static NeuralNetwork network;
-	private static Constants constants;
 
 	static {
 		deserialisation();
@@ -40,7 +38,6 @@ public class AIScreen extends AbstractFXMLScreen {
 
 	@Override
 	protected GameModel createGameModel() {
-		Constants.AIConstants = constants;
 		GameModelAI model = new GameModelAI();
 		model.addEnvironmentListener(network);
 		return model;
@@ -54,7 +51,6 @@ public class AIScreen extends AbstractFXMLScreen {
 			ObjectInputStream in = new ObjectInputStream(settingsIn);
 		) {
 			network = (NeuralNetwork) in.readObject();
-			constants = (Constants) in.readObject();
 			System.err.println("Successfully deserialized.");
 		} catch (IOException | ClassNotFoundException e1) {
 			e1.printStackTrace();

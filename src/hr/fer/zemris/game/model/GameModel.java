@@ -54,13 +54,11 @@ public abstract class GameModel {
     }
 
     private void initModel() {
-    	constants = provideConstants();
+    	constants = Constants.currentConstants;
     	initaliseBird();
         initialiseEnvironment();
         lastPassed = getNearestPairAheadOfBird().get();
     }
-
-	protected abstract Constants provideConstants();
 
 	public Pane getGamePane() {
         group.getChildren().add(bird);
@@ -97,9 +95,9 @@ public abstract class GameModel {
     }
 
 	private void setupPipesAndRewards() {
-		double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET;
-		double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH + constants.PIPE_GAP_X / 2;
-		for (int i = 0; i < constants.NUMBER_OF_PIPES; i++) {
+		double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET.get();
+		double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH.get() + constants.PIPE_GAP_X.get() / 2;
+		for (int i = 0; i < constants.NUMBER_OF_PIPES.get(); i++) {
 			nextPipeX = initialisePipePair(nextPipeX);
 			nextRewardCenterX = initialiseReward(nextRewardCenterX);
 		}
@@ -107,7 +105,7 @@ public abstract class GameModel {
 
 	protected void setupGround() {
 		double nextGroundX = 0;
-		for (int i = 0; i < constants.NUMBER_OF_GROUNDS; i++) {
+		for (int i = 0; i < constants.NUMBER_OF_GROUNDS.get(); i++) {
 			nextGroundX = initialiseGround(nextGroundX);
 		}
 	}
@@ -139,12 +137,12 @@ public abstract class GameModel {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, constants.PIPE_GAP_Y, constants.PIPE_WIDTH, gameDimension.getHeight());
+                return new PipePair(nextPipeX, constants.PIPE_GAP_Y.get(), constants.PIPE_WIDTH.get(), gameDimension.getHeight());
             }
 
             @Override
             protected double calculateOffset(PipePair component) {
-                return component.getRightMostX() + constants.PIPE_GAP_X;
+                return component.getRightMostX() + constants.PIPE_GAP_X.get();
             }
 
         }.initialiseComponent(nextPipeX);
@@ -160,7 +158,7 @@ public abstract class GameModel {
 
             @Override
             protected double calculateOffset(Reward component) {
-                return component.getCenterX() + constants.REWARD_GAP_X;
+                return component.getCenterX() + constants.REWARD_GAP_X.get();
             }
 
         }.initialiseComponent(nextRewardCenterX);
@@ -216,15 +214,15 @@ public abstract class GameModel {
 
             @Override
             protected void translate(PipePair component) {
-                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X, time);
+                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X.get(), time);
                 component.translatePair(shiftX);
-                double shiftY = Physics.calculateShiftX(constants.PIPES_SPEED_Y, time);
+                double shiftY = Physics.calculateShiftX(constants.PIPES_SPEED_Y.get(), time);
                 component.setPairYPosition(shiftY);
             }
 
             @Override
             protected void putFirstBehindLast(PipePair first, PipePair last) {
-                first.setPairXPosition(last.getRightMostX() + constants.PIPE_GAP_X);
+                first.setPairXPosition(last.getRightMostX() + constants.PIPE_GAP_X.get());
                 first.randomizeYPositions();
             }
 
@@ -236,16 +234,16 @@ public abstract class GameModel {
 
             @Override
             protected void translate(Reward component) {
-                double shiftX = Physics.calculateShiftX(constants.REWARD_SPEED_X, time);
+                double shiftX = Physics.calculateShiftX(constants.REWARD_SPEED_X.get(), time);
                 component.translateReward(shiftX);
                 component.updateFrame();
             }
 
             @Override
             protected void putFirstBehindLast(Reward first, Reward last) {
-                first.setCenterX(last.getCenterX() + constants.REWARD_GAP_X);
+                first.setCenterX(last.getCenterX() + constants.REWARD_GAP_X.get());
                 first.randomizeYPosition();
-                first.setVisible(random.nextDouble() < constants.REWARD_PROBABILITY);
+                first.setVisible(random.nextDouble() < constants.REWARD_PROBABILITY.get());
             }
 
         }.move(time);
@@ -256,7 +254,7 @@ public abstract class GameModel {
 
             @Override
             protected void translate(Ground component) {
-                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X, time);
+                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X.get(), time);
                 component.translate(shiftX);
             }
 
@@ -270,8 +268,8 @@ public abstract class GameModel {
 
     private void moveBird(int time) {
         if (jump.get()) {
-            double shiftY = Physics.calculateShiftY(constants.JUMP_SPEED, time);
-            bird.setCurrentVelocity(constants.JUMP_SPEED);
+            double shiftY = Physics.calculateShiftY(constants.JUMP_SPEED.negate().get(), time);
+            bird.setCurrentVelocity(constants.JUMP_SPEED.negate().get());
             bird.setCenterY(bird.getCenterY() + shiftY);
             jump.set(false);
         } else {
@@ -283,7 +281,7 @@ public abstract class GameModel {
     }
 
     public boolean update(int time) {
-        if (!constants.GOD_MODE && checkCollisions()) {
+        if (!constants.GOD_MODE.get() && checkCollisions()) {
             return false;
         }
 
@@ -301,12 +299,12 @@ public abstract class GameModel {
 
 	private void refreshScore() {
 		if (isRewardCollected()) {
-			score.set(score.get() + constants.REWARD_COLLECTED_BONUS);
+			score.set(score.get() + constants.REWARD_COLLECTED_BONUS.get());
 		}
 
 		nearestPipePair = getNearestPairAheadOfBird().get();
 		if (!nearestPipePair.equals(lastPassed)) {
-			score.set(score.get() + constants.PIPE_PASSED_BONUS);
+			score.set(score.get() + constants.PIPE_PASSED_BONUS.get());
 			numberOfPassedPipes.set(numberOfPassedPipes.get() + 1);
 			lastPassed = nearestPipePair;
 		}
@@ -376,14 +374,6 @@ public abstract class GameModel {
     			.filter(p -> p.getRightMostX() > bird.getLeftMostX())
         		.sorted()
         		.findFirst();
-    }
-
-    public Constants getConstants(){
-    	return constants;
-    }
-
-    public void setConstants(Constants constants){
-    	this.constants = constants;
     }
 
 }

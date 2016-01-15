@@ -19,12 +19,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import start.AbstractScreenSwitchController;
 import start.engine.GameEngine;
 
 /**
  * Created by generalic on 7.1.2016..
  */
-public abstract class AbstractFXMLController implements IScreenController {
+public abstract class AbstractFXMLController extends AbstractScreenSwitchController implements IScreenController {
 
 	@FXML
 	private AnchorPane root;
@@ -34,9 +35,6 @@ public abstract class AbstractFXMLController implements IScreenController {
 
 	@FXML
 	private VBox optionPanel;
-
-	@FXML
-	private Button backButton;
 
 	@FXML
 	private VBox gameOverVBox;
@@ -172,45 +170,9 @@ public abstract class AbstractFXMLController implements IScreenController {
 		bindOnGameOverAction(engine.gameOverProperty());
 		bindScoreLabels(engine.getGameModel().scoreProperty());
 
+		switchScreen(scene, root);
+
 		Group group = (Group) scene.getRoot();
-		group.getChildren().forEach(c -> c.setVisible(false));
-		group.getChildren().add(root);
-
-//		FadeTransition transition = new FadeTransition(Duration.seconds(2), group);
-//		transition.setFromValue(0);
-//		transition.setToValue(1);
-//		transition.setInterpolator(Interpolator.LINEAR);
-//		transition.play();
-
-//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), group);
-//		transition.setFromX(6);
-//		transition.setFromY(9);
-//		transition.setToX(1);
-//		transition.setToY(1);
-//		transition.setInterpolator(Interpolator.EASE_OUT);
-//		transition.play();
-
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
-		transition.setFromX(2);
-		transition.setFromY(2);
-		transition.setToX(1);
-		transition.setToY(1);
-		transition.setInterpolator(Interpolator.EASE_OUT);
-		transition.play();
-
-
-		backButton.setOnAction(e -> {
-			group.getChildren().remove(root);
-			group.getChildren().forEach(c -> c.setVisible(true));
-
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(200), group);
-			backTransition.setFromX(15);
-			backTransition.setFromY(15);
-			backTransition.setToX(1);
-			backTransition.setToY(1);
-			backTransition.play();
-		});
-
 		restartButton.setOnAction(e -> {
 			group.getChildren().remove(root);
 			group.getChildren().forEach(c -> c.setVisible(true));

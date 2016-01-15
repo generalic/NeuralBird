@@ -1,6 +1,5 @@
 package hr.fer.zemris.game.demo;
 
-import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.GeneticProgram;
@@ -30,7 +29,7 @@ public class Demo2 extends Application {
 		GameModelAI model = new GameModelAITrainable();
 		model.traceableProperty().set(true);
 		NeuralNetwork network = new GeneticProgram().train();
-		serialization(network, model.getConstants());
+		serialization(network);
 		
 		model.addEnvironmentListener(network);
 
@@ -67,13 +66,11 @@ public class Demo2 extends Application {
 	public NeuralNetwork deserialisation() {
 		Path p = Paths.get("weights.ser");
 		NeuralNetwork best = null;
-		Constants constants = null;
 		try(
 			InputStream settingsIn = Files.newInputStream(p);
 			ObjectInputStream in = new ObjectInputStream(settingsIn);
 		) {
 			best = (NeuralNetwork) in.readObject();
-			constants = (Constants) in.readObject();
 			System.out.println("Successfully deserialized.");
 		} catch (IOException | ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -82,14 +79,13 @@ public class Demo2 extends Application {
 		return best;
 	}
 	
-	void serialization(NeuralNetwork network, Constants constants) {
+	void serialization(NeuralNetwork network) {
         
         Path p = Paths.get("weights.ser");
         
         try (OutputStream networkOut = Files.newOutputStream(p);
                 ObjectOutputStream out = new ObjectOutputStream(networkOut);) {
             out.writeObject(network);
-            out.writeObject(constants);
             System.out.printf("Serialized data is saved in " + p.toAbsolutePath());
         } catch (IOException e1) {
             // TODO Auto-generated catch block

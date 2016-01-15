@@ -1,18 +1,15 @@
 package start.settings_fxml;
 
 import hr.fer.zemris.game.environment.Constants;
-import javafx.animation.Interpolator;
-import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
+import start.AbstractScreenSwitchController;
 
-public class SettingsScreenController {
+public class SettingsScreenController extends AbstractScreenSwitchController {
 
 	@FXML
 	public Label gravityLabel;
@@ -69,97 +66,52 @@ public class SettingsScreenController {
 	public Slider godModeSlider;
 
 	@FXML
-	public Button backButton;
-
-	@FXML
 	public Button defaultSettingsButton;
 
 	public void initScreen(Scene scene, Pane root) {
 		setupBinding();
-
-		Group group = (Group) scene.getRoot();
-		group.getChildren().forEach(c -> c.setVisible(false));
-		group.getChildren().add(root);
-
-		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
-		transition.setFromX(2);
-		transition.setFromY(2);
-		transition.setToX(1);
-		transition.setToY(1);
-		transition.setInterpolator(Interpolator.EASE_OUT);
-		transition.play();
-
-		backButton.setOnAction(e -> {
-			group.getChildren().remove(root);
-			group.getChildren().forEach(c -> c.setVisible(true));
-
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(200), group);
-			backTransition.setFromX(15);
-			backTransition.setFromY(15);
-			backTransition.setToX(1);
-			backTransition.setToY(1);
-			backTransition.play();
-		});
+		switchScreen(scene, root);
 	}
 
 	private void setupBinding() {
 		gravityLabel.textProperty().bind(gravitySlider.valueProperty().asString("%.2f"));
-		gravitySlider.valueProperty().set(Constants.PlayerConstants.GRAVITY);
-		gravitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.GRAVITY = newValue.doubleValue();
-		});
+		gravitySlider.valueProperty().bindBidirectional(Constants.currentConstants.GRAVITY);
 
 		pipeXSpeedLabel.textProperty().bind(pipeXSpeedSlider.valueProperty().asString("%.0f"));
-		pipeXSpeedSlider.valueProperty().set(Constants.PlayerConstants.PIPES_SPEED_X);
-		pipeXSpeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.PIPES_SPEED_X = newValue.doubleValue();
-			Constants.PlayerConstants.REWARD_SPEED_X = Constants.PlayerConstants.PIPES_SPEED_X;
-		});
+		pipeXSpeedSlider.valueProperty().bindBidirectional(Constants.currentConstants.PIPES_SPEED_X);
 
 		pipeYSpeedLabel.textProperty().bind(pipeYSpeedSlider.valueProperty().asString("%.0f"));
-		pipeYSpeedSlider.valueProperty().set(Constants.PlayerConstants.PIPES_SPEED_Y);
-		pipeYSpeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.PIPES_SPEED_Y = newValue.doubleValue();
-		});
+		pipeYSpeedSlider.valueProperty().bindBidirectional(Constants.currentConstants.PIPES_SPEED_Y);
 
 		pipeGapXLabel.textProperty().bind(pipeGapXSlider.valueProperty().asString("%.0f"));
-		pipeGapXSlider.valueProperty().set(Constants.PlayerConstants.PIPE_GAP_X);
-		pipeGapXSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.PIPE_GAP_X = newValue.doubleValue();
-			Constants.PlayerConstants.REWARD_GAP_X = Constants.PlayerConstants.PIPE_GAP_X + Constants.PlayerConstants.PIPE_WIDTH;
-		});
+		pipeGapXSlider.valueProperty().bindBidirectional(Constants.currentConstants.PIPE_GAP_X);
 
 		pipeGapYLabel.textProperty().bind(pipeGapYSlider.valueProperty().asString("%.0f"));
-		pipeGapYSlider.valueProperty().set(Constants.PlayerConstants.PIPE_GAP_Y);
-		pipeGapYSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.PIPE_GAP_Y = newValue.doubleValue();
-		});
+		pipeGapYSlider.valueProperty().bindBidirectional(Constants.currentConstants.PIPE_GAP_Y);
 
 		pipeWidthLabel.textProperty().bind(pipeWidthSlider.valueProperty().asString("%.0f"));
-		pipeWidthSlider.valueProperty().set(Constants.PlayerConstants.PIPE_WIDTH);
-		pipeWidthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.PIPE_WIDTH = newValue.doubleValue();
-			Constants.PlayerConstants.REWARD_GAP_X = Constants.PlayerConstants.PIPE_GAP_X + Constants.PlayerConstants.PIPE_WIDTH;
-		});
+		pipeWidthSlider.valueProperty().bindBidirectional(Constants.currentConstants.PIPE_WIDTH);
 
 		jumpSpeedLabel.textProperty().bind(jumpSpeedSlider.valueProperty().asString("%.0f"));
-		jumpSpeedSlider.valueProperty().set(-Constants.PlayerConstants.JUMP_SPEED);
-		jumpSpeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.JUMP_SPEED = -newValue.doubleValue();
-		});
+		jumpSpeedSlider.valueProperty().bindBidirectional(Constants.currentConstants.JUMP_SPEED);
 
-		rewardProbabilityLabel.textProperty().bind(rewardProbabilitySlider.valueProperty().asString("%.2f"));
-		rewardProbabilitySlider.valueProperty().set(Constants.PlayerConstants.REWARD_PROBABILITY);
-		rewardProbabilitySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			Constants.PlayerConstants.REWARD_PROBABILITY = newValue.doubleValue();
-		});
+		rewardProbabilityLabel.textProperty().bind(rewardProbabilitySlider.valueProperty().multiply(100).asString("%.0f").concat("%"));
+		rewardProbabilitySlider.valueProperty().bindBidirectional(Constants.currentConstants.REWARD_PROBABILITY);
 
-		godModeLabel.setText(Constants.PlayerConstants.GOD_MODE ? "ON" : "OFF");
+		godModeLabel.setText(Constants.currentConstants.GOD_MODE.get() ? "ON" : "OFF");
 		godModeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			godModeLabel.setText(newValue.intValue() == 0 ? "OFF" : "ON");
-			Constants.PlayerConstants.GOD_MODE = newValue.intValue() != 0;
+			Constants.currentConstants.GOD_MODE.set(newValue.intValue() != 0);
 		});
-		godModeSlider.valueProperty().set(Constants.PlayerConstants.GOD_MODE ? 1 : 0);
+		Constants.currentConstants.GOD_MODE.addListener((observable, oldValue, newValue) -> {
+			godModeSlider.valueProperty().set(newValue ? 1 : 0);
+		});
+		godModeSlider.valueProperty().set(Constants.currentConstants.GOD_MODE.get() ? 1 : 0);
+	}
+
+	@FXML
+	public void resetToDefaultSettings() {
+		Constants.resetToDefaultSettings();
 	}
 
 }

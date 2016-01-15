@@ -1,5 +1,7 @@
 package start;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -45,7 +47,19 @@ public class MainMenuController {
 
 	@FXML
 	public void quitGame(ActionEvent event) {
-		Platform.exit();
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), scene.getRoot());
+		fadeTransition.setFromValue(1);
+		fadeTransition.setToValue(0);
+
+		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(2), scene.getRoot());
+		scaleTransition.setFromX(1);
+		scaleTransition.setFromY(1);
+		scaleTransition.setToX(0);
+		scaleTransition.setToY(0);
+
+		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
+		transitions.setOnFinished(e -> Platform.exit());
+		transitions.play();
 	}
 
 	@FXML

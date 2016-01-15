@@ -12,11 +12,11 @@ public final class Physics {
 
 	//OVO TREBA POPRAVITI, mogu mijenjati gravitaciju za AI i za player-a
 	public static double calculateShiftY(double v0, int t) {
-		return v0 * t + 0.5 * Constants.PlayerConstants.GRAVITY * t * t;
+		return v0 * t + 0.5 * Constants.currentConstants.GRAVITY.get() * t * t;
 	}
 
 	public static double calculateVelocity(double v0, int t) {
-		return v0 + Constants.PlayerConstants.GRAVITY * t;
+		return v0 + Constants.currentConstants.GRAVITY.get() * t;
 	}
 
 }

@@ -1,6 +1,5 @@
 package sample;
 
-import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.model.GameModel;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.game.model.GameModelPlayer;
@@ -48,7 +47,6 @@ public class StartMain extends Application {
     private Button resetButton;
     private Scene scene;
     private NeuralNetwork network;
-    private Constants constants;
 
     private DoubleProperty fps;
     private Slider fpsSlider;
@@ -127,7 +125,6 @@ public class StartMain extends Application {
         deserialisation();
 
         GameModelAITrainable model = new GameModelAITrainable();
-        model.setConstants(constants);
         model.addEnvironmentListener(network);
         this.model = model;
 
@@ -142,7 +139,6 @@ public class StartMain extends Application {
             ObjectInputStream in = new ObjectInputStream(settingsIn);
         ) {
             network = (NeuralNetwork) in.readObject();
-            constants = (Constants) in.readObject();
             System.err.println("Successfully deserialized.");
         } catch (IOException | ClassNotFoundException e1) {
             e1.printStackTrace();
