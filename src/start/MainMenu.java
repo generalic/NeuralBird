@@ -1,5 +1,9 @@
 package start;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -8,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class MainMenu extends Application {
 
@@ -35,6 +40,20 @@ public class MainMenu extends Application {
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(scene);
 		stage.show();
+
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), scene.getRoot());
+		fadeTransition.setFromValue(0);
+		fadeTransition.setToValue(1);
+
+		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), scene.getRoot());
+		scaleTransition.setFromX(1.3);
+		scaleTransition.setFromY(1.3);
+		scaleTransition.setToX(1);
+		scaleTransition.setToY(1);
+
+		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
+		transitions.setInterpolator(Interpolator.LINEAR);
+		transitions.play();
 	}
 
 	private void setupScreenDragging() {
