@@ -20,9 +20,6 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 
 	protected void switchScreen(Scene scene, Pane root) {
 		Group group = (Group) scene.getRoot();
-//		group.getChildren().forEach(c -> c.setVisible(false));
-//		group.getChildren().add(root);
-
 		Node menuPane = group.getChildren().get(0);
 
 		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
@@ -44,8 +41,8 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 			group.getChildren().forEach(c -> c.setVisible(false));
 			group.getChildren().add(root);
 		});
-		SequentialTransition transition = new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition);
-		transition.play();
+		SequentialTransition transitions = new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition);
+		transitions.play();
 
 //		Group group = (Group) scene.getRoot();
 //		group.getChildren().forEach(c -> c.setVisible(false));
@@ -82,15 +79,26 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 //		transition.play();
 
 		backButton.setOnAction(e -> {
-			group.getChildren().remove(root);
-			group.getChildren().forEach(c -> c.setVisible(true));
+			zoomInTransition.setNode(root);
+			zoomOutTransition.setNode(menuPane);
+			zoomOutTransition.setDuration(Duration.millis(200));
 
-			ScaleTransition backTransition = new ScaleTransition(Duration.millis(500), menuPane);
-			backTransition.setFromX(15);
-			backTransition.setFromY(15);
-			backTransition.setToX(1);
-			backTransition.setToY(1);
-			backTransition.play();
+			pauseTransition.setOnFinished(event -> {
+				group.getChildren().remove(root);
+				group.getChildren().forEach(c -> c.setVisible(true));
+			});
+
+			transitions.play();
+
+//			group.getChildren().remove(root);
+//			group.getChildren().forEach(c -> c.setVisible(true));
+//
+//			ScaleTransition backTransition = new ScaleTransition(Duration.millis(500), menuPane);
+//			backTransition.setFromX(15);
+//			backTransition.setFromY(15);
+//			backTransition.setToX(1);
+//			backTransition.setToY(1);
+//			backTransition.play();
 		});
 	}
 
