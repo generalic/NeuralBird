@@ -1,36 +1,19 @@
 package start.settings_fxml;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import start.game_play_fxml.AbstractFXMLScreen;
 
-import java.io.IOException;
+public class SettingsScreen extends AbstractFXMLScreen {
 
-public class SettingsScreen {
-
+	private static final String FXML_FILE_NAME = "settings_screen.fxml";
 
     public SettingsScreen(Scene scene) {
-		FXMLLoader fxmlLoader = createFXMLLoader();
-
-		Pane root = getRoot(fxmlLoader);
-
-		SettingsScreenController controller = fxmlLoader.getController();
-		controller.initScreen(scene, root);
+		super(scene);
     }
 
-	private FXMLLoader createFXMLLoader() {
-		return new FXMLLoader(getClass().getResource("settings_screen.fxml"));
+	@Override
+	protected String getFXMLFileName() {
+		return  FXML_FILE_NAME;
 	}
-
-	private Pane getRoot(FXMLLoader fxmlLoader) {
-		try {
-			Pane root = fxmlLoader.load();
-			return root;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 
 }

@@ -1,10 +1,8 @@
 package start.game_play_fxml;
 
-import hr.fer.zemris.game.model.GameModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import start.engine.GameEngine;
 
 import java.io.IOException;
 
@@ -19,12 +17,7 @@ public abstract class AbstractFXMLScreen {
 		Pane root = getRoot(fxmlLoader);
 
 		IScreenController controller = fxmlLoader.getController();
-		GameEngine engine = new GameEngine(createGameModel());
-
-		controller.initScreen(scene, root, engine);
-
-		scene.setOnKeyPressed(engine.getEventHandler());
-		engine.runGame();
+		controller.initScreen(scene, root);
 	}
 
 	private FXMLLoader createFXMLLoader() {
@@ -42,7 +35,5 @@ public abstract class AbstractFXMLScreen {
 	}
 
 	protected abstract String getFXMLFileName();
-
-	protected abstract GameModel createGameModel();
 
 }

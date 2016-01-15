@@ -1,5 +1,6 @@
 package start.game_play_fxml;
 
+import hr.fer.zemris.game.model.GameModel;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -25,7 +26,7 @@ import start.engine.GameEngine;
 /**
  * Created by generalic on 7.1.2016..
  */
-public abstract class AbstractFXMLController extends AbstractScreenSwitchController implements IScreenController {
+public abstract class AbstractFXMLController extends AbstractScreenSwitchController {
 
 	@FXML
 	private AnchorPane root;
@@ -47,6 +48,8 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	@FXML
 	private Button restartButton;
+
+	protected GameEngine engine;
 
 	@FXML
 	public void initialize() {
@@ -177,7 +180,9 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		gamePane.getChildren().add(gameNode);
 	}
 
-	public void initScreen(Scene scene, Pane root, GameEngine engine) {
+	public void initScreen(Scene scene, Pane root) {
+		this.engine = new GameEngine(createGameModel());
+
 		addGameScreen(engine.getGameNode());
 		bindOnGameOverAction(engine.gameOverProperty());
 		bindScoreLabels(engine.getGameModel().scoreProperty());
@@ -190,8 +195,13 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 			group.getChildren().forEach(c -> c.setVisible(true));
 			resetScreen(scene);
 		});
+
+		scene.setOnKeyPressed(engine.getEventHandler());
+		engine.runGame();
 	}
-	
+
+	protected abstract GameModel createGameModel();
 	
 	protected abstract void resetScreen(Scene scene);
+
 }

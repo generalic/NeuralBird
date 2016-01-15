@@ -8,8 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import start.game_play_fxml.IScreenController;
 
-public class AbstractScreenSwitchController {
+public abstract class AbstractScreenSwitchController implements IScreenController {
 
 	@FXML
 	public Button backButton;
