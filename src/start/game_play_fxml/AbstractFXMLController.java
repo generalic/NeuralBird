@@ -159,6 +159,18 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 	private void bindScoreLabels(IntegerProperty scoreProperty) {
 		scoreLabel.textProperty().bind(new SimpleStringProperty("SCORE: ").concat(scoreProperty.asString()));
 		endScoreLabel.textProperty().bind(scoreLabel.textProperty());
+
+		scoreLabel.textProperty().addListener(observable -> {
+			ScaleTransition transition = new ScaleTransition(Duration.millis(300), scoreLabel);
+			transition.setFromX(1);
+			transition.setFromY(1);
+			transition.setToX(1.5);
+			transition.setToY(1.5);
+			transition.setInterpolator(Interpolator.LINEAR);
+			transition.setAutoReverse(true);
+			transition.setCycleCount(2);
+			transition.play();
+		});
 	}
 
 	public void addGameScreen(Node gameNode) {

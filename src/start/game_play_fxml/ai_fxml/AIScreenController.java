@@ -1,6 +1,7 @@
 package start.game_play_fxml.ai_fxml;
 
 import hr.fer.zemris.game.model.GameModelAI;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import start.engine.GameEngine;
 import start.game_play_fxml.AbstractFXMLController;
 
@@ -38,6 +40,17 @@ public class AIScreenController extends AbstractFXMLController {
 		optionPanel.getChildren().add(1, toggleButton);
 
 		inputIndicator.visibleProperty().bind(gameModel.traceableProperty());
+		inputIndicator.visibleProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue) {
+				ScaleTransition transition = new ScaleTransition(Duration.millis(500), root);
+				transition.setFromX(1);
+				transition.setFromY(1);
+				transition.setToX(2);
+				transition.setToY(2);
+				transition.setAutoReverse(true);
+				transition.setCycleCount(2);
+			}
+		});
 		inputOn.visibleProperty().bind(gameModel.jumpProperty());
 
 		setupBinding();

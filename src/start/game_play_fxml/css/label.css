@@ -8,14 +8,18 @@
     src: url("/start/fonts/TwCenMTCondensed.TTF");
 }
 
+#imageView {
+    -fx-image: url("GameOverLabel2.png");
+}
+
 #scoreLabel {
     -fx-font-family: "Tw Cen MT Condensed";
     -fx-font-size: 40;
-    -fx-text-fill: #3c0d0d;
+    -fx-text-fill: linear-gradient(to right, rgba(232,67,7,1) 0%, rgba(255,251,10,1) 100%);
 }
 
 #endScoreLabel {
     -fx-font-family: "Capture it";
     -fx-font-size: 59;
-    -fx-text-fill: #3c0d0d;
+    -fx-text-fill: linear-gradient(to right, rgba(232,67,7,1) 0%, rgba(255,251,10,1) 100%);
 }

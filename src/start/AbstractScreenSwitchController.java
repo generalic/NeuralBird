@@ -33,6 +33,13 @@ public class AbstractScreenSwitchController {
 //		transition.setInterpolator(Interpolator.EASE_OUT);
 //		transition.play();
 
+//		ScaleTransition transition = new ScaleTransition(Duration.millis(500), root);
+//		transition.setFromX(1);
+//		transition.setFromY(1);
+//		transition.setToX(2);
+//		transition.setToY(2);
+//		transition.setAutoReverse(true);
+//		transition.setCycleCount(2);
 		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), root);
 		transition.setFromX(2);
 		transition.setFromY(2);
