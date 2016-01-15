@@ -192,9 +192,23 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 		Group group = (Group) scene.getRoot();
 		restartButton.setOnAction(e -> {
-			group.getChildren().remove(root);
-			group.getChildren().forEach(c -> c.setVisible(true));
-			resetScreen(scene);
+			ScaleTransition zoomInTransition = new ScaleTransition(zoomInDuration, root);
+			zoomInTransition.setFromX(1);
+			zoomInTransition.setFromY(1);
+			zoomInTransition.setToX(5);
+			zoomInTransition.setToY(5);
+			zoomInTransition.setInterpolator(Interpolator.LINEAR);
+			zoomInTransition.setOnFinished(event -> {
+				group.getChildren().remove(root);
+				zoomInDuration = Duration.seconds(0);
+				pauseDuration = Duration.seconds(0);
+				resetScreen(scene);
+			});
+			zoomInTransition.play();
+
+//			group.getChildren().remove(root);
+//			group.getChildren().forEach(c -> c.setVisible(true));
+//			resetScreen(scene);
 		});
 
 		scene.setOnKeyPressed(engine.getEventHandler());

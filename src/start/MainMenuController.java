@@ -47,11 +47,13 @@ public class MainMenuController {
 
 	@FXML
 	public void quitGame(ActionEvent event) {
-		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), scene.getRoot());
+		final double duration = 0.6;
+
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(1);
 		fadeTransition.setToValue(0);
 
-		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), scene.getRoot());
+		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
 		scaleTransition.setFromX(1);
 		scaleTransition.setFromY(1);
 		scaleTransition.setToX(1.3);

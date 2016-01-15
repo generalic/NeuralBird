@@ -41,11 +41,13 @@ public class MainMenu extends Application {
 		stage.setScene(scene);
 		stage.show();
 
-		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), scene.getRoot());
+		final double duration = 0.6;
+
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(0);
 		fadeTransition.setToValue(1);
 
-		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(1), scene.getRoot());
+		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
 		scaleTransition.setFromX(1.3);
 		scaleTransition.setFromY(1.3);
 		scaleTransition.setToX(1);

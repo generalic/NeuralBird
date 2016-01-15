@@ -18,11 +18,17 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 	@FXML
 	public Button backButton;
 
+	public static Duration zoomInDuration = Duration.seconds(0.5);
+	public static final Duration defaultZoomInDuration = Duration.seconds(0.5);
+
+	public static Duration pauseDuration = Duration.millis(100);
+	public static final Duration defaultPauseDuration = Duration.millis(100);
+
 	protected void switchScreen(Scene scene, Pane root) {
 		Group group = (Group) scene.getRoot();
 		Node menuPane = group.getChildren().get(0);
 
-		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
+		ScaleTransition zoomInTransition = new ScaleTransition(zoomInDuration, menuPane);
 		zoomInTransition.setFromX(1);
 		zoomInTransition.setFromY(1);
 		zoomInTransition.setToX(5);
@@ -36,7 +42,7 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 		zoomOutTransition.setToY(1);
 		zoomOutTransition.setInterpolator(Interpolator.LINEAR);
 
-		PauseTransition pauseTransition = new PauseTransition(Duration.millis(100));
+		PauseTransition pauseTransition = new PauseTransition(pauseDuration);
 		pauseTransition.setOnFinished(e -> {
 			group.getChildren().forEach(c -> c.setVisible(false));
 			group.getChildren().add(root);
@@ -79,6 +85,9 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 //		transition.play();
 
 		backButton.setOnAction(e -> {
+			zoomInTransition.setDuration(defaultZoomInDuration);
+			pauseTransition.setDuration(defaultPauseDuration);
+
 			zoomInTransition.setNode(root);
 			zoomOutTransition.setNode(menuPane);
 			zoomOutTransition.setDuration(Duration.millis(200));
