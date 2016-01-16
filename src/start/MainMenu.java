@@ -1,7 +1,6 @@
 package start;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
@@ -41,20 +40,36 @@ public class MainMenu extends Application {
 		stage.setScene(scene);
 		stage.show();
 
-		final double duration = 0.6;
+//		final double duration = 0.6;
+//
+//		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
+//		fadeTransition.setFromValue(0);
+//		fadeTransition.setToValue(1);
+//
+//		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
+//		scaleTransition.setFromX(1.3);
+//		scaleTransition.setFromY(1.3);
+//		scaleTransition.setToX(1);
+//		scaleTransition.setToY(1);
+//
+//		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
+//		transitions.setInterpolator(Interpolator.LINEAR);
+//		transitions.play();
+
+		final double duration = 0.8;
+
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(0);
 		fadeTransition.setToValue(1);
 
 		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
-		scaleTransition.setFromX(1.3);
-		scaleTransition.setFromY(1.3);
+		scaleTransition.setFromX(0);
+		scaleTransition.setFromY(0);
 		scaleTransition.setToX(1);
 		scaleTransition.setToY(1);
 
 		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
-		transitions.setInterpolator(Interpolator.LINEAR);
 		transitions.play();
 	}
 

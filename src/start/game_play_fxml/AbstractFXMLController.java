@@ -53,7 +53,6 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 	public void initialize() {
 		optionPanel.setTranslateX(-root.getPrefWidth());
 		optionPanel.setDisable(true);
-//		optionPanel.setVisible(false);
 
 		gameOverVBox.setTranslateY(-root.getPrefHeight());
 		gameOverVBox.setDisable(true);
@@ -61,31 +60,14 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	@FXML
 	public void mouseEntered() {
-//		Timeline timeline = new Timeline();
-//		timeline.getKeyFrames().addAll(
-//				new KeyFrame(Duration.millis(300),
-//						new KeyValue(vbox.opacityProperty(), 1)
-//				)
-//		);
-//		timeline.play();
 	}
 
 	@FXML
 	public void mouseExited() {
 		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
 		transTransition.setToX(-optionPanel.getPrefWidth());
-		transTransition.setInterpolator(Interpolator.LINEAR);
 		transTransition.play();
 		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
-
-//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
-//		transition.setFromX(1);
-//		transition.setFromY(1);
-//		transition.setToX(0);
-//		transition.setToY(0);
-//		transition.setInterpolator(Interpolator.EASE_BOTH);
-//		transition.play();
-//		transition.setOnFinished(e -> optionPanel.setVisible(false));
 	}
 
 	@FXML
@@ -122,18 +104,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		optionPanel.setDisable(false);
 		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
 		transTransition.setToX(0);
-		transTransition.setInterpolator(Interpolator.LINEAR);
 		transTransition.play();
-
-
-//		ScaleTransition transition = new ScaleTransition(Duration.seconds(1), optionPanel);
-//		transition.setFromX(3);
-//		transition.setFromY(3);
-//		transition.setToX(1);
-//		transition.setToY(1);
-//		transition.setInterpolator(Interpolator.EASE_BOTH);
-//		optionPanel.setVisible(true);
-//		transition.play();
 	}
 
 

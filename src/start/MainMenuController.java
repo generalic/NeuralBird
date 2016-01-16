@@ -70,8 +70,8 @@ public class MainMenuController {
 		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
 		scaleTransition.setFromX(1);
 		scaleTransition.setFromY(1);
-		scaleTransition.setToX(1.3);
-		scaleTransition.setToY(1.3);
+		scaleTransition.setToX(0);
+		scaleTransition.setToY(0);
 
 		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
 		transitions.setOnFinished(e -> Platform.exit());
