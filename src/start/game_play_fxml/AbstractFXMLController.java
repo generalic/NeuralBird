@@ -1,10 +1,7 @@
 package start.game_play_fxml;
 
 import hr.fer.zemris.game.model.GameModel;
-import javafx.animation.Interpolator;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -201,13 +198,14 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 			zoomInTransition.setInterpolator(Interpolator.LINEAR);
 			zoomInTransition.setOnFinished(event -> {
 				group.getChildren().remove(root);
+				group.getChildren().forEach(c -> c.setVisible(false));
 			});
 
 			TranslateTransition clearScreen = new TranslateTransition(Duration.millis(300), gameOverVBox);
 			clearScreen.setToY(-root.getPrefWidth());
 			clearScreen.setInterpolator(Interpolator.LINEAR);
-			clearScreen.setOnFinished(event -> resetScreen(scene, zoomInTransition));
-			clearScreen.play();
+
+			resetScreen(scene, new SequentialTransition(clearScreen, zoomInTransition));
 		});
 
 		scene.setOnKeyPressed(engine.getEventHandler());

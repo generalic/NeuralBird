@@ -1,8 +1,6 @@
 package start;
 
 import javafx.animation.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -11,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import start.game_play_fxml.IScreenController;
-
-import java.util.Objects;
 
 public abstract class AbstractScreenSwitchController implements IScreenController {
 
@@ -23,11 +19,7 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 		Group group = (Group) scene.getRoot();
 		Node menuPane = group.getChildren().get(0);
 
-		EventHandler<ActionEvent> actionEvent = transition.getOnFinished();
 		transition.setOnFinished(e -> {
-			if(Objects.nonNull(actionEvent)) {
-				actionEvent.handle(e);
-			}
 			group.getChildren().forEach(c -> c.setVisible(false));
 			group.getChildren().add(root);
 		});
@@ -79,15 +71,23 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 //		transition.play();
 
 		backButton.setOnAction(e -> {
-			((ScaleTransition) transition).setNode(root);
-			transition.setOnFinished(event -> {
+			ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), root);
+			zoomInTransition.setFromX(1);
+			zoomInTransition.setFromY(1);
+			zoomInTransition.setToX(5);
+			zoomInTransition.setToY(5);
+			zoomInTransition.setInterpolator(Interpolator.LINEAR);
+			zoomInTransition.setOnFinished(event -> {
 				group.getChildren().remove(root);
 				group.getChildren().forEach(c -> c.setVisible(true));
 			});
+
 			zoomOutTransition.setNode(menuPane);
 			zoomOutTransition.setDuration(Duration.millis(200));
 
-			transitions.play();
+			new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition).play();
+
+//			transitions.play();
 
 //			group.getChildren().remove(root);
 //			group.getChildren().forEach(c -> c.setVisible(true));
