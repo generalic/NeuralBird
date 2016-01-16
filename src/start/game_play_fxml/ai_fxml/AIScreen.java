@@ -5,6 +5,7 @@ package start.game_play_fxml.ai_fxml;
  */
 
 import hr.fer.zemris.network.NeuralNetwork;
+import javafx.animation.Transition;
 import javafx.scene.Scene;
 import start.game_play_fxml.AbstractFXMLScreen;
 
@@ -27,8 +28,8 @@ public class AIScreen extends AbstractFXMLScreen {
 		deserialisation();
 	}
 
-	public AIScreen(Scene scene) {
-		super(scene);
+	public AIScreen(Scene scene, Transition transition) {
+		super(scene, transition);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package start;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -32,22 +32,36 @@ public class MainMenuController {
 
 	@FXML
 	public void runGamePlayer(ActionEvent event) {
-		new PlayerScreen(scene);
+		new PlayerScreen(scene, getTransition());
 	}
 
 	@FXML
 	public void runGameAI(ActionEvent event) {
-		new AIScreen(scene);
+		new AIScreen(scene, getTransition());
 	}
 
 	@FXML
 	public void openSettings(ActionEvent event) {
-		new SettingsScreen(scene);
+		new SettingsScreen(scene, getTransition());
+	}
+
+	private Transition getTransition() {
+		Group group = (Group) scene.getRoot();
+		Node menuPane = group.getChildren().get(0);
+
+		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
+		zoomInTransition.setFromX(1);
+		zoomInTransition.setFromY(1);
+		zoomInTransition.setToX(5);
+		zoomInTransition.setToY(5);
+		zoomInTransition.setInterpolator(Interpolator.LINEAR);
+
+		return zoomInTransition;
 	}
 
 	@FXML
 	public void quitGame(ActionEvent event) {
-		final double duration = 0.6;
+		final double duration = 0.8;
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(1);

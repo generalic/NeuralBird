@@ -1,5 +1,6 @@
 package start.game_play_fxml;
 
+import javafx.animation.Transition;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -8,6 +9,6 @@ import javafx.scene.layout.Pane;
  */
 public interface IScreenController {
 
-	void initScreen(Scene scene, Pane root);
+	void initScreen(Scene scene, Pane root, Transition transition);
 
 }

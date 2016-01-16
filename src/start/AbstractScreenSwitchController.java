@@ -1,9 +1,8 @@
 package start;
 
-import javafx.animation.Interpolator;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
+import javafx.animation.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -13,27 +12,27 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import start.game_play_fxml.IScreenController;
 
+import java.util.Objects;
+
 public abstract class AbstractScreenSwitchController implements IScreenController {
 
 	@FXML
 	public Button backButton;
 
-	public static Duration zoomInDuration = Duration.seconds(0.5);
-	public static final Duration defaultZoomInDuration = Duration.seconds(0.5);
-
-	public static Duration pauseDuration = Duration.millis(100);
-	public static final Duration defaultPauseDuration = Duration.millis(100);
-
-	protected void switchScreen(Scene scene, Pane root) {
+	protected void switchScreen(Scene scene, Pane root, Transition transition) {
 		Group group = (Group) scene.getRoot();
 		Node menuPane = group.getChildren().get(0);
 
-		ScaleTransition zoomInTransition = new ScaleTransition(zoomInDuration, menuPane);
-		zoomInTransition.setFromX(1);
-		zoomInTransition.setFromY(1);
-		zoomInTransition.setToX(5);
-		zoomInTransition.setToY(5);
-		zoomInTransition.setInterpolator(Interpolator.LINEAR);
+		EventHandler<ActionEvent> actionEvent = transition.getOnFinished();
+		transition.setOnFinished(e -> {
+			if(Objects.nonNull(actionEvent)) {
+				actionEvent.handle(e);
+			}
+			group.getChildren().forEach(c -> c.setVisible(false));
+			group.getChildren().add(root);
+		});
+
+		PauseTransition pauseTransition = new PauseTransition(Duration.millis(100));
 
 		ScaleTransition zoomOutTransition = new ScaleTransition(Duration.seconds(0.5), root);
 		zoomOutTransition.setFromX(5);
@@ -42,12 +41,7 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 		zoomOutTransition.setToY(1);
 		zoomOutTransition.setInterpolator(Interpolator.LINEAR);
 
-		PauseTransition pauseTransition = new PauseTransition(pauseDuration);
-		pauseTransition.setOnFinished(e -> {
-			group.getChildren().forEach(c -> c.setVisible(false));
-			group.getChildren().add(root);
-		});
-		SequentialTransition transitions = new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition);
+		SequentialTransition transitions = new SequentialTransition(transition, pauseTransition, zoomOutTransition);
 		transitions.play();
 
 //		Group group = (Group) scene.getRoot();
@@ -85,17 +79,13 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 //		transition.play();
 
 		backButton.setOnAction(e -> {
-			zoomInTransition.setDuration(defaultZoomInDuration);
-			pauseTransition.setDuration(defaultPauseDuration);
-
-			zoomInTransition.setNode(root);
-			zoomOutTransition.setNode(menuPane);
-			zoomOutTransition.setDuration(Duration.millis(200));
-
-			pauseTransition.setOnFinished(event -> {
+			((ScaleTransition) transition).setNode(root);
+			transition.setOnFinished(event -> {
 				group.getChildren().remove(root);
 				group.getChildren().forEach(c -> c.setVisible(true));
 			});
+			zoomOutTransition.setNode(menuPane);
+			zoomOutTransition.setDuration(Duration.millis(200));
 
 			transitions.play();
 

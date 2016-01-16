@@ -45,10 +45,6 @@ public class Constants {
 	public DoubleProperty GRAVITY = new SimpleDoubleProperty(4.81);//settings screen
 	public BooleanProperty GOD_MODE = new SimpleBooleanProperty(false);//settings screen
 
-	public static void main(String[] args) {
-
-	}
-
 	{
 		REWARD_SPEED_X.bind(PIPES_SPEED_X);
 		REWARD_GAP_X.bind(PIPE_GAP_X.add(PIPE_WIDTH));

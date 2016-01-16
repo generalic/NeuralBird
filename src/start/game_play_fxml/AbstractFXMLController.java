@@ -3,6 +3,7 @@ package start.game_play_fxml;
 import hr.fer.zemris.game.model.GameModel;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -53,7 +54,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	@FXML
 	public void initialize() {
-		optionPanel.setTranslateX(-optionPanel.getPrefWidth() - 1);
+		optionPanel.setTranslateX(-root.getPrefWidth());
 		optionPanel.setDisable(true);
 //		optionPanel.setVisible(false);
 
@@ -124,7 +125,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		optionPanel.setDisable(false);
 		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
 		transTransition.setToX(0);
-		transTransition.setInterpolator(Interpolator.EASE_OUT);
+		transTransition.setInterpolator(Interpolator.LINEAR);
 		transTransition.play();
 
 
@@ -146,7 +147,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 				hideScoreLabel();
 				TranslateTransition transition = new TranslateTransition(Duration.millis(300), gameOverVBox);
 				transition.setToY(0);
-				transition.setInterpolator(Interpolator.EASE_OUT);
+				transition.setInterpolator(Interpolator.LINEAR);
 				transition.play();
 			}
 		});
@@ -155,7 +156,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 	private void hideScoreLabel() {
 		TranslateTransition transition = new TranslateTransition(Duration.millis(300), scoreLabel);
 		transition.setToY(-root.getPrefHeight());
-		transition.setInterpolator(Interpolator.EASE_OUT);
+		transition.setInterpolator(Interpolator.LINEAR);
 		transition.play();
 	}
 
@@ -181,18 +182,18 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 	}
 
 	@Override
-	public void initScreen(Scene scene, Pane root) {
+	public void initScreen(Scene scene, Pane root, Transition transition) {
 		this.engine = new GameEngine(createGameModel());
 
 		addGameScreen(engine.getGameNode());
 		bindOnGameOverAction(engine.gameOverProperty());
 		bindScoreLabels(engine.getGameModel().scoreProperty());
 
-		switchScreen(scene, root);
+		switchScreen(scene, root, transition);
 
 		Group group = (Group) scene.getRoot();
 		restartButton.setOnAction(e -> {
-			ScaleTransition zoomInTransition = new ScaleTransition(zoomInDuration, root);
+			ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), root);
 			zoomInTransition.setFromX(1);
 			zoomInTransition.setFromY(1);
 			zoomInTransition.setToX(5);
@@ -200,15 +201,13 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 			zoomInTransition.setInterpolator(Interpolator.LINEAR);
 			zoomInTransition.setOnFinished(event -> {
 				group.getChildren().remove(root);
-				zoomInDuration = Duration.seconds(0);
-				pauseDuration = Duration.seconds(0);
-				resetScreen(scene);
 			});
-			zoomInTransition.play();
 
-//			group.getChildren().remove(root);
-//			group.getChildren().forEach(c -> c.setVisible(true));
-//			resetScreen(scene);
+			TranslateTransition clearScreen = new TranslateTransition(Duration.millis(300), gameOverVBox);
+			clearScreen.setToY(-root.getPrefWidth());
+			clearScreen.setInterpolator(Interpolator.LINEAR);
+			clearScreen.setOnFinished(event -> resetScreen(scene, zoomInTransition));
+			clearScreen.play();
 		});
 
 		scene.setOnKeyPressed(engine.getEventHandler());
@@ -217,6 +216,6 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	protected abstract GameModel createGameModel();
 	
-	protected abstract void resetScreen(Scene scene);
+	protected abstract void resetScreen(Scene scene, Transition transition);
 
 }

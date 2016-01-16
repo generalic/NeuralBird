@@ -1,5 +1,6 @@
 package start.game_play_fxml;
 
+import javafx.animation.Transition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -11,13 +12,13 @@ import java.io.IOException;
  */
 public abstract class AbstractFXMLScreen {
 
-	public AbstractFXMLScreen(Scene scene) {
+	public AbstractFXMLScreen(Scene scene, Transition transition) {
 		FXMLLoader fxmlLoader = createFXMLLoader();
 
 		Pane root = getRoot(fxmlLoader);
 
 		IScreenController controller = fxmlLoader.getController();
-		controller.initScreen(scene, root);
+		controller.initScreen(scene, root, transition);
 	}
 
 	private FXMLLoader createFXMLLoader() {

@@ -2,6 +2,7 @@ package start.game_play_fxml.ai_fxml;
 
 import hr.fer.zemris.game.model.GameModel;
 import hr.fer.zemris.game.model.GameModelAI;
+import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
@@ -26,8 +27,8 @@ public class AIScreenController extends AbstractFXMLController {
 	private VBox optionPanel;
 
 	@Override
-	public void initScreen(Scene scene, Pane root) {
-		super.initScreen(scene, root);
+	public void initScreen(Scene scene, Pane root, Transition transition) {
+		super.initScreen(scene, root, transition);
 		setupBinding();
 	}
 
@@ -39,8 +40,8 @@ public class AIScreenController extends AbstractFXMLController {
 	}
 
 	@Override
-	protected void resetScreen(Scene scene) {
-		new AIScreen(scene);
+	protected void resetScreen(Scene scene, Transition transition) {
+		new AIScreen(scene, transition);
 	}
 
 	private void setupBinding() {

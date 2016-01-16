@@ -1,6 +1,7 @@
 package start.settings_fxml;
 
 import hr.fer.zemris.game.environment.Constants;
+import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -69,9 +70,9 @@ public class SettingsScreenController extends AbstractScreenSwitchController {
 	public Button defaultSettingsButton;
 
 	@Override
-	public void initScreen(Scene scene, Pane root) {
+	public void initScreen(Scene scene, Pane root, Transition transition) {
 		setupBinding();
-		switchScreen(scene, root);
+		switchScreen(scene, root, transition);
 	}
 
 	private void setupBinding() {
