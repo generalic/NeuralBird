@@ -1,5 +1,12 @@
 package start.game_play_fxml.ai_fxml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * Created by generalic on 4.1.2016..
  */
@@ -8,13 +15,6 @@ import hr.fer.zemris.network.NeuralNetwork;
 import javafx.animation.Transition;
 import javafx.scene.Scene;
 import start.game_play_fxml.AbstractFXMLScreen;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class AIScreen extends AbstractFXMLScreen {
 
