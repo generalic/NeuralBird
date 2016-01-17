@@ -37,6 +37,8 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 		transitions.play();
 
 		backButton.setOnAction(e -> {
+			Transition clearScreenTransition = createClearScreenTransition();
+			
 			ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), root);
 			zoomInTransition.setFromX(1);
 			zoomInTransition.setFromY(1);
@@ -51,8 +53,15 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 			zoomOutTransition.setNode(menuPane);
 			zoomOutTransition.setDuration(Duration.millis(200));
 
-			new SequentialTransition(zoomInTransition, pauseTransition, zoomOutTransition).play();
+			new SequentialTransition(
+					clearScreenTransition,
+					zoomInTransition,
+					pauseTransition,
+					zoomOutTransition
+			).play();
 		});
 	}
-
+	
+	protected abstract Transition createClearScreenTransition();
+	
 }

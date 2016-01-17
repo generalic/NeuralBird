@@ -172,11 +172,9 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 				group.getChildren().forEach(c -> c.setVisible(false));
 			});
 
-			TranslateTransition clearScreen = new TranslateTransition(Duration.millis(300), gameOverVBox);
-			clearScreen.setToY(-root.getPrefWidth());
-			clearScreen.setInterpolator(Interpolator.LINEAR);
+			Transition clearScreenTransition = createClearScreenTransition();
 
-			resetScreen(scene, new SequentialTransition(clearScreen, zoomInTransition));
+			resetScreen(scene, new SequentialTransition(clearScreenTransition, zoomInTransition));
 		});
 
 		scene.setOnKeyPressed(engine.getEventHandler());
@@ -184,7 +182,14 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 	}
 
 	protected abstract GameModel createGameModel();
-	
+
 	protected abstract void resetScreen(Scene scene, Transition transition);
 
+	@Override
+	protected Transition createClearScreenTransition() {
+		TranslateTransition transition = new TranslateTransition(Duration.millis(300), gameOverVBox);
+		transition.setToY(-root.getPrefWidth());
+		transition.setInterpolator(Interpolator.LINEAR);
+		return transition;
+	}
 }

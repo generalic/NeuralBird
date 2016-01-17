@@ -2,12 +2,14 @@ package start.settings_fxml;
 
 import hr.fer.zemris.game.environment.Constants;
 import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import start.AbstractScreenSwitchController;
 
 public class SettingsScreenController extends AbstractScreenSwitchController {
@@ -116,4 +118,8 @@ public class SettingsScreenController extends AbstractScreenSwitchController {
 		Constants.resetToDefaultSettings();
 	}
 
+	@Override
+	protected Transition createClearScreenTransition() {
+		return new TranslateTransition(Duration.ZERO);
+	}
 }
