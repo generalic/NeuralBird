@@ -49,7 +49,7 @@ public class MainMenuController {
 		Group group = (Group) scene.getRoot();
 		Node menuPane = group.getChildren().get(0);
 
-		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
+		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.3), menuPane);
 		zoomInTransition.setFromX(1);
 		zoomInTransition.setFromY(1);
 		zoomInTransition.setToX(5);
