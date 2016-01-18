@@ -97,7 +97,7 @@
       </VBox>
       <VBox fx:id="optionPanel" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#keyPressed" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" opacity="0.8" prefHeight="407.0" prefWidth="104.0" spacing="20.0" style="-fx-background-color: #383838;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Slider fx:id="fpsSlider" max="200.0" min="1.0" orientation="VERTICAL" />
+            <Slider fx:id="fpsSlider" max="100.0" min="1.0" orientation="VERTICAL" />
             <AnchorPane />
             <Button fx:id="backButton" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onMouseEntered="#buttonMouseEntered" onMouseExited="#buttonMouseExited" text="Back" />
          </children>

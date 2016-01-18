@@ -9,7 +9,7 @@
 }
 
 #imageView {
-    -fx-image: url("GameOverLabel2.png");
+    -fx-image: url("GameOverLabel.png");
 }
 
 #scoreLabel {
