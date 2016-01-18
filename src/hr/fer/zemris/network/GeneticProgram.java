@@ -16,20 +16,24 @@ public class GeneticProgram {
     public static final int POPULATION_SIZE = 50;
 
     public static final int SCORE_LIMIT = 600;
+    public static final int TOURNAMENT_SIZE = 10;
     public static final int MAX_NUM_OF_PIPES = 50;
+    
+    public static final double CROSSOVER_ALPHA=0.5;
+    public static final double MUTATION_RATE=0.01;
+    
     /** Number of neuronsPerLayer */
 
-    private static final int[] neuronsPerLayer = { 9, 30, 1 };
+    private static final int[] neuronsPerLayer = { 9, 50, 1 };
     
     public NeuralNetwork train() {
         
         int numberOfGenerations = 0;
-        int n = 10;
         
         TournamentSelection selectionO = new TournamentSelection();
         
-        BLXAlphaCrossover crossoverO = new BLXAlphaCrossover(0.5);
-        SimpleMutation mutationO = new SimpleMutation(0.01);
+        BLXAlphaCrossover crossoverO = new BLXAlphaCrossover(CROSSOVER_ALPHA);
+        SimpleMutation mutationO = new SimpleMutation(MUTATION_RATE);
         
         // Napravi inicijalnu populaciju
         Solution[] population = createInitialPopulation(POPULATION_SIZE);
@@ -38,13 +42,11 @@ public class GeneticProgram {
             
             Solution[] newPopulation = new Solution[POPULATION_SIZE];
             
-            Solution[] bestTwo = getTwoBestNets(population.clone());
-            newPopulation[0] = bestTwo[0];
-            newPopulation[1] = bestTwo[1];
+
             // Napravi novu populaciju
             for (int i = 0; i < POPULATION_SIZE; i++) {
-                NeuralNetwork parent1 = selectionO.select(population, n);
-                NeuralNetwork parent2 = selectionO.select(population, n);
+                NeuralNetwork parent1 = selectionO.select(population, TOURNAMENT_SIZE);
+                NeuralNetwork parent2 = selectionO.select(population, TOURNAMENT_SIZE);
                 Solution child = new Solution(crossoverO.doCrossover(parent1, parent2));
                 
                 mutationO.mutate(child.network);
@@ -57,12 +59,10 @@ public class GeneticProgram {
             numberOfGenerations++;
             double currentFit = evaluatePopulation(population);
             
-            // NeuronNetwork net2 = getBestNet(population);
-            // System.out.println(compareLists(net2.getWeights(), tmpNet[0].network.getWeights()));
-            //
+            
             System.out.println(currentFit + "   " + numberOfGenerations);
             
-            mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
+            //mutationO.setSigma(currentFit < 3 ? 0.03 : 0.01);
             
         }
         NeuralNetwork bestOne = getBestNet(population);
@@ -134,21 +134,7 @@ public class GeneticProgram {
         return bestNet;
     }
     
-    /**
-     * Metoda vraca 2 najbolje mreze u populaciji
-     * 
-     * @param population populacija
-     * @return 2 najbolje mreze
-     */
-    static Solution[] getTwoBestNets(Solution[] population) {
-        
-        Solution[] bestNets = new Solution[2];
-        Arrays.sort(population);
-        bestNets[0] = population[population.length - 1];
-        bestNets[1] = population[population.length - 2];
-        return bestNets;
-        
-    }
+
     
     /**
      * Metoda za racunanje greske. Greska se racuna tako da se ptica pokrene u NUMBER_OF_GAMES igara. Zatim se izracuna
