@@ -7,7 +7,7 @@
     -fx-font-family: "Tw Cen MT Condensed";
     -fx-font-weight: 600;
     -fx-font-size: 40;
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.3;
 
     -fx-text-fill: white;
     -fx-background-color: linear-gradient(to right, rgba(117,117,117,1) 0%, rgba(0,0,0,1) 47%, rgba(117,117,117,1) 100%);

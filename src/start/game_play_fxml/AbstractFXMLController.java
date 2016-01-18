@@ -51,7 +51,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	@FXML
 	public void initialize() {
-		optionPanel.setTranslateX(-root.getPrefWidth());
+		optionPanel.setTranslateX(-optionPanel.getPrefWidth());
 		optionPanel.setDisable(true);
 
 		gameOverVBox.setTranslateY(-root.getPrefHeight());
@@ -64,10 +64,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 
 	@FXML
 	public void mouseExited() {
-		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
-		transTransition.setToX(-optionPanel.getPrefWidth());
-		transTransition.play();
-		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
+		slideOutToolBar();
 	}
 
 	@FXML
@@ -107,25 +104,37 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		transTransition.play();
 	}
 
+	private void slideOutToolBar() {
+		TranslateTransition transTransition = new TranslateTransition(Duration.millis(350), optionPanel);
+		transTransition.setToX(-optionPanel.getPrefWidth());
+		transTransition.play();
+		transTransition.setOnFinished(e -> optionPanel.setDisable(true));
+	}
 
 	private void bindOnGameOverAction(BooleanProperty gameOverProperty) {
 		gameOverProperty.addListener((observable, oldValue, newValue) -> {
 			if(!newValue) {
-				gameOverVBox.setDisable(false);
-				hideScoreLabel();
-				TranslateTransition transition = new TranslateTransition(Duration.millis(300), gameOverVBox);
-				transition.setToY(0);
-				transition.setInterpolator(Interpolator.LINEAR);
-				transition.play();
+				TranslateTransition hideScoreLabelTransition = new TranslateTransition(Duration.millis(300), scoreLabel);
+				hideScoreLabelTransition.setToY(-root.getPrefHeight());
+				hideScoreLabelTransition.setInterpolator(Interpolator.LINEAR);
+				hideScoreLabelTransition.setOnFinished(e -> gameOverVBox.setDisable(false));
+
+				TranslateTransition gameOverTranslate = new TranslateTransition(Duration.millis(300), gameOverVBox);
+				gameOverTranslate.setToY(0);
+				gameOverTranslate.setInterpolator(Interpolator.LINEAR);
+
+				ScaleTransition gameOverTransition = new ScaleTransition(Duration.seconds(0.5), gameOverVBox);
+				gameOverTransition.setFromX(1);
+				gameOverTransition.setFromY(1);
+				gameOverTransition.setToX(2);
+				gameOverTransition.setToY(2);
+				gameOverTransition.setAutoReverse(true);
+				gameOverTransition.setCycleCount(2);
+				gameOverTransition.setInterpolator(Interpolator.LINEAR);
+
+				new ParallelTransition(hideScoreLabelTransition, gameOverTranslate, gameOverTransition).play();
 			}
 		});
-	}
-
-	private void hideScoreLabel() {
-		TranslateTransition transition = new TranslateTransition(Duration.millis(300), scoreLabel);
-		transition.setToY(-root.getPrefHeight());
-		transition.setInterpolator(Interpolator.LINEAR);
-		transition.play();
 	}
 
 	private void bindScoreLabels(IntegerProperty scoreProperty) {
