@@ -21,7 +21,7 @@ import java.util.*;
 
 public abstract class GameModel {
 
-    protected Dimension2D dimension = new Dimension2D(1100, 700);
+    public Dimension2D dimension = new Dimension2D(1024, 700);
 
 	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
 

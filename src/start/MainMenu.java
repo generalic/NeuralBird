@@ -31,7 +31,7 @@ public class MainMenu extends Application {
 		MainMenuController controller = fxmlLoader.getController();
 
 		this.stage = primaryStage;
-		this.scene = new Scene(new Group(root), 1100, 700);
+		this.scene = new Scene(new Group(root), 1024, 700);
 		controller.setScene(scene);
 
 		setupScreenDragging();

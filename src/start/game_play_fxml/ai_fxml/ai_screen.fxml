@@ -12,10 +12,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.game_play_fxml.ai_fxml.AIScreenController">
+<AnchorPane fx:id="root" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.game_play_fxml.ai_fxml.AIScreenController">
    <children>
       <Pane fx:id="gamePane" onMouseMoved="#showToolBar" prefHeight="407.0" prefWidth="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox alignment="CENTER" layoutX="836.0" layoutY="50.0" spacing="5.0">
+      <VBox alignment="CENTER" layoutX="836.0" layoutY="50.0" spacing="5.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <children>
              <Label id="scoreLabel" fx:id="scoreLabel" alignment="CENTER" layoutX="836.0" layoutY="50.0" prefHeight="55.0" prefWidth="214.0" stylesheets="@../css/label.css" text="SCORE:" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
             <StackPane fx:id="inputIndicator" prefHeight="84.0" prefWidth="176.0">
