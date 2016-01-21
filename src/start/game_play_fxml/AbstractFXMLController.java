@@ -54,7 +54,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 		optionPanel.setTranslateX(-optionPanel.getPrefWidth());
 		optionPanel.setDisable(true);
 
-		gameOverVBox.setTranslateY(-root.getPrefHeight());
+		gameOverVBox.setTranslateY(-2 * root.getPrefHeight());
 		gameOverVBox.setDisable(true);
 	}
 
@@ -119,7 +119,7 @@ public abstract class AbstractFXMLController extends AbstractScreenSwitchControl
 				hideScoreLabelTransition.setInterpolator(Interpolator.LINEAR);
 				hideScoreLabelTransition.setOnFinished(e -> gameOverVBox.setDisable(false));
 
-				TranslateTransition gameOverTranslate = new TranslateTransition(Duration.millis(300), gameOverVBox);
+				TranslateTransition gameOverTranslate = new TranslateTransition(Duration.millis(500), gameOverVBox);
 				gameOverTranslate.setToY(0);
 				gameOverTranslate.setInterpolator(Interpolator.LINEAR);
 

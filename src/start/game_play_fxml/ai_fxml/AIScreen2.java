@@ -32,6 +32,7 @@ public class AIScreen2 extends Application {
 
 		Scene scene = new Scene(root);
 		scene.setOnKeyPressed(engine.getEventHandler());
+		primaryStage.setFullScreen(true);
 		primaryStage.setScene(scene);
 
 		primaryStage.setTitle("Translate Animation");

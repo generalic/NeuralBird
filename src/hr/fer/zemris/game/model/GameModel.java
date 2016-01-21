@@ -16,6 +16,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 
 import java.util.*;
 
@@ -24,6 +25,14 @@ public abstract class GameModel {
     public Dimension2D dimension = new Dimension2D(1024, 700);
 
 	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
+
+	{
+		double width = Screen.getPrimary().getVisualBounds().getWidth();
+		double height = Screen.getPrimary().getVisualBounds().getHeight();
+		System.out.println(height);
+		dimension = new Dimension2D(width, height + 40);
+		gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
+	}
 
     protected Random random = RandomProvider.get();
 
