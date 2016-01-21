@@ -25,6 +25,7 @@ public class GeneticProgram {
     /** Number of neuronsPerLayer */
 
     private static final int[] neuronsPerLayer = { 9, 50, 1 };
+    private static Random rand = new Random();
     
     public NeuralNetwork train() {
         
@@ -90,7 +91,12 @@ public class GeneticProgram {
         for (int i = 0; i < popSize; i++) {
             Solution sol = new Solution(new NeuralNetwork(neuronsPerLayer, transferFunction, new GameModelAITrainable()));
             double[] weights = new double[sol.network.getWeightsCount()];
-            Arrays.fill(weights, new Random().nextDouble());
+            for (int j = 0; j < weights.length; j++) {
+				weights[j]=rand.nextDouble();
+				if(rand.nextBoolean()){
+					weights[j]*=-1;
+				}
+			}
             sol.network.setWeights(weights);
             sol.fitness = calculateFitness(sol.network);
             result[i] = sol;
