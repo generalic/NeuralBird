@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane id="root" prefHeight="700.0" prefWidth="1100.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.settings_fxml.SettingsScreenController">
+<BorderPane id="root" prefHeight="700.0" prefWidth="1024.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="start.settings_fxml.SettingsScreenController">
    <center>
       <AnchorPane>
          <children>
