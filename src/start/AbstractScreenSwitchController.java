@@ -39,7 +39,7 @@ public abstract class AbstractScreenSwitchController implements IScreenControlle
 		backButton.setOnAction(e -> {
 			Transition clearScreenTransition = createClearScreenTransition();
 			
-			ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), root);
+			ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.4), root);
 			zoomInTransition.setFromX(1);
 			zoomInTransition.setFromY(1);
 			zoomInTransition.setToX(5);

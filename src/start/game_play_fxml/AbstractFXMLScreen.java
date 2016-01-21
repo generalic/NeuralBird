@@ -4,6 +4,7 @@ import javafx.animation.Transition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 
 import java.io.IOException;
 
@@ -16,6 +17,11 @@ public abstract class AbstractFXMLScreen {
 		FXMLLoader fxmlLoader = createFXMLLoader();
 
 		Pane root = getRoot(fxmlLoader);
+
+		double width = Screen.getPrimary().getVisualBounds().getWidth();
+		double height = Screen.getPrimary().getVisualBounds().getHeight();
+		root.setPrefWidth(width);
+		root.setPrefHeight(height + 40);
 
 		IScreenController controller = fxmlLoader.getController();
 		controller.initScreen(scene, root, transition);

@@ -6,9 +6,10 @@ import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -26,19 +27,23 @@ public class MainMenu extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_FILE_NAME));
-		Parent root = fxmlLoader.load();
+
+		Pane root = fxmlLoader.load();
+
+		double width = Screen.getPrimary().getVisualBounds().getWidth();
+		double height = Screen.getPrimary().getVisualBounds().getHeight();
+		root.setPrefWidth(width);
+		root.setPrefHeight(height + 40);
 
 		MainMenuController controller = fxmlLoader.getController();
 
 		this.stage = primaryStage;
-		this.scene = new Scene(new Group(root), 1100, 700);
+
+//		this.scene = new Scene(new Group(root), 1100, 700);
+		this.scene = new Scene(new Group(root));
 		controller.setScene(scene);
 
 		setupScreenDragging();
-
-		stage.initStyle(StageStyle.UNDECORATED);
-		stage.setScene(scene);
-		stage.show();
 
 //		final double duration = 0.6;
 //
@@ -56,7 +61,7 @@ public class MainMenu extends Application {
 //		transitions.setInterpolator(Interpolator.LINEAR);
 //		transitions.play();
 
-		final double duration = 0.8;
+		final double duration = 1.5;
 
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
@@ -71,6 +76,11 @@ public class MainMenu extends Application {
 
 		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
 		transitions.play();
+
+		stage.initStyle(StageStyle.UNDECORATED);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.show();
 	}
 
 	private void setupScreenDragging() {
