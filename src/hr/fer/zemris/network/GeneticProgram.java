@@ -5,7 +5,6 @@ import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class GeneticProgram {
@@ -23,7 +22,6 @@ public class GeneticProgram {
     public static final double MUTATION_RATE=0.01;
     
     /** Number of neuronsPerLayer */
-
     private static final int[] neuronsPerLayer = { 9, 50, 1 };
     private static Random rand = new Random();
     
@@ -176,17 +174,5 @@ public class GeneticProgram {
         return counter;
         
     }
-    
-    boolean compareLists(List<Double> list1, List<Double> list2) {
-        
-        for (int i = 0; i < list1.size(); i++) {
-            if (!list1.get(i).equals(list2.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    
     
 }

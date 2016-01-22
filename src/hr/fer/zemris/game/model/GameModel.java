@@ -363,10 +363,6 @@ public abstract class GameModel {
 		jump.set(true);
 	}
 
-	public boolean getJump() {
-		return jump.get();
-	}
-
 	public BooleanProperty jumpProperty() {
 		return jump;
 	}
@@ -381,14 +377,6 @@ public abstract class GameModel {
 
 	public int getNumberOfPassedPipes() {
 		return numberOfPassedPipes.get();
-	}
-
-	public IntegerProperty numberOfPassedPipesProperty() {
-		return numberOfPassedPipes;
-	}
-
-	public boolean isTraceable() {
-		return traceable.get();
 	}
 
 	public BooleanProperty traceableProperty() {

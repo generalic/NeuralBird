@@ -1,4 +1,4 @@
-package hr.fer.zemris.game.demo;
+package hr.fer.zemris.network.train;
 
 import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelAITrainable;
@@ -9,7 +9,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -18,14 +17,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Demo2 extends Application {
+public class TrainNeuralNetwork extends Application {
 
 	private Timeline gameLoop;
 	private boolean paused = false;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		GameModelAI model = new GameModelAITrainable();
 		model.traceableProperty().set(true);
 		NeuralNetwork network = new GeneticProgram().train();
@@ -43,20 +41,6 @@ public class Demo2 extends Application {
 		}));
 		gameLoop.setCycleCount(Animation.INDEFINITE);
 		gameLoop.play();
-
-		scene.setOnKeyPressed(e -> {
-			if(e.getCode().equals(KeyCode.B)) {
-				if(!paused) {
-					gameLoop.pause();
-				} else {
-					gameLoop.play();
-				}
-				paused ^= true;
-			} else {
-				model.jumpBird();
-			}
-		});
-
 	}
 
 	public static void main(String[] args) {

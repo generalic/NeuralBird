@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-public class MainMenu extends Application {
+public class NeuralBirdStartGame extends Application {
 
 	private static final String FXML_FILE_NAME = "main_menu.fxml";
 
@@ -46,24 +46,7 @@ public class MainMenu extends Application {
 
 		setupScreenDragging();
 
-//		final double duration = 0.6;
-//
-//		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
-//		fadeTransition.setFromValue(0);
-//		fadeTransition.setToValue(1);
-//
-//		ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(duration), scene.getRoot());
-//		scaleTransition.setFromX(1.3);
-//		scaleTransition.setFromY(1.3);
-//		scaleTransition.setToX(1);
-//		scaleTransition.setToY(1);
-//
-//		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
-//		transitions.setInterpolator(Interpolator.LINEAR);
-//		transitions.play();
-
 		final double duration = 1.5;
-
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(0);
