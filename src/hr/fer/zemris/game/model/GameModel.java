@@ -1,116 +1,132 @@
 package hr.fer.zemris.game.model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
+import hr.fer.zemris.game.components.ground.Ground;
 import hr.fer.zemris.game.components.pipes.PipePair;
 import hr.fer.zemris.game.components.reward.Reward;
-import hr.fer.zemris.game.environment.EnvironmentVariables;
-import hr.fer.zemris.game.environment.IEnvironmentListener;
-import hr.fer.zemris.game.environment.IEnvironmentProvider;
+import hr.fer.zemris.game.environment.Constants;
 import hr.fer.zemris.game.physics.Physics;
 import hr.fer.zemris.util.RandomProvider;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.stage.Screen;
 
-public class GameModel implements IEnvironmentProvider {
+import java.util.*;
 
-    /**
-     * Debug varijabla da ne moram dolje uvijek zakomentirati na checkCollisions(). Kad je {@code false} igra se nebude
-     * zaustavila.
-     */
-    private static final boolean PAUSE_GAME = true;
+public abstract class GameModel {
 
-    private static final int NUMBER_OF_PIPES = 5;
-    private static final double PIPES_SPEED_X = 10;
-    private static final double REWARD_SPEED_X = PIPES_SPEED_X;
-    private static final double PIPES_SPEED_Y = 5;
-    private static final double JUMP_SPEED = -27;
-    private static final double PIPE_GAP_X = 300;
-    private static final double PIPE_GAP_Y = 150;
-    private static final double PIPE_WIDTH = 70;
-    private static final double INITIAL_PIPE_OFFSET = 100;
-    private static final double REWARD_GAP_X = PIPE_GAP_X + PIPE_WIDTH;
-    private static final int PIPE_PASSED_BONUS = 1;
-    private static final int REWARD_COLLECTED_BONUS = 5;
+    public Dimension2D dimension = new Dimension2D(1024, 700);
 
-    private Dimension2D dimension = new Dimension2D(1000, 600);
+	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
 
-    public static Random random = RandomProvider.get();
+	{
+		double width = Screen.getPrimary().getVisualBounds().getWidth();
+		double height = Screen.getPrimary().getVisualBounds().getHeight();
+		System.out.println(height);
+		dimension = new Dimension2D(width, height + 40);
+		gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
+	}
 
-    private Bird bird;
+    protected Random random = RandomProvider.get();
 
-    private boolean jump;
+    protected Bird bird;
 
-    private LinkedList<PipePair> pipesPairs = new LinkedList<>();
+	protected BooleanProperty jump = new SimpleBooleanProperty(false);
 
-    private PipePair lastPassed;
+	protected Constants constants;
 
-    private LinkedList<Reward> rewards = new LinkedList<>();
+    protected LinkedList<PipePair> pipesPairs = new LinkedList<>();
 
-    private Group group = new Group();
+	protected PipePair nearestPipePair;
 
-    private int pipeCounter = 0;
+	protected PipePair lastPassed;
 
-    private List<IEnvironmentListener> listeners = new ArrayList<>();
+    protected LinkedList<Reward> rewards = new LinkedList<>();
 
-    public GameModel() {
-        this.bird = new Bird(dimension.getWidth() / 3, dimension.getHeight() / 4);
+    protected LinkedList<Ground> grounds = new LinkedList<>();
+
+	protected Group group = new Group();
+
+	protected IntegerProperty score = new SimpleIntegerProperty(0);
+
+	private IntegerProperty numberOfPassedPipes = new SimpleIntegerProperty(0);
+
+	protected BooleanProperty traceable = new SimpleBooleanProperty(false);
+
+	public GameModel() {
+        initModel();
+    }
+
+    private void initModel() {
+    	constants = Constants.currentConstants;
+    	initaliseBird();
         initialiseEnvironment();
-        jump = false;
         lastPassed = getNearestPairAheadOfBird().get();
     }
 
-    public Scene getScene() {
+	public Pane getGamePane() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
         group.getChildren().addAll(rewards);
+        group.getChildren().addAll(grounds);
 
-        Pane root = new Pane();
+        Pane gamePane = new Pane(group);
+        gamePane.setPrefWidth(dimension.getWidth());
+        gamePane.setPrefHeight(dimension.getHeight());
 
-        root.getChildren().addAll(group);
-        root.setStyle("-fx-background-color: mediumslateblue");
-
-        return new Scene(root, dimension.getWidth(), dimension.getHeight());
+        return gamePane;
     }
 
-    public void jumpBird() {
-        jump = true;
+    public void reset() {
+        group.getChildren().clear();
+        pipesPairs.clear();
+        rewards.clear();
+
+        initModel();
     }
 
-    private void initialiseEnvironment() {
-        double nextPipeX = dimension.getWidth() + INITIAL_PIPE_OFFSET;
-        double nextRewardCenterX = nextPipeX + PIPE_WIDTH + PIPE_GAP_X / 2;
-        for (int i = 0; i < NUMBER_OF_PIPES; i++) {
-            nextPipeX = initialisePipePair(nextPipeX);
-            nextRewardCenterX = initialiseReward(nextRewardCenterX);
-        }
+	protected void initaliseBird() {
+		this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
+	}
+
+    protected void initialiseEnvironment() {
+		setupPipesAndRewards();
+		setupGround();
     }
 
-    private abstract class AbstractInitiaiser<T extends IComponent> {
+	private void setupPipesAndRewards() {
+		double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET.get();
+		double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH.get() + constants.PIPE_GAP_X.get() / 2;
+		for (int i = 0; i < constants.NUMBER_OF_PIPES.get(); i++) {
+			nextPipeX = initialisePipePair(nextPipeX);
+			nextRewardCenterX = initialiseReward(nextRewardCenterX);
+		}
+	}
+
+	protected void setupGround() {
+		double nextGroundX = 0;
+		for (int i = 0; i < constants.NUMBER_OF_GROUNDS.get(); i++) {
+			nextGroundX = initialiseGround(nextGroundX);
+		}
+	}
+
+	private abstract class AbstractInitialiser<T extends IComponent> {
 
         private List<T> components;
 
-        public AbstractInitiaiser(List<T> components) {
+        public AbstractInitialiser(List<T> components) {
             super();
             this.components = components;
         }
 
         public final double initialiseComponent(double nextComponentX) {
-
             T c = createComponent(nextComponentX);
             nextComponentX = calculateOffset(c);
             components.add(c);
@@ -124,39 +140,56 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     private double initialisePipePair(double nextPipeX) {
-        return new AbstractInitiaiser<PipePair>(pipesPairs) {
+        return new AbstractInitialiser<PipePair>(pipesPairs) {
 
             @Override
             protected PipePair createComponent(double nextComponentX) {
-                return new PipePair(nextPipeX, PIPE_GAP_Y, PIPE_WIDTH, dimension.getHeight());
+                return new PipePair(nextPipeX, constants.PIPE_GAP_Y.get(), constants.PIPE_WIDTH.get(), gameDimension.getHeight());
             }
 
             @Override
             protected double calculateOffset(PipePair component) {
-                return component.getRightMostX() + PIPE_GAP_X;
+                return component.getRightMostX() + constants.PIPE_GAP_X.get();
             }
 
         }.initialiseComponent(nextPipeX);
     }
 
     private double initialiseReward(double nextRewardCenterX) {
-        return new AbstractInitiaiser<Reward>(rewards) {
+        return new AbstractInitialiser<Reward>(rewards) {
 
             @Override
             protected Reward createComponent(double nextComponentX) {
-                return new Reward(nextRewardCenterX, dimension.getHeight());
+                return new Reward(nextRewardCenterX, gameDimension.getHeight());
             }
 
             @Override
             protected double calculateOffset(Reward component) {
-                return component.getCenterX() + REWARD_GAP_X;
+                return component.getCenterX() + constants.REWARD_GAP_X.get();
             }
 
         }.initialiseComponent(nextRewardCenterX);
     }
 
+	protected double initialiseGround(double nextGroundX) {
+        return new AbstractInitialiser<Ground>(grounds) {
+
+            @Override
+            protected Ground createComponent(double nextComponentX) {
+                return new Ground(nextGroundX, gameDimension.getHeight());
+            }
+
+            @Override
+            protected double calculateOffset(Ground component) {
+                return component.getRightMostX();
+            }
+
+        }.initialiseComponent(nextGroundX);
+    }
+
     private abstract class AbstractMover<T extends IComponent> {
-        private LinkedList<T> components;
+
+		private LinkedList<T> components;
 
         public AbstractMover(LinkedList<T> components) {
             super();
@@ -167,6 +200,9 @@ public class GameModel implements IEnvironmentProvider {
             components.forEach(this::translate);
 
             T first = components.peekFirst();
+			if(Objects.isNull(first)) {
+				return;
+			}
             if (first.getRightMostX() < 0) {
                 T last = components.peekLast();
                 putFirstBehindLast(first, last);
@@ -185,15 +221,15 @@ public class GameModel implements IEnvironmentProvider {
 
             @Override
             protected void translate(PipePair component) {
-                double shiftX = Physics.calculateShiftX(PIPES_SPEED_X, time);
+                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X.get(), time);
                 component.translatePair(shiftX);
-                double shiftY = Physics.calculateShiftX(PIPES_SPEED_Y, time);
+                double shiftY = Physics.calculateShiftX(constants.PIPES_SPEED_Y.get(), time);
                 component.setPairYPosition(shiftY);
             }
 
             @Override
             protected void putFirstBehindLast(PipePair first, PipePair last) {
-                first.setPairXPosition(last.getRightMostX() + PIPE_GAP_X);
+                first.setPairXPosition(last.getRightMostX() + constants.PIPE_GAP_X.get());
                 first.randomizeYPositions();
             }
 
@@ -205,26 +241,44 @@ public class GameModel implements IEnvironmentProvider {
 
             @Override
             protected void translate(Reward component) {
-                double shiftX = Physics.calculateShiftX(REWARD_SPEED_X, time);
+                double shiftX = Physics.calculateShiftX(constants.REWARD_SPEED_X.get(), time);
                 component.translateReward(shiftX);
+                component.updateFrame();
             }
 
             @Override
             protected void putFirstBehindLast(Reward first, Reward last) {
-                first.setCenterX(last.getCenterX() + REWARD_GAP_X);
+                first.setCenterX(last.getCenterX() + constants.REWARD_GAP_X.get());
                 first.randomizeYPosition();
-                first.setVisible(random.nextDouble() < 0.3);
+                first.setVisible(random.nextDouble() < constants.REWARD_PROBABILITY.get());
+            }
+
+        }.move(time);
+    }
+
+    protected void moveGround(int time) {
+        new AbstractMover<Ground>(grounds) {
+
+            @Override
+            protected void translate(Ground component) {
+                double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X.get(), time);
+                component.translate(shiftX);
+            }
+
+            @Override
+            protected void putFirstBehindLast(Ground first, Ground last) {
+                first.setX(last.getRightMostX());
             }
 
         }.move(time);
     }
 
     private void moveBird(int time) {
-        if (jump) {
-            double shiftY = Physics.calculateShiftY(JUMP_SPEED, time);
-            bird.setCurrentVelocity(JUMP_SPEED);
+        if (jump.get()) {
+            double shiftY = Physics.calculateShiftY(constants.JUMP_SPEED.negate().get(), time);
+            bird.setCurrentVelocity(constants.JUMP_SPEED.negate().get());
             bird.setCenterY(bird.getCenterY() + shiftY);
-            jump = false;
+            jump.set(false);
         } else {
             double shiftY = Physics.calculateShiftY(bird.getCurrentVelocity(), time);
             bird.setCurrentVelocity(Physics.calculateVelocity(bird.getCurrentVelocity(), time));
@@ -234,57 +288,38 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     public boolean update(int time) {
-        if (checkCollisions() && PAUSE_GAME) {
+        if (!constants.GOD_MODE.get() && checkCollisions()) {
             return false;
         }
 
-        if (isRewardCollected()) {
-            pipeCounter += REWARD_COLLECTED_BONUS;
-        }
+		refreshScore();
 
         movePipes(time);
         moveRewards(time);
         moveBird(time);
+		moveGround(time);
 
-        PipePair nearestPipePair = getNearestPairAheadOfBird().get();
-
-        List<Double> distances = traceTubes(nearestPipePair);
-        double birdHeight = dimension.getHeight() - bird.getCenterY();
-
-        Optional<Reward> nearestReward = getNearestRewardAheadOfBird(nearestPipePair);
-
-        double distanceToReward = -1;
-        double relativeHeightToReward = 0;
-        if (nearestReward.isPresent()) {
-            distanceToReward = traceReward(nearestReward.get());
-            relativeHeightToReward = bird.getCenterY() - nearestReward.get().getCenterY();
-        } else {
-            group.getChildren().removeAll(rewardTracers);
-        }
-
-        distances.add(distanceToReward);
-
-        if (!nearestPipePair.equals(lastPassed)) {
-            pipeCounter += PIPE_PASSED_BONUS;
-            lastPassed = nearestPipePair;
-        }
-
-        EnvironmentVariables variables = new EnvironmentVariables(
-        		distances.get(0),
-        		distances.get(1),
-        		birdHeight,
-        		nearestPipePair.getDirection(),
-        		distanceToReward,
-        		distanceToReward != -1 ? 1 : -1,
-        		relativeHeightToReward
-        );
-
-        listeners.forEach(l -> l.environmentChanged(this, variables));
+		scanEnvironment();
 
         return true;
     }
 
-    private boolean isRewardCollected() {
+	private void refreshScore() {
+		if (isRewardCollected()) {
+			score.set(score.get() + constants.REWARD_COLLECTED_BONUS.get());
+		}
+
+		nearestPipePair = getNearestPairAheadOfBird().get();
+		if (!nearestPipePair.equals(lastPassed)) {
+			score.set(score.get() + constants.PIPE_PASSED_BONUS.get());
+			numberOfPassedPipes.set(numberOfPassedPipes.get() + 1);
+			lastPassed = nearestPipePair;
+		}
+	}
+	
+	protected abstract void scanEnvironment();
+
+	private boolean isRewardCollected() {
         return rewards.stream()
         		.filter(r -> r.intersects(bird))
         		.peek(r -> r.setVisible(false))
@@ -292,13 +327,8 @@ public class GameModel implements IEnvironmentProvider {
         		.isPresent();
     }
 
-    public int getCurrentScore() {
-        return pipeCounter;
-    }
-
-    private boolean checkCollisions() {
-        boolean intersection = pipesPairs
-        		.stream()
+	private boolean checkCollisions() {
+        boolean intersection = pipesPairs.stream()
         		.filter(p -> p.intersects(bird))
         		.findAny()
         		.isPresent();
@@ -306,121 +336,51 @@ public class GameModel implements IEnvironmentProvider {
     }
 
     private boolean isBirdOutOfBounds() {
-        Bounds birdBounds = bird.getBoundsInParent();
-        return birdBounds.getMaxY() > dimension.getHeight() || birdBounds.getMinY() < 0;
+		Bounds birdBounds = bird.getBoundsInParent();
+        return birdBounds.getMaxY() > gameDimension.getHeight() || birdBounds.getMinY() < 0;
     }
 
     /**
      * Vraca dvije cijevi(par).<br>
      * Prva(index = 0) je ona gore, druga(index = 1) je ona dolje.
      *
-     * @param entities
+     * @param
      * @return
      */
     // TO BUDEMO KORISTILI ZA GLEDANJE DI JE KOJA CIJEV KOD UČENJA MREZE
-    private Optional<PipePair> getNearestPairAheadOfBird() {
-        return getNearestComponentAheadOfBird(pipesPairs)
+//    private Optional<PipePair> getNearestPairAheadOfBird() {
+//        return getNearestComponentAheadOfBird(pipesPairs)
+//        		.findFirst();
+//    }
+    protected Optional<PipePair> getNearestPairAheadOfBird() {
+    	return pipesPairs.stream()
+    			.filter(p -> p.getRightMostX() > bird.getLeftMostX())
+        		.sorted()
         		.findFirst();
     }
 
-    private Optional<Reward> getNearestRewardAheadOfBird(IComponent nearestPipePair) {
-        return getNearestComponentAheadOfBird(rewards)
-        		.filter(IComponent::isVisible)
-                .filter(p -> p.getLeftMostX() <= nearestPipePair.getLeftMostX())
-                .findFirst();
-    }
+	public void jumpBird() {
+		jump.set(true);
+	}
 
-    private <T extends IComponent> Stream<T> getNearestComponentAheadOfBird(List<T> components) {
-        return components.stream()
-        		.filter(p -> p.getLeftMostX() - bird.getBoundsInParent().getMaxX() > 0)
-        		.sorted();
-    }
+	public BooleanProperty jumpProperty() {
+		return jump;
+	}
 
-    List<Line> pipeTracers = new ArrayList<>();
+	public int getScore() {
+		return score.get();
+	}
 
-    private List<Double> traceTubes(PipePair pair) {
-        Bounds upperTubeBounds = pair.upperHead.getBoundsInParent();
-        Bounds lowerTubeBounds = pair.lowerHead.getBoundsInParent();
+	public IntegerProperty scoreProperty() {
+		return score;
+	}
 
-        // System.out.println(pair.upperHead.getY() + pair.upperHead.getHeight());
-        // System.out.println(upperTubeBounds.getMaxY());
-        // System.out.println();
+	public int getNumberOfPassedPipes() {
+		return numberOfPassedPipes.get();
+	}
 
-        Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
-        Point2D p2 = new Point2D(upperTubeBounds.getMinX(), upperTubeBounds.getMaxY());
-        Point2D p3 = new Point2D(lowerTubeBounds.getMinX(), lowerTubeBounds.getMinY());
-
-        double dx1 = p2.getX() - p1.getX();
-        double dy1 = p2.getY() - p1.getY();
-
-        double distanceToUpper = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-
-        double dx2 = p3.getX() - p1.getX();
-        double dy2 = p3.getY() - p1.getY();
-
-        double distanceToLower = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-
-        if (!pipeTracers.isEmpty()) {
-            group.getChildren().removeAll(pipeTracers);
-            pipeTracers.clear();
-        }
-
-        Line lineLower = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        lineLower.setStrokeWidth(3);
-        lineLower.setStroke(Color.RED);
-        pipeTracers.add(lineLower);
-
-        Line lineUpper = new Line(p1.getX(), p1.getY(), p3.getX(), p3.getY());
-        lineUpper.setStrokeWidth(3);
-        lineUpper.setStroke(Color.RED);
-        pipeTracers.add(lineUpper);
-
-        group.getChildren().addAll(pipeTracers);
-
-        return Stream.of(distanceToLower, distanceToUpper).collect(Collectors.toList());
-    }
-
-    private List<Line> rewardTracers = new ArrayList<>();
-
-    private double traceReward(Reward reward) {
-        Point2D p1 = new Point2D(bird.getCenterX(), bird.getCenterY());
-        Point2D p2 = new Point2D(reward.getCenterX(), reward.getCenterY());
-
-        double dx = p2.getX() - p1.getX();
-        double dy = p2.getY() - p1.getY();
-
-        double distanceToReward = Math.sqrt(dx * dx + dy * dy);
-
-        if (!rewardTracers.isEmpty()) {
-            group.getChildren().removeAll(rewardTracers);
-            rewardTracers.clear();
-        }
-
-        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-        line.setStrokeWidth(3);
-        line.setStroke(Color.AQUAMARINE);
-        rewardTracers.add(line);
-
-        group.getChildren().addAll(rewardTracers);
-
-        return distanceToReward;
-    }
-
-    @Override
-    public void addEnvironmentListener(IEnvironmentListener listener) {
-        if (!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
-
-    @Override
-    public void removeEnvironmentListener(IEnvironmentListener listener) {
-        listeners.remove(listener);
-    }
-
-    @Override
-    public void react() {
-        jumpBird();
-    }
+	public BooleanProperty traceableProperty() {
+		return traceable;
+	}
 
 }

@@ -1,13 +1,13 @@
 package hr.fer.zemris.network;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Random;
-
 import hr.fer.zemris.game.environment.EnvironmentVariables;
 import hr.fer.zemris.game.environment.IEnvironmentListener;
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Random;
 
 
 /**
@@ -100,8 +100,6 @@ public class NeuralNetwork implements Serializable, IEnvironmentListener {
 	 *
 	 * @param inputs
 	 *            Inputs for neural network.
-	 * @param outputs
-	 *            Array in which outputs are stored.
 	 */
 	public double calcOutput(double[] inputs) {
 		double[] output = new double[1];

@@ -19,7 +19,6 @@ public interface IEnvironmentProvider {
 	/**
      * Gets the translation for the given key.
      *
-     * @param key used key
      * @return translation of the key
      */
 	void react();

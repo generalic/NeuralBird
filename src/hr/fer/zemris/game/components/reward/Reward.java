@@ -1,15 +1,16 @@
 package hr.fer.zemris.game.components.reward;
 
-import java.util.Random;
-import java.util.stream.Stream;
-
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.util.RandomProvider;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Reward extends Circle implements IComponent, Comparable<Reward> {
 
@@ -19,15 +20,19 @@ public class Reward extends Circle implements IComponent, Comparable<Reward> {
 
 	private static final double REWARD_RADIUS = 20;
 	private static final double MINIMUM_Y_OFFSET = 50;
+	private LinkedList<Image> rewardFrames = new LinkedList<>();
 
 	public Reward(double rewardCenterX, double height) {
 		this.height = height;
+		
 		setCenterX(rewardCenterX);
 		setRadius(REWARD_RADIUS);
-		setFill(Color.CORAL);
+		//setFill(Color.CORAL);
 		setVisible(false);
-
+		
 		randomizeYPosition();
+		loadRewardFrames();
+		updateFrame();
 	}
 
 	public void translateReward(double dx) {
@@ -50,10 +55,6 @@ public class Reward extends Circle implements IComponent, Comparable<Reward> {
 		return birdBounds.intersects(rewardBounds) && isVisible();
 	}
 
-	public Stream<Node> getPipes() {
-		return Stream.of(this);
-	}
-
 	@Override
 	public int compareTo(Reward o) {
 		return Double.compare(this.getCenterX(), o.getCenterX());
@@ -65,6 +66,19 @@ public class Reward extends Circle implements IComponent, Comparable<Reward> {
 				MINIMUM_Y_OFFSET + REWARD_RADIUS;
 		setCenterY(centerY);
 	}
+
+	//TODO
+	private void loadRewardFrames() {
+        IntStream.range(0, 5).forEach(i -> {
+            rewardFrames.add(new Image(getClass().getResourceAsStream("coinFrame" + i + ".png")));
+        });
+    }
+
+	 public void updateFrame() {
+	        Image frame = rewardFrames.removeFirst();
+	        setFill(new ImagePattern(frame));
+	        rewardFrames.add(frame);
+	    }
 
 	@Override
 	public void translate(double dx) {
