@@ -1,12 +1,5 @@
 package hr.fer.zemris.network.train;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.GeneticProgram;
@@ -18,6 +11,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Class where training of the {@link NeuralNetwork} is performed.

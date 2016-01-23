@@ -13,7 +13,7 @@ import javafx.util.Duration;
 import start.AbstractScreenSwitchController;
 
 /**
- * Class which represents a controller of the {@link SettingsScreen}.
+ * Class which represents a controller for the {@link SettingsScreen}.
  *
  * @author Boris Generalic
  * Created by generalic on 7.1.2016..

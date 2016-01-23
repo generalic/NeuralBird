@@ -19,7 +19,7 @@ import start.game_play_fxml.player_fxml.PlayerScreen;
 import start.settings_fxml.SettingsScreen;
 
 /**
- * Class which controller for entry point class of this game.
+ * Class which represents a controller for main menu screen.
  *
  * @author Boris Generalic
  * Created by generalic on 4.1.2016..
