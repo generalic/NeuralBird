@@ -2,6 +2,7 @@ package start.game_play_fxml;
 
 import javafx.animation.Transition;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
@@ -18,10 +19,9 @@ public abstract class AbstractFXMLScreen {
 
 		Pane root = getRoot(fxmlLoader);
 
-		double width = Screen.getPrimary().getVisualBounds().getWidth();
-		double height = Screen.getPrimary().getVisualBounds().getHeight();
-		root.setPrefWidth(width);
-		root.setPrefHeight(height + 40);
+		Rectangle2D bounds = Screen.getPrimary().getBounds();
+		root.setPrefWidth(bounds.getWidth());
+		root.setPrefHeight(bounds.getHeight());
 
 		IScreenController controller = fxmlLoader.getController();
 		controller.initScreen(scene, root, transition);

@@ -5,9 +5,10 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -26,27 +27,35 @@ public class NeuralBirdStartGame extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_FILE_NAME));
+		this.stage = primaryStage;
 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_FILE_NAME));
 		Pane root = fxmlLoader.load();
 
-		double width = Screen.getPrimary().getVisualBounds().getWidth();
-		double height = Screen.getPrimary().getVisualBounds().getHeight();
-		root.setPrefWidth(width);
-		root.setPrefHeight(height + 40);
+		Rectangle2D bounds = Screen.getPrimary().getBounds();
+		root.setPrefWidth(bounds.getWidth());
+		root.setPrefHeight(bounds.getHeight());
+
+		this.scene = new Scene(new Group(root));
 
 		MainMenuController controller = fxmlLoader.getController();
-
-		this.stage = primaryStage;
-		this.scene = new Scene(new Group(root), 1024, 700);
-
-//		this.scene = new Scene(new Group(root), 1100, 700);
-		this.scene = new Scene(new Group(root));
 		controller.setScene(scene);
 
 		setupScreenDragging();
+		setupStage();
+		setScreenStartAnimation();
+	}
 
-		final double duration = 1.5;
+	private void setupStage() {
+		stage.setScene(scene);
+		stage.initStyle(StageStyle.UNDECORATED);
+		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		stage.setFullScreen(true);
+		stage.show();
+	}
+
+	private void setScreenStartAnimation() {
+		final double duration = 1;
 
 		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), scene.getRoot());
 		fadeTransition.setFromValue(0);
@@ -60,24 +69,19 @@ public class NeuralBirdStartGame extends Application {
 
 		ParallelTransition transitions = new ParallelTransition(fadeTransition, scaleTransition);
 		transitions.play();
-
-		stage.initStyle(StageStyle.UNDECORATED);
-		stage.setScene(scene);
-		stage.setFullScreen(true);
-		stage.show();
 	}
 
 	private void setupScreenDragging() {
-		scene.setOnMousePressed((MouseEvent me) -> {
-			dragAnchorX = me.getScreenX() - stage.getX();
-			dragAnchorY = me.getScreenY() - stage.getY();
-		});
-
-		//when screen is dragged, translate it accordingly
-		scene.setOnMouseDragged((MouseEvent me) -> {
-			stage.setX(me.getScreenX() - dragAnchorX);
-			stage.setY(me.getScreenY() - dragAnchorY);
-		});
+//		scene.setOnMousePressed((MouseEvent me) -> {
+//			dragAnchorX = me.getScreenX() - stage.getX();
+//			dragAnchorY = me.getScreenY() - stage.getY();
+//		});
+//
+//		//when screen is dragged, translate it accordingly
+//		scene.setOnMouseDragged((MouseEvent me) -> {
+//			stage.setX(me.getScreenX() - dragAnchorX);
+//			stage.setY(me.getScreenY() - dragAnchorY);
+//		});
 	}
 
 	public static void main(String[] args) {

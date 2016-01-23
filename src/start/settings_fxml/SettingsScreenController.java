@@ -1,8 +1,8 @@
 package start.settings_fxml;
 
 import hr.fer.zemris.game.environment.Constants;
+import javafx.animation.PauseTransition;
 import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -120,6 +120,6 @@ public class SettingsScreenController extends AbstractScreenSwitchController {
 
 	@Override
 	protected Transition createClearScreenTransition() {
-		return new TranslateTransition(Duration.ZERO);
+		return new PauseTransition(Duration.ZERO);
 	}
 }

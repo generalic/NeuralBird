@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
@@ -27,10 +28,8 @@ public abstract class GameModel {
 	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
 
 	{
-		double width = Screen.getPrimary().getVisualBounds().getWidth();
-		double height = Screen.getPrimary().getVisualBounds().getHeight();
-		System.out.println(height);
-		dimension = new Dimension2D(width, height + 40);
+		Rectangle2D bounds = Screen.getPrimary().getBounds();
+		dimension = new Dimension2D(bounds.getWidth(), bounds.getHeight());
 		gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
 	}
 
