@@ -1,5 +1,12 @@
 package hr.fer.zemris.network.train;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import hr.fer.zemris.game.model.GameModelAI;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.GeneticProgram;
@@ -12,15 +19,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+/**
+ * Class where training of the {@link NeuralNetwork} is performed.
+ *
+ * @author Damir Kopljar
+ *
+ */
 public class TrainNeuralNetwork extends Application {
 
 	private Timeline gameLoop;
-	private boolean paused = false;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -28,10 +35,10 @@ public class TrainNeuralNetwork extends Application {
 		model.traceableProperty().set(true);
 		NeuralNetwork network = new GeneticProgram().train();
 		serialization(network);
-		
+
 		model.addEnvironmentListener(network);
 
-		Scene scene = new Scene(model.getGamePane(), 1000, 600);
+		Scene scene = new Scene(model.getGamePane());
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -47,35 +54,17 @@ public class TrainNeuralNetwork extends Application {
 		launch(args);
 	}
 
-	public NeuralNetwork deserialisation() {
-		Path p = Paths.get("weights.ser");
-		NeuralNetwork best = null;
-		try(
-			InputStream settingsIn = Files.newInputStream(p);
-			ObjectInputStream in = new ObjectInputStream(settingsIn);
-		) {
-			best = (NeuralNetwork) in.readObject();
-			System.out.println("Successfully deserialized.");
-		} catch (IOException | ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		return best;
-	}
-	
 	void serialization(NeuralNetwork network) {
-        
         Path p = Paths.get("weights.ser");
-        
+
         try (OutputStream networkOut = Files.newOutputStream(p);
-                ObjectOutputStream out = new ObjectOutputStream(networkOut);) {
+                ObjectOutputStream out = new ObjectOutputStream(networkOut);
+		) {
             out.writeObject(network);
             System.out.printf("Serialized data is saved in " + p.toAbsolutePath());
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        
     }
 
 }

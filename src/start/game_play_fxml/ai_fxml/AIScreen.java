@@ -13,6 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * Class which represents the screen where @{link NeuralNetwork}
+ * is playing the game.
+ *
+ * @author Boris Generalic
  * Created by generalic on 4.1.2016..
  */
 public class AIScreen extends AbstractFXMLScreen {

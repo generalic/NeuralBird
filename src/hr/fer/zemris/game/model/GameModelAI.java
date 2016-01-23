@@ -1,22 +1,33 @@
 package hr.fer.zemris.game.model;
 
-import hr.fer.zemris.game.components.IComponent;
-import hr.fer.zemris.game.components.pipes.PipePair;
-import hr.fer.zemris.game.components.reward.Reward;
-import hr.fer.zemris.game.environment.EnvironmentVariables;
-import hr.fer.zemris.game.environment.IEnvironmentListener;
-import hr.fer.zemris.game.environment.IEnvironmentProvider;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import hr.fer.zemris.game.components.IComponent;
+import hr.fer.zemris.game.components.bird.Bird;
+import hr.fer.zemris.game.components.pipes.PipePair;
+import hr.fer.zemris.game.components.reward.Reward;
+import hr.fer.zemris.game.environment.EnvironmentVariables;
+import hr.fer.zemris.game.environment.IEnvironmentListener;
+import hr.fer.zemris.game.environment.IEnvironmentProvider;
+import hr.fer.zemris.network.NeuralNetwork;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+
+/**
+ * Class which represents {@link GameModel} for {@link NeuralNetwork}.<br>
+ * {@link NeuralNetwork} is binded on this model and it listens for changes in model.
+ *
+ * Based on Proxy desing pattern.
+ *
+ * @author Boris Generalic and Damir Kopljar
+ *
+ */
 public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
 	private List<IEnvironmentListener> listeners = new ArrayList<>();
@@ -59,6 +70,13 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
         listeners.forEach(l -> l.environmentChanged(this, variables));
     }
 
+    /**
+     * Looks for nearest {@link Reward} ahead of {@link Bird}.
+     *
+     * @param nearestPipePair
+     *
+     * @return	returns {@link Optional} object which can be empty or can containt a {@link Reward}
+     */
     private Optional<Reward> getNearestRewardAheadOfBird(IComponent nearestPipePair) {
         return getNearestComponentAheadOfBird(rewards)
         		.filter(IComponent::isVisible)
@@ -66,13 +84,29 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
                 .findFirst();
     }
 
+    /**
+     * Returns nearest {@link IComponent} ahead of {@link Bird}.
+     *
+     * @param components	collection of {@link IComponent}s
+     *
+     * @return	{@link Stream} of {@link IComponent} which are ahead of bird
+     * 			sorted by distance
+     */
     private <T extends IComponent> Stream<T> getNearestComponentAheadOfBird(List<T> components) {
         return components.stream()
         		.filter(p -> p.getLeftMostX() > bird.getBoundsInParent().getMaxX())
         		.sorted();
     }
 
-
+    /**
+     * Abstract class which represents a template for tracing {@link IComponent}
+     * which is ahead of bird. <br>
+     *
+     * Based on Template Method design pattern.
+     *
+     * @author Boris Generalic
+     *
+     */
 	private abstract class AbstractTracer {
 
 		protected List<Line> lines;
@@ -83,6 +117,13 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 			this.lines = lines;
 		}
 
+		/**
+		 * Method returns distances from bird to points defined in
+		 * {@linkplain setPoints()} method.
+		 *
+		 * @return	distances from bird to points defined in
+		 * 			{@linkplain setPoints()} method
+		 */
 		public final List<Double> trace() {
 			setPoints();
 
@@ -98,14 +139,26 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 			return distances;
 		}
 
+		/**
+		 * Defines points for which distances are calculated.
+		 */
 		protected abstract void setPoints();
 
+		/**
+		 * Calculates and stores distances between defined points.
+		 */
 		protected abstract void setDistances();
 
 	}
 
     List<Line> pipeTraceLines = new ArrayList<>();
 
+    /**
+     * Method returns distances from {@link Bird} and {@link PipePair} corners.
+     *
+     * @param pair	traced {@link PipePair}
+     * @return		distances from {@link Bird} and {@link PipePair} corners
+     */
     private List<Double> traceTubes(PipePair pair) {
 		return new AbstractTracer(pipeTraceLines) {
 
@@ -136,6 +189,12 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 
     private List<Line> rewardTraceLines = new ArrayList<>();
 
+    /**
+     * Method returns distances from {@link Bird} and {@link Reward}.
+     *
+     * @param pair	traced {@link PipePair}
+     * @return		distances from {@link Bird} and {@link Reward}
+     */
     private List<Double> traceReward(Reward reward) {
 		return new AbstractTracer(rewardTraceLines) {
 
@@ -157,6 +216,15 @@ public class GameModelAI extends GameModel implements IEnvironmentProvider {
 		}.trace();
     }
 
+    /**
+     * Return distance between given points as well it creates and stores line in
+     * collection {@linkplain lines}.
+     *
+     * @param p1
+     * @param p2
+     * @param lines
+     * @return		distance between given points
+     */
 	private double getDistanceBetweenPoints(Point2D p1, Point2D p2, Collection<Line> lines) {
 		Line traceLine = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 		traceLine.setStrokeWidth(3);

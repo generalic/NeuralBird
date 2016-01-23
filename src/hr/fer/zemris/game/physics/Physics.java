@@ -1,7 +1,15 @@
 package hr.fer.zemris.game.physics;
 
 import hr.fer.zemris.game.environment.Constants;
+import hr.fer.zemris.game.model.GameModel;
 
+/**
+ * Class which represents equations of 2nd Newton's law, which
+ * are used in {@link GameModel} to implement real world physics.
+ *
+ * @author Jure Cular
+ *
+ */
 public final class Physics {
 
 	private Physics() {}

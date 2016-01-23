@@ -1,13 +1,17 @@
 package hr.fer.zemris.game.model;
 
-import hr.fer.zemris.game.components.bird.BirdTrainable;
+import hr.fer.zemris.network.NeuralNetwork;
 
+/**
+ * Model used in training process of {@link NeuralNetwork}.<br>
+ *
+ * This is performance-wise implemented model to reduce unnecessary overheads
+ * during the training process.
+ *
+ * @author Boris Generalic
+ *
+ */
 public class GameModelAITrainable extends GameModelAI {
-
-	@Override
-	protected void initaliseBird() {
-		this.bird = new BirdTrainable(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
-	}
 
 	@Override
 	protected void setupGround() {

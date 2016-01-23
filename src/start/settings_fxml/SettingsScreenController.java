@@ -12,6 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import start.AbstractScreenSwitchController;
 
+/**
+ * Class which represents a controller of the {@link SettingsScreen}.
+ *
+ * @author Boris Generalic
+ * Created by generalic on 7.1.2016..
+ */
 public class SettingsScreenController extends AbstractScreenSwitchController {
 
 	@FXML

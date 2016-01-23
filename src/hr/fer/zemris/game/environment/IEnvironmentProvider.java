@@ -1,5 +1,12 @@
 package hr.fer.zemris.game.environment;
 
+/**
+ * Interface which is implemented which represent some kind of
+ * environment.
+ *
+ * @author Boris Generalic
+ *
+ */
 public interface IEnvironmentProvider {
 
 	/**
@@ -17,9 +24,8 @@ public interface IEnvironmentProvider {
 	void removeEnvironmentListener(IEnvironmentListener listener);
 
 	/**
-     * Gets the translation for the given key.
+     * Used to perform action if it is needed.
      *
-     * @return translation of the key
      */
 	void react();
 

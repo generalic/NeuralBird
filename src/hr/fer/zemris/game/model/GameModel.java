@@ -1,5 +1,11 @@
 package hr.fer.zemris.game.model;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
+
 import hr.fer.zemris.game.components.IComponent;
 import hr.fer.zemris.game.components.bird.Bird;
 import hr.fer.zemris.game.components.ground.Ground;
@@ -19,13 +25,20 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 
-import java.util.*;
-
+/**
+ * Model which represents world of this game.<br>
+ * Model contains implementation of the collaboration between {@link Bird}, {@link PipePair}s,
+ * {@link Ground} and {@link Reward}.<br>
+ * Model's runtime is powered by {@linkplain update} method.
+ *
+ * @author Jure Cular and Boris Generalic
+ *
+ */
 public abstract class GameModel {
 
-    public Dimension2D dimension = new Dimension2D(1024, 700);
+    public Dimension2D dimension;
 
-	protected Dimension2D gameDimension = new Dimension2D(dimension.getWidth(), dimension.getHeight() - dimension.getHeight() / 8);
+	protected Dimension2D gameDimension;
 
 	{
 		Rectangle2D bounds = Screen.getPrimary().getBounds();
@@ -63,6 +76,9 @@ public abstract class GameModel {
         initModel();
     }
 
+	/**
+	 * Initializes model.
+	 */
     private void initModel() {
     	constants = Constants.currentConstants;
     	initaliseBird();
@@ -70,6 +86,11 @@ public abstract class GameModel {
         lastPassed = getNearestPairAheadOfBird().get();
     }
 
+    /**
+     * Returns {@link Pane} which contains all the components of the model.
+     *
+     * @return	{@link Pane} which contains all the components of the model
+     */
 	public Pane getGamePane() {
         group.getChildren().add(bird);
         group.getChildren().addAll(pipesPairs);
@@ -83,6 +104,9 @@ public abstract class GameModel {
         return gamePane;
     }
 
+	/**
+	 * Resets the model.
+	 */
     public void reset() {
         group.getChildren().clear();
         pipesPairs.clear();
@@ -91,15 +115,24 @@ public abstract class GameModel {
         initModel();
     }
 
+    /**
+     * Creates {@link Bird} used in model.
+     */
 	protected void initaliseBird() {
 		this.bird = new Bird(gameDimension.getWidth() / 3, gameDimension.getHeight() / 2);
 	}
 
+	/**
+	 * Creates {@link PipePair}s, {@link Reward}s, and {@link Ground}.
+	 */
     protected void initialiseEnvironment() {
 		setupPipesAndRewards();
 		setupGround();
     }
 
+    /**
+     * Creates {@link PipePair}s and {@link Reward}s.
+     */
 	private void setupPipesAndRewards() {
 		double nextPipeX = gameDimension.getWidth() + constants.INITIAL_PIPE_OFFSET.get();
 		double nextRewardCenterX = nextPipeX + constants.PIPE_WIDTH.get() + constants.PIPE_GAP_X.get() / 2;
@@ -109,6 +142,9 @@ public abstract class GameModel {
 		}
 	}
 
+	/**
+	 * Creates {@link Ground}.
+	 */
 	protected void setupGround() {
 		double nextGroundX = 0;
 		for (int i = 0; i < constants.NUMBER_OF_GROUNDS.get(); i++) {
@@ -116,6 +152,15 @@ public abstract class GameModel {
 		}
 	}
 
+	/**
+	 * Abstract class which is a template for intializing classes which implement
+	 * {@link IComponent} interface.
+	 * Based on Template Method design pattern.
+	 *
+	 * @author Boris Generalic
+	 *
+	 * @param <T> type of the component
+	 */
 	private abstract class AbstractInitialiser<T extends IComponent> {
 
         private List<T> components;
@@ -125,6 +170,13 @@ public abstract class GameModel {
             this.components = components;
         }
 
+        /**
+         * Method which creates next component and sets it on {@linkplain nextComponentX}
+         * x-coordinate increments it for fixed size.
+         *
+         * @param nextComponentX	x-coordinate where component will be created
+         * @return	x-coordinate for next component which will be created
+         */
         public final double initialiseComponent(double nextComponentX) {
             T c = createComponent(nextComponentX);
             nextComponentX = calculateOffset(c);
@@ -132,12 +184,29 @@ public abstract class GameModel {
             return nextComponentX;
         }
 
+        /**
+         * Creates component.
+         * @param nextComponentX	given x-coordinate
+         * @return	return created component
+         */
         protected abstract T createComponent(double nextComponentX);
 
+        /**
+         * Calculates x-coordinate for next component.
+         * @param component current component
+         * @return	x-coordinate for next component
+         */
         protected abstract double calculateOffset(T component);
 
     }
 
+	/**
+	 * Creates new {@link PipePair}.
+	 *
+	 * @param nextPipeX	x-coordinate for created {@link PipePair}.
+	 *
+	 * @return	x-coordinate for next {@link PipePair}
+	 */
     private double initialisePipePair(double nextPipeX) {
         return new AbstractInitialiser<PipePair>(pipesPairs) {
 
@@ -154,6 +223,13 @@ public abstract class GameModel {
         }.initialiseComponent(nextPipeX);
     }
 
+    /**
+	 * Creates new {@link Reward}.
+	 *
+	 * @param nextRewardCenterX	x-coordinate for created {@link Reward}.
+	 *
+	 * @return	x-coordinate for next {@link Reward}
+	 */
     private double initialiseReward(double nextRewardCenterX) {
         return new AbstractInitialiser<Reward>(rewards) {
 
@@ -170,6 +246,13 @@ public abstract class GameModel {
         }.initialiseComponent(nextRewardCenterX);
     }
 
+    /**
+	 * Creates new {@link Ground}.
+	 *
+	 * @param nextGroundX	x-coordinate for created {@link Ground}.
+	 *
+	 * @return	x-coordinate for next {@link Ground}
+	 */
 	protected double initialiseGround(double nextGroundX) {
         return new AbstractInitialiser<Ground>(grounds) {
 
@@ -186,6 +269,15 @@ public abstract class GameModel {
         }.initialiseComponent(nextGroundX);
     }
 
+	/**
+	 * Abstract class which is a template for moving classes on x-axis which implement
+	 * {@link IComponent} interface.
+	 * Based on Template Method design pattern.
+	 *
+	 * @author Boris Generalic
+	 *
+	 * @param <T> type of the component
+	 */
     private abstract class AbstractMover<T extends IComponent> {
 
 		private LinkedList<T> components;
@@ -195,6 +287,12 @@ public abstract class GameModel {
             this.components = components;
         }
 
+        /**
+         * Method which calculates for given time interval how much a component
+         * will be moved, and it moves it.
+         *
+         * @param time	time interval
+         */
         public final void move(int time) {
             components.forEach(this::translate);
 
@@ -209,19 +307,36 @@ public abstract class GameModel {
             }
         }
 
+        /**
+         * Translates given component.
+         *
+         * @param component	component which will be translated.
+         */
         protected abstract void translate(T component);
 
+        /**
+         * Puts first component behind last one in queue when first component gets
+         * behing screen bounds.
+         *
+         * @param first
+         * @param last
+         */
         protected abstract void putFirstBehindLast(T first, T last);
 
     }
 
+    /**
+     * Moves {@link PipePair}s.
+     *
+     * @param time given time interval
+     */
     private void movePipes(int time) {
         new AbstractMover<PipePair>(pipesPairs) {
 
             @Override
             protected void translate(PipePair component) {
                 double shiftX = Physics.calculateShiftX(constants.PIPES_SPEED_X.get(), time);
-                component.translatePair(shiftX);
+                component.translate(shiftX);
                 double shiftY = Physics.calculateShiftX(constants.PIPES_SPEED_Y.get(), time);
                 component.setPairYPosition(shiftY);
             }
@@ -235,13 +350,18 @@ public abstract class GameModel {
         }.move(time);
     }
 
+    /**
+     * Moves {@link Reward}s.
+     *
+     * @param time given time interval
+     */
     private void moveRewards(int time) {
         new AbstractMover<Reward>(rewards) {
 
             @Override
             protected void translate(Reward component) {
                 double shiftX = Physics.calculateShiftX(constants.REWARD_SPEED_X.get(), time);
-                component.translateReward(shiftX);
+                component.translate(shiftX);
                 component.updateFrame();
             }
 
@@ -255,6 +375,11 @@ public abstract class GameModel {
         }.move(time);
     }
 
+    /**
+     * Moves {@link Ground}.
+     *
+     * @param time given time interval
+     */
     protected void moveGround(int time) {
         new AbstractMover<Ground>(grounds) {
 
@@ -272,6 +397,11 @@ public abstract class GameModel {
         }.move(time);
     }
 
+    /**
+     * Moves {@link Bird}.
+     *
+     * @param time given time interval
+     */
     private void moveBird(int time) {
         if (jump.get()) {
             double shiftY = Physics.calculateShiftY(constants.JUMP_SPEED.negate().get(), time);
@@ -286,6 +416,16 @@ public abstract class GameModel {
         bird.updateFrame();
     }
 
+    /**
+     * Checks for collisions.<br>
+     * Moves all the components contained in the model.<br>
+     * Updates score.<br>
+     * Performs scan of the environment.
+     *
+     * @param time	given time interval
+     *
+     * @return	{@code false} if intersection has occured, {@code true} otherwise.
+     */
     public boolean update(int time) {
         if (!constants.GOD_MODE.get() && checkCollisions()) {
             return false;
@@ -303,6 +443,9 @@ public abstract class GameModel {
         return true;
     }
 
+    /**
+     * Refreshes score.
+     */
 	private void refreshScore() {
 		if (isRewardCollected()) {
 			score.set(score.get() + constants.REWARD_COLLECTED_BONUS.get());
@@ -315,9 +458,17 @@ public abstract class GameModel {
 			lastPassed = nearestPipePair;
 		}
 	}
-	
+
+	/**
+	 * Method is used to get information about the current environment status.
+	 */
 	protected abstract void scanEnvironment();
 
+	/**
+	 * Returns {@code true} if reward is collected, {@code false} otherwise.
+	 *
+	 * @return	{@code true} if reward is collected, {@code false} otherwise
+	 */
 	private boolean isRewardCollected() {
         return rewards.stream()
         		.filter(r -> r.intersects(bird))
@@ -326,6 +477,11 @@ public abstract class GameModel {
         		.isPresent();
     }
 
+	/**
+	 * Returns {@code true} if reward there are collisions, {@code false} otherwise.
+	 *
+	 * @return	{@code true} if reward there are collisions, {@code false} otherwise
+	 */
 	private boolean checkCollisions() {
         boolean intersection = pipesPairs.stream()
         		.filter(p -> p.intersects(bird))
@@ -334,6 +490,11 @@ public abstract class GameModel {
         return intersection || isBirdOutOfBounds();
     }
 
+	/**
+	 * Returns {@code true} if {@link Bird} is out of the screen bounds, {@code false} otherwise.
+	 *
+	 * @return	{@code true} if {@link Bird} is out of the screen bounds, {@code false} otherwise
+	 */
     private boolean isBirdOutOfBounds() {
 		Bounds birdBounds = bird.getBoundsInParent();
         return birdBounds.getMaxY() > gameDimension.getHeight() || birdBounds.getMinY() < 0;

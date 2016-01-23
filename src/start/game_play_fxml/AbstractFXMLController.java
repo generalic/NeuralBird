@@ -1,7 +1,12 @@
 package start.game_play_fxml;
 
 import hr.fer.zemris.game.model.GameModel;
-import javafx.animation.*;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +27,9 @@ import start.AbstractScreenSwitchController;
 import start.engine.GameEngine;
 
 /**
+ * Abstract class which represents a controller for screens where
+ * game is played.
+ *
  * Created by generalic on 7.1.2016..
  */
 public abstract class AbstractFXMLController extends AbstractScreenSwitchController {

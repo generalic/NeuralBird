@@ -1,5 +1,15 @@
 package hr.fer.zemris.game.environment;
 
+import hr.fer.zemris.network.NeuralNetwork;
+
+/**
+ * Class which wraps variables from environment which are sent as inputs
+ * for {@link NeuralNetwork}.
+ * Variables are self documented.
+ *
+ * @author Damir Kopljar and Boris Generalic
+ *
+ */
 public class EnvironmentVariables {
 
 	private double distanceToLowerPipeLeftSide;

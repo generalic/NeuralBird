@@ -1,5 +1,7 @@
 package start.game_play_fxml;
 
+import java.io.IOException;
+
 import javafx.animation.Transition;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -7,9 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 
-import java.io.IOException;
-
 /**
+ * Abstract class which is extended by classes which are loaded from
+ * {@link FXMLLoader} and set on {@link Scene}.
+ *
  * Created by generalic on 7.1.2016..
  */
 public abstract class AbstractFXMLScreen {

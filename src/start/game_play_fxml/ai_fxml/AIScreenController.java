@@ -12,6 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import start.game_play_fxml.AbstractFXMLController;
 
+/**
+ * Class which represents a controller for the {@link AIScreen}.
+ *
+ * @author Boris Generalic
+ * Created by generalic on 4.1.2016..
+ */
 public class AIScreenController extends AbstractFXMLController {
 
 	@FXML

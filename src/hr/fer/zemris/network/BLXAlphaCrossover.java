@@ -1,15 +1,26 @@
 package hr.fer.zemris.network;
 
 
+import java.util.Random;
+
 import hr.fer.zemris.game.environment.IEnvironmentProvider;
 import hr.fer.zemris.game.model.GameModelAITrainable;
 import hr.fer.zemris.network.transfer_functions.ITransferFunction;
 import hr.fer.zemris.network.transfer_functions.SigmoidTransferFunction;
 
-import java.util.Random;
 
-
-
+/**
+ * Implementation of the blend crossover operator proposed by Eshelman and Schaffer, 1993.<br><br>
+ *
+ * The BLX crossover is applied element-wise. For two double values y and x
+ * (assuming y > x one offspring value is created in the uniform interval
+ * [x-(y-x)*alpha;y+(y-x)*alpha].<br>
+ * If alpha is set to 0, the operator creates a random solution between x and y.<br>
+ * Values greater zero allow offspring that is apart from the interval between x and y.<br>
+ *
+ * @author Damir Kopljar
+ *
+ */
 public class BLXAlphaCrossover  {
 	Random rand;
 	double alpha;

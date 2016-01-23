@@ -14,6 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
+ * Class which represents the runtime manager for this game.
+ *
+ * @author Boris Generalic
  * Created by generalic on 6.1.2016..
  */
 public class GameEngine {
@@ -75,10 +78,6 @@ public class GameEngine {
 
 	public Timeline getGameLoop() {
 		return gameLoop;
-	}
-
-	public boolean isGameOver() {
-		return gameOver.get();
 	}
 
 	public BooleanProperty gameOverProperty() {
