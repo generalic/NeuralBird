@@ -1,10 +1,6 @@
 package start;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Transition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import start.game_play_fxml.ai_fxml.AIScreen;
 import start.game_play_fxml.player_fxml.PlayerScreen;
@@ -36,9 +33,45 @@ public class MainMenuController {
 	public Button settingsButton;
 
 	@FXML
+	public Button creditsButton;
+
+	@FXML
 	public Button quitButton;
 
+	@FXML
+	public VBox menuVBox;
+
+	@FXML
+	public Button backButton;
+
+	@FXML
+	public VBox creditsVBox;
+
 	private Scene scene;
+
+	private static final double MENU_TRANSLATE_X = 800;
+	private static final double CREDITS_TRANSLATE_X = 2000;
+
+
+	@FXML
+	public void initialize() {
+		creditsVBox.setTranslateX(CREDITS_TRANSLATE_X);
+		creditsVBox.setVisible(false);
+	}
+
+	@FXML
+	public void backToMainMenu(ActionEvent event) {
+		TranslateTransition showMenuTransition = new TranslateTransition(Duration.seconds(0.3), menuVBox);
+		showMenuTransition.setToX(menuVBox.getTranslateX() + MENU_TRANSLATE_X);
+
+		TranslateTransition hideCreditsTransition = new TranslateTransition(Duration.seconds(0.3), creditsVBox);
+		hideCreditsTransition.setToX(CREDITS_TRANSLATE_X);
+
+		ParallelTransition transition = new ParallelTransition(showMenuTransition, hideCreditsTransition);
+		transition.setInterpolator(Interpolator.LINEAR);
+		transition.setOnFinished(e -> creditsVBox.setVisible(false));
+		transition.play();
+	}
 
 	@FXML
 	public void runGamePlayer(ActionEvent event) {
@@ -53,6 +86,21 @@ public class MainMenuController {
 	@FXML
 	public void openSettings(ActionEvent event) {
 		new SettingsScreen(scene, getTransition());
+	}
+
+	@FXML
+	public void openCredits(ActionEvent event) {
+		TranslateTransition hideMenuTransition = new TranslateTransition(Duration.seconds(0.3), menuVBox);
+		hideMenuTransition.setToX(-MENU_TRANSLATE_X);
+
+		TranslateTransition showCreditsTransition = new TranslateTransition(Duration.seconds(0.3), creditsVBox);
+		showCreditsTransition.setToX(menuVBox.getLayoutX() / 10);
+
+		ParallelTransition transition = new ParallelTransition(hideMenuTransition, showCreditsTransition);
+		transition.setInterpolator(Interpolator.LINEAR);
+
+		creditsVBox.setVisible(true);
+		transition.play();
 	}
 
 	private Transition getTransition() {
@@ -111,6 +159,16 @@ public class MainMenuController {
 	@FXML
 	public void settingsMouseEntered(MouseEvent me) {
 		buttonMouseEntered(settingsButton);
+	}
+
+	@FXML
+	public void creditsMouseExited(MouseEvent me) {
+		buttonMouseExited(creditsButton);
+	}
+
+	@FXML
+	public void creditsMouseEntered(MouseEvent me) {
+		buttonMouseEntered(creditsButton);
 	}
 
 	@FXML
