@@ -1,6 +1,10 @@
 package start;
 
-import javafx.animation.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +18,12 @@ import start.game_play_fxml.ai_fxml.AIScreen;
 import start.game_play_fxml.player_fxml.PlayerScreen;
 import start.settings_fxml.SettingsScreen;
 
+/**
+ * Class which controller for entry point class of this game.
+ *
+ * @author Boris Generalic
+ * Created by generalic on 4.1.2016..
+ */
 public class MainMenuController {
 
 	@FXML
@@ -49,7 +59,7 @@ public class MainMenuController {
 		Group group = (Group) scene.getRoot();
 		Node menuPane = group.getChildren().get(0);
 
-		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.5), menuPane);
+		ScaleTransition zoomInTransition = new ScaleTransition(Duration.seconds(0.25), menuPane);
 		zoomInTransition.setFromX(1);
 		zoomInTransition.setFromY(1);
 		zoomInTransition.setToX(5);

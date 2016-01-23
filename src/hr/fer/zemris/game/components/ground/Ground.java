@@ -6,11 +6,18 @@ import javafx.scene.image.ImageView;
 
 /**
  * Created by jcular on 1/8/16.
+ *
+ * @author Jure Cular
  */
 public class Ground extends ImageView implements IComponent {
 
+    private static final Image groundImage;
+
+    static {
+        groundImage = new Image(Ground.class.getResource("ground.png").toExternalForm());
+    }
+
     public Ground(double xPosition, double yPosition){
-        Image groundImage = new Image(Ground.class.getResource("ground.png").toExternalForm());
         setImage(groundImage);
         setX(xPosition);
         setY(yPosition);
@@ -19,14 +26,11 @@ public class Ground extends ImageView implements IComponent {
     @Override
     public double getRightMostX() {
 		return getX() + getImage().getWidth();
-//        return getFitWidth() + getX();
-//        return getBoundsInParent().getMaxX();
     }
 
     @Override
     public double getLeftMostX() {
         return getX();
-        //return getBoundsInParent().getMinX();
     }
 
     @Override
